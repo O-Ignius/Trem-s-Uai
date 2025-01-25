@@ -8,6 +8,7 @@ import biblioteca.model.entity.Livro;
 */
 
 //DAO
+import ecommerce.model.dao.AvaliacaoDAO;
 import ecommerce.model.dao.ClienteDAO;
 import ecommerce.model.dao.EnderecoDAO;
 import ecommerce.model.dao.VendedorDAO;
@@ -60,6 +61,7 @@ public class EcommerceService {
     private EnderecoDAO enderecoDAO;
     private VendedorDAO vendedorDAO;
     private ProdutoDAO produtoDAO;
+    private AvaliacaoDAO avaliacaoDAO;
             
     public EcommerceService(){
         this.clienteDAO = new ClienteDAO();
@@ -138,4 +140,27 @@ public class EcommerceService {
     public void buscarPornome(String nome){
         produtoDAO.buscaPorNome(nome);
     }
+    
+    public Produto getProduto(int id) {
+        return produtoDAO.getProduto(id);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //avaliacao
+    public void salvarAvaliacao(Avaliacao avaliacao){
+        avaliacaoDAO.salvar(avaliacao);
+    }
+    
+    public void editarProduto(Avaliacao avaliacao){
+        avaliacaoDAO.editar(avaliacao);
+    }
+    
+    public void excluirAvaliacao(int idCliente, int idVendedor){
+        avaliacaoDAO.excluir(idCliente, idVendedor);
+    }
+    
+    public Avaliacao getAvaliacao(int idCliente, int idVendedor) {
+        return avaliacaoDAO.get(idCliente, idVendedor);
+    }
+    
 }

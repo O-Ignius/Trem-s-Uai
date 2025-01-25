@@ -61,9 +61,9 @@ public class EcommerceController implements IController{
         ecommerceService.excluirCliente(id);
     }
     
-    public void getCliente(int id) {
+    public Cliente getCliente(int id) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.getCliente(id);
+        return ecommerceService.getCliente(id);
     }
     
     ///////////////////////////////////////////////////////////////////////
@@ -83,9 +83,9 @@ public class EcommerceController implements IController{
         ecommerceService.excluirEndereco(id);
     }
     
-    public void getEndereco(int id) {
+    public Endereco getEndereco(int id) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.getEndereco(id);
+        return ecommerceService.getEndereco(id);
     }
     
     ////////////////////////////////////////////////////////////////////////
@@ -105,9 +105,9 @@ public class EcommerceController implements IController{
         ecommerceService.excluirVendedor(id);
     }
     
-    public void getVendedor(int id) {
+    public Vendedor getVendedor(int id) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.getVendedor(id);
+        return ecommerceService.getVendedor(id);
     }
     
     /////////////////////////////////////////////////////////////////
@@ -118,12 +118,12 @@ public class EcommerceController implements IController{
         ecommerceService.salvarProduto(produto);
     }
     
-    public void editarproduto(Produto produto){
+    public void editarProduto(Produto produto){
         EcommerceService ecommerceService = new EcommerceService();
         ecommerceService.editarProduto(produto);
     }
     
-    public void excluirproduto(int id){
+    public void excluirProduto(int id){
         EcommerceService ecommerceService = new EcommerceService();
         ecommerceService.excluirProduto(id);
     }
@@ -131,5 +131,32 @@ public class EcommerceController implements IController{
     public void buscarPornome(String nome){
         EcommerceService ecommerceService = new EcommerceService();
         ecommerceService.buscarPornome(nome);
+    }
+    
+    public Produto getProduto (int id) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.getProduto(id);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //avaliacao
+    public void salvarAvaliacao(Avaliacao avaliacao){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.salvarAvaliacao(avaliacao);
+    }
+    
+    public void editarAvaliacao(Produto produto){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editarProduto(produto);
+    }
+    
+    public void excluirAvaliacao(int idCliente, int idProduto){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.excluirAvaliacao(idCliente, idProduto);
+    }
+    
+    public Avaliacao getProduto (int idCliente, int idProduto) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.getAvaliacao(idCliente, idProduto);
     }
 }

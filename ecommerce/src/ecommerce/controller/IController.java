@@ -24,17 +24,21 @@ public interface IController {
     public void cadastrarCliente(Cliente cliente);
     public void editarCliente(Cliente cliente);
     public void excluirCliente(int id);
-    public void getCliente(int id);
+    public Cliente getCliente(int id);
     
     //////////////////////////////////////////////////////////////////////
     //Endereco
     public void cadastrarEndereco(Endereco endereco);
     public void editarEndereco(Endereco endereco);
     public void excluirEndereco(int id);
-    public void getEndereco(int id);
+    public Endereco getEndereco(int id);
     
     /////////////////////////////////////////////////////////////////////////
     //Vendedor
+    public void cadastrarVendedor(Vendedor vendedor);
+    public void editarVendedor(Vendedor vendedor);
+    public void excluirVendedor(int id);
+    public Vendedor getVendedor(int id);
     
     /////////////////////////////////////////////////////////////////
     //produto
@@ -42,4 +46,12 @@ public interface IController {
     public void editarproduto(Produto produto);
     public void excluirproduto(int id);
     public void buscarPornome(String nome);
+    public Produto getProduto (int id);
+    
+    /////////////////////////////////////////////////////////////////
+    //avaliacao
+    public void salvarAvaliacao(Avaliacao avaliacao);
+    public void editarAvaliacao(Produto produto);
+    public void excluirAvaliacao(int idCliente, int idProduto);
+    public Avaliacao getProduto (int idCliente, int idProduto);
 }
