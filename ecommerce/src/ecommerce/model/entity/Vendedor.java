@@ -3,13 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ecommerce.model.entity;
-import java.util.Date;
+import java.sql.Date;
 /**
  *
  * @author Andre
  */
 public class Vendedor {
-    private int id;
+   private int id;
    private String nome;
    private String cpf;
    private String cnpj;

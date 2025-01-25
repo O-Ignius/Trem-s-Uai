@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package ecommerce.model.entity;
-import java.util.Date;
+import java.sql.Date;
 /**
  *
  * @author Andre
