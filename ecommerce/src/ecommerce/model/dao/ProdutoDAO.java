@@ -12,8 +12,12 @@ import ecommerce.model.entity.Vendedor;
  */
 import java.sql.*;
 
+//controller
+import ecommerce.controller.EcommerceController;
+
 public class ProdutoDAO {
     private Connection connection;
+    private EcommerceController ecommerceController = new EcommerceController(); 
 
     public ProdutoDAO() {
         connection = new Conexao().getConnection();
@@ -86,6 +90,31 @@ public class ProdutoDAO {
                     + "Estoque: " + rs.getInt("estoque") + "\n"
                     + "Vendedor: " + vendedor.getNome());
         }
+            rs.close();
+            stmt.close();
+        } catch (SQLException u) {
+            throw new RuntimeException(u);
+        }
+        return produto;
+    }
+    
+    public Produto getProduto(int id) {
+        Produto produto = null;
+        String sql = "SELECT * FROM produto WHERE id = ?";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                produto = new Produto();
+                produto.setId(rs.getInt("id"));
+                produto.setNome(rs.getString("nome"));
+                produto.setDescricao(rs.getString("descricao"));
+                produto.setValor(rs.getDouble("valor"));
+                produto.setEstoque(rs.getInt("estoque"));
+                
+                produto.setVendedor(ecommerceController.getVendedor(rs.getInt("vendedor_id")));
+            }
             rs.close();
             stmt.close();
         } catch (SQLException u) {
