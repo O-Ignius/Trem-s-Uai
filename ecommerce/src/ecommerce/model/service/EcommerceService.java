@@ -8,6 +8,9 @@ import biblioteca.model.entity.Livro;
 */
 
 //DAO
+import ecommerce.model.dao.ClienteDAO;
+import ecommerce.model.dao.EnderecoDAO;
+import ecommerce.model.dao.VendedorDAO;
 
 //entitys
 import ecommerce.model.entity.Avaliacao;
@@ -51,4 +54,67 @@ public class EcommerceService {
     }
     */
     
+    //classes
+    private ClienteDAO clienteDAO;
+    private EnderecoDAO enderecoDAO;
+    private VendedorDAO vendedorDAO;
+    
+    public EcommerceService(){
+        this.clienteDAO = new ClienteDAO();
+        this.enderecoDAO = new EnderecoDAO();
+        this.vendedorDAO = new VendedorDAO();
+    } 
+    
+    //cliente
+    public void salvarCliente(Cliente cliente){
+        clienteDAO.salvar(cliente);
+    }
+    
+    public void editarCliente(Cliente cliente){
+        clienteDAO.editar(cliente);
+    }
+    
+    public void excluirCliente(int id){
+        clienteDAO.excluir(id);
+    }
+    
+    public Cliente getCliente(int id){
+        return clienteDAO.get(id);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //endereço
+    public void salvarEndereco(Endereco endereco){
+        enderecoDAO.salvar(endereco);
+    }
+    
+    public void editarEndereco(Endereco endereco){
+        enderecoDAO.editar(endereco);
+    }
+    
+    public void excluirEndereco(int id){
+        enderecoDAO.excluir(id);
+    }
+    
+    public Endereco getEndereco(int id){
+        return enderecoDAO.get(id);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //vendedor
+    public void salvarVendedor(Vendedor vendedor){
+        vendedorDAO.salvar(vendedor);
+    }
+    
+    public void editarVendedor(Vendedor vendedor){
+        vendedorDAO.editar(vendedor);
+    }
+    
+    public void excluirVendedor(int id){
+        vendedorDAO.excluir(id);
+    }
+    
+    public Vendedor getVendedor(int id){
+        return vendedorDAO.get(id);
+    }
 }

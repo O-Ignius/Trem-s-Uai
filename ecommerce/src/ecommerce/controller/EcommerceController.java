@@ -44,4 +44,69 @@ public class EcommerceController implements IController{
         bibliotecaService.allEditora();
     }
     */ 
+    
+    //cliente
+    public void cadastrarCliente(Cliente cliente) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.salvarCliente(cliente);
+    }
+    
+    public void editarCliente(Cliente cliente) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editarCliente(cliente);
+    }
+    
+    public void excluirCliente(int id) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.excluirCliente(id);
+    }
+    
+    public void getCliente(int id) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.getCliente(id);
+    }
+    
+    ///////////////////////////////////////////////////////////////////////
+    //endereco
+    public void cadastrarEndereco(Endereco endereco) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.salvarEndereco(endereco);
+    }
+    
+    public void editarEndereco(Endereco endereco) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editarEndereco(endereco);
+    }
+    
+    public void excluirEndereco(int id) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.excluirEndereco(id);
+    }
+    
+    public void getEndereco(int id) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.getEndereco(id);
+    }
+    
+    ////////////////////////////////////////////////////////////////////////
+    //Vendedor
+    public void cadastrarVendedor(Vendedor vendedor) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.salvarVendedor(vendedor);
+    }
+    
+    public void editarVendedor(Vendedor vendedor) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editarVendedor(vendedor);
+    }
+    
+    public void excluirVendedor(int id) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.excluirVendedor(id);
+    }
+    
+    public void getVendedor(int id) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.getVendedor(id);
+    }
 }

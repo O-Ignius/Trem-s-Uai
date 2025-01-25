@@ -9,7 +9,7 @@ package ecommerce.model.entity;
  * @author Andre
  */
 public class Endereco {
-    private int id;
+   private int id;
    private int cep;
    private String rua;
    private String complemento;

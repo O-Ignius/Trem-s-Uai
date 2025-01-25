@@ -11,7 +11,6 @@ import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 
 public interface IController {
-    //preview funções
     /*
     //editora
     public void cadastrarEditora(Editora editora);
@@ -20,4 +19,20 @@ public interface IController {
     public void getEditora(long id);
     public void allEditora();
     */
+    //preview funções
+    //Cliente
+    public void cadastrarCliente(Cliente cliente);
+    public void editarCliente(Cliente cliente);
+    public void excluirCliente(int id);
+    public void getCliente(int id);
+    
+    //////////////////////////////////////////////////////////////////////
+    //Endereco
+    public void cadastrarEndereco(Endereco endereco);
+    public void editarEndereco(Endereco endereco);
+    public void excluirEndereco(int id);
+    public void getEndereco(int id);
+    
+    /////////////////////////////////////////////////////////////////////////
+    //Vendedor
 }
