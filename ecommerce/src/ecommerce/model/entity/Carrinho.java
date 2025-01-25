@@ -9,13 +9,22 @@ import java.util.ArrayList;
  * @author Andre
  */
 public class Carrinho {
-    private ArrayList<Item> itens = new ArrayList<>();
+    private int id;
+    private Cliente cliente;
     
-    public ArrayList<Item> getItens() {
-        return itens;
+    public int getId() {
+        return id;
     }
 
-    public void addItem(Item item) {
-        this.itens.add(item);
+    public void setId(int id) {
+        this.id = id;
+    }
+    
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
