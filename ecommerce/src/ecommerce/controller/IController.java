@@ -42,4 +42,15 @@ public interface IController {
     public void editarproduto(Produto produto);
     public void excluirproduto(int id);
     public void buscarPornome(String nome);
+    
+    /////////////////////////////////////////////////////////////////
+    //carrinho
+    public void salvarCarrinho(Cliente cliente);
+    
+    /////////////////////////////////////////////////////////////////
+    //item
+    public void salvarItem(Item item, Carrinho carrinho);
+    public void editarItem(Item Item);
+    public void excluirItem(int id);
+    public void buscarPorIdCarrinho(Carrinho carrinho);
 }
