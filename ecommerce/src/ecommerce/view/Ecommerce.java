@@ -23,7 +23,7 @@ import java.util.Scanner;
  *
  * @author alunos
  */
-public class Biblioteca_POO {
+public class Ecommerce {
 
     /**
      * @param args the command line arguments

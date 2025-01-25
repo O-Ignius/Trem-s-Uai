@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Conexao {
-    private static final String URL_MYSQL = "jdbc:mysql://localhost:3306/biblioteca";
+    private static final String URL_MYSQL = "jdbc:mysql://localhost:3306/ecommerce";
     private static final String DRIVER_MYSQL = "com.mysql.cj.jdbc.Driver";
     private static final String USER = "root";
     private static final String PASS = "root";
