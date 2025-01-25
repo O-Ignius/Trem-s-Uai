@@ -20,7 +20,7 @@ public class Vendedor {
    private String nacionalidade;
    private String genero;
    private Endereco endereco;
-
+                         
     public Vendedor() {
     }
 

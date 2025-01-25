@@ -12,6 +12,8 @@ public class Item {
     private int id;
     private int quantidadeItem;
     private double subTotal;
+    private Produto produto;
+    private Carrinho carrinho;
 
     public Item() {
     }
@@ -38,5 +40,21 @@ public class Item {
 
     public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
+    }
+    
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+    
+    public Carrinho getCarrinho() {
+        return carrinho;
+    }
+
+    public void setCarrinho(Produto Carrinho) {
+        this.carrinho = carrinho;
     }
 }

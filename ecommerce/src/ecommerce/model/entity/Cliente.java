@@ -20,7 +20,7 @@ public class Cliente {
     private String genero;
     private Endereco endereco;
     private Carrinho carrinho;
-
+              
     public Cliente() {
     }
 

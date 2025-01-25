@@ -9,13 +9,13 @@ import java.util.Date;
  * @author Andre
  */
 public class Pedido {
-    private int id;
+   private int id;
    private boolean finalizado;
    private double precoTotal;
    private Date dataPedido;
    private int tipoPagamento;
    private Carrinho carrinho;
-
+                
     public Pedido() {
     }
 
