@@ -11,6 +11,7 @@ import biblioteca.model.entity.Livro;
 import ecommerce.model.dao.ClienteDAO;
 import ecommerce.model.dao.EnderecoDAO;
 import ecommerce.model.dao.VendedorDAO;
+import ecommerce.model.dao.ProdutoDAO;
 
 //entitys
 import ecommerce.model.entity.Avaliacao;
@@ -58,7 +59,8 @@ public class EcommerceService {
     private ClienteDAO clienteDAO;
     private EnderecoDAO enderecoDAO;
     private VendedorDAO vendedorDAO;
-    
+    private ProdutoDAO produtoDAO;
+            
     public EcommerceService(){
         this.clienteDAO = new ClienteDAO();
         this.enderecoDAO = new EnderecoDAO();
@@ -116,5 +118,24 @@ public class EcommerceService {
     
     public Vendedor getVendedor(int id){
         return vendedorDAO.get(id);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //produto
+    
+    public void salvarProduto(Produto produto){
+        produtoDAO.salvar(produto);
+    }
+    
+    public void editarProduto(Produto produto){
+        produtoDAO.editar(produto);
+    }
+    
+    public void excluirProduto(int id){
+        produtoDAO.excluir(id);
+    }
+    
+    public void buscarPornome(String nome){
+        produtoDAO.buscaPorNome(nome);
     }
 }

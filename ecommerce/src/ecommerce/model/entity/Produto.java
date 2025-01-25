@@ -10,7 +10,8 @@ public class Produto {
     private String descricao;
     private double valor;
     private int estoque;
-
+    private Vendedor vendedor;
+    
     public Produto() {
     }
 
@@ -52,5 +53,13 @@ public class Produto {
 
     public void setEstoque(int estoque) {
         this.estoque = estoque;
+    }
+    
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
     }
 }

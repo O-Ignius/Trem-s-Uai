@@ -109,4 +109,27 @@ public class EcommerceController implements IController{
         EcommerceService ecommerceService = new EcommerceService();
         ecommerceService.getVendedor(id);
     }
+    
+    /////////////////////////////////////////////////////////////////
+    //produto
+    
+    public void salvarProduto(Produto produto){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.salvarProduto(produto);
+    }
+    
+    public void editarproduto(Produto produto){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editarProduto(produto);
+    }
+    
+    public void excluirproduto(int id){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.excluirProduto(id);
+    }
+    
+    public void buscarPornome(String nome){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.buscarPornome(nome);
+    }
 }

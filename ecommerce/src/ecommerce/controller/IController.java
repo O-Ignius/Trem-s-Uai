@@ -35,4 +35,11 @@ public interface IController {
     
     /////////////////////////////////////////////////////////////////////////
     //Vendedor
+    
+    /////////////////////////////////////////////////////////////////
+    //produto
+    public void salvarProduto(Produto produto);
+    public void editarproduto(Produto produto);
+    public void excluirproduto(int id);
+    public void buscarPornome(String nome);
 }
