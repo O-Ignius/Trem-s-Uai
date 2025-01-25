@@ -1,12 +1,23 @@
-package biblioteca.model.dao;
+package ecommerce.model.dao;
 
-import biblioteca.model.entity.Editora;
+//entity relacionados
+import ecommerce.model.entity.Avaliacao;
+import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Cliente;
+import ecommerce.model.entity.Endereco;
+import ecommerce.model.entity.Item;
+import ecommerce.model.entity.Pedido;
+import ecommerce.model.entity.Produto;
+import ecommerce.model.entity.Vendedor;
+
+//imports obrigatorios
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class EditoraDAO {    
+public class ExemploDAO {
+    /*
     private Connection connection;  
     
     public EditoraDAO(){
@@ -95,4 +106,5 @@ public class EditoraDAO {
             throw new RuntimeException(u);
         }
     }
+    */
 }

@@ -1,15 +1,30 @@
-package biblioteca.model.service;
+package ecommerce.model.service;
 
+/* MODELO
 import biblioteca.model.dao.EditoraDAO;
 import biblioteca.model.dao.LivroDAO;
 import biblioteca.model.entity.Editora;
 import biblioteca.model.entity.Livro;
+*/
 
-public class BibliotecaService {
+//DAO
+
+//entitys
+import ecommerce.model.entity.Avaliacao;
+import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Cliente;
+import ecommerce.model.entity.Endereco;
+import ecommerce.model.entity.Item;
+import ecommerce.model.entity.Pedido;
+import ecommerce.model.entity.Produto;
+import ecommerce.model.entity.Vendedor;
+
+public class EcommerceService {
+    /*
     private EditoraDAO editoraDAO;
     private LivroDAO livroDAO;
     
-    public BibliotecaService(){
+    public EcommerceService(){
         this.editoraDAO = new EditoraDAO();
         this.livroDAO = new LivroDAO();
     } 
@@ -34,25 +49,6 @@ public class BibliotecaService {
     public void excluirEditora(long id){
         editoraDAO.excluir(id);
     }
+    */
     
-    //Livro
-    public void salvarLivro(Livro livro){
-        livroDAO.salvar(livro);
-    }
-
-    public Livro getLivro(long id) {
-        return livroDAO.get(id);
-    }
-    
-    public void editarLivro(Livro livro){
-        livroDAO.editar(livro);
-    }
-
-    public void allLivro(){
-        livroDAO.all();
-    }
-
-    public void excluirLivro(long id){
-        livroDAO.excluir(id);
-    }
 }
