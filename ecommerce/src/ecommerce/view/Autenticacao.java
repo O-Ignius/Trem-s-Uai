@@ -6,6 +6,9 @@ import java.text.SimpleDateFormat;
 //Controller
 import ecommerce.controller.EcommerceController;
 
+//views
+import ecommerce.view.Menus;
+
 //Scanner
 import java.util.Scanner;
 
@@ -15,6 +18,9 @@ import ecommerce.model.entity.Endereco;
 import ecommerce.model.entity.Vendedor;
 
 public class Autenticacao {
+    
+    Menus menu = new Menus();
+    
     public Endereco cadastroEndereco() {
         Endereco endereco = null;
         
@@ -149,38 +155,34 @@ public class Autenticacao {
         cliente.setEndereco(cadastroEndereco());
     }
     
-    public void login() {
+    public int login(String email, String senha) {
         EcommerceController ecommerceController = new EcommerceController();
         int id;
-        String email = new String();
-        String senha = new String();
         String tableNome = new String();
         
-        try (Scanner input = new Scanner(System.in)) {
-            System.out.print("\nDigite o email: \t");
-            email = input.nextLine();
-            System.out.print("\nDigite a senha: \t");
-            senha = input.nextLine();
-            
-            //procura na tabela cliente;
-            tableNome = "cliente";
-            //se nao encontrar
+        //procura na tabela cliente;
+        tableNome = "cliente";
+        //se nao encontrar
+        id = ecommerceController.login(email, senha, tableNome);
+        if (id < 0) {
+            //procura na tabela vendedor
+            tableNome = "vendedor";
             id = ecommerceController.login(email, senha, tableNome);
-            if (id < 0) {
-                //procura na tabela vendedor
-                tableNome = "vendedor";
-                id = ecommerceController.login(email, senha, tableNome);
                 
-                if (id < 0) {
-                    System.err.println("Dados incorretos!");
-                }
-                else {
-                    //encontrado na tabela vendedor
-                }
+            if (id < 0) {
+                System.err.println("Dados incorretos!");
+                return -1;
             }
             else {
-                //encontrado na tabela cliente
+                //se achar na tabela vendedor, chama menu vendedor
+                menu.vendedor(id);
             }
         }
+        else {
+            //se achar na tabela cliente, chama menu cliente
+            menu.cliente(id);
+        }
+        
+        return 0;
     }
 }
