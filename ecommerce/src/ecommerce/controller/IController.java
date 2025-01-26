@@ -65,4 +65,11 @@ public interface IController {
     public void editarItem(Item Item);
     public void excluirItem(int id);
     public void buscarPorIdCarrinho(Carrinho carrinho);
+    
+    /////////////////////////////////////////////////////////////////
+    //pedido
+    public void salvarPedido(Pedido pedido);
+    public void editarPedido(Pedido Pedido);
+    public void excluirPedido(int id);
+    public Pedido getPedido (int id);
 }
