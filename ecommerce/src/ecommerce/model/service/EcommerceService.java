@@ -13,6 +13,8 @@ import ecommerce.model.dao.ClienteDAO;
 import ecommerce.model.dao.EnderecoDAO;
 import ecommerce.model.dao.VendedorDAO;
 import ecommerce.model.dao.ProdutoDAO;
+import ecommerce.model.dao.CarrinhoDAO;
+import ecommerce.model.dao.ItemDAO;
 
 //entitys
 import ecommerce.model.entity.Avaliacao;
@@ -62,6 +64,8 @@ public class EcommerceService {
     private VendedorDAO vendedorDAO;
     private ProdutoDAO produtoDAO;
     private AvaliacaoDAO avaliacaoDAO;
+    private CarrinhoDAO carrinhoDAO;
+    private ItemDAO itemDAO;
             
     public EcommerceService(){
         this.clienteDAO = new ClienteDAO();
@@ -163,4 +167,29 @@ public class EcommerceService {
         return avaliacaoDAO.get(idCliente, idVendedor);
     }
     
+    /////////////////////////////////////////////////////////////////
+    //carrinho
+    
+    public void salvarCarrinho(Cliente cliente){
+        carrinhoDAO.salvar(cliente);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //item
+
+    public void salvarItem(Item item, Carrinho carrinho){
+        itemDAO.salvar(item, carrinho);
+    }
+    
+    public void editarItem(Item Item){
+        itemDAO.editar(Item);
+    }
+    
+    public void excluirItem(int id){
+        itemDAO.excluir(id);
+    }
+    
+    public void buscarPorIdCarrinho(Carrinho carrinho){
+        itemDAO.buscaItemPorIdCarrinho(carrinho.getId());
+    }
 }

@@ -72,8 +72,7 @@ public class ProdutoDAO {
     }
 
     // Método para buscar um Produto pelo nome
-    public Produto buscaPorNome(String nome) {
-        Produto produto = null;
+    public void buscaPorNome(String nome) {
         VendedorDAO vendedorDAO = null;
         Vendedor vendedor = null;
         
@@ -95,7 +94,6 @@ public class ProdutoDAO {
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }
-        return produto;
     }
     
     public Produto getProduto(int id) {

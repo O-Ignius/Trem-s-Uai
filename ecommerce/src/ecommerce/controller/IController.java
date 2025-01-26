@@ -43,8 +43,8 @@ public interface IController {
     /////////////////////////////////////////////////////////////////
     //produto
     public void salvarProduto(Produto produto);
-    public void editarproduto(Produto produto);
-    public void excluirproduto(int id);
+    public void editarProduto(Produto produto);
+    public void excluirProduto(int id);
     public void buscarPornome(String nome);
     public Produto getProduto (int id);
     
@@ -54,4 +54,15 @@ public interface IController {
     public void editarAvaliacao(Produto produto);
     public void excluirAvaliacao(int idCliente, int idProduto);
     public Avaliacao getProduto (int idCliente, int idProduto);
+    
+    /////////////////////////////////////////////////////////////////
+    //carrinho
+    public void salvarCarrinho(Cliente cliente);
+    
+    /////////////////////////////////////////////////////////////////
+    //item
+    public void salvarItem(Item item, Carrinho carrinho);
+    public void editarItem(Item Item);
+    public void excluirItem(int id);
+    public void buscarPorIdCarrinho(Carrinho carrinho);
 }
