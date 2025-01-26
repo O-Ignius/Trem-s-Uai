@@ -96,6 +96,31 @@ public class ProdutoDAO {
         }
     }
     
+    // Método para buscar Produtos pelo Vendendor
+    public void buscaProdutosPorIdVendedor(int id){
+        VendedorDAO vendedorDAO = null;
+        Vendedor vendedor = null;
+        
+        String sql = "select * from produto p where p.vendedor_id = " + id + ";";
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+            vendedor = vendedorDAO.get(rs.getInt("vendedor_id"));
+            
+            System.out.println("\nNome: " + rs.getString("nome") + "\n"
+                    + "Descrição: " + rs.getString("descricao") + "\n"
+                    + "Valor: " + rs.getDouble("valor") + "\n"
+                    + "Estoque: " + rs.getInt("estoque") + "\n"
+                    + "Vendedor: " + vendedor.getNome());
+        }
+            rs.close();
+            stmt.close();
+        } catch (SQLException u) {
+            throw new RuntimeException(u);
+        }
+    }
+    
     public Produto getProduto(int id) {
         Produto produto = null;
         String sql = "SELECT * FROM produto WHERE id = ?";

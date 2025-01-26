@@ -138,6 +138,11 @@ public class EcommerceController implements IController{
         return ecommerceService.getProduto(id);
     }
     
+    public void buscaProdutosPorIdVendedor(int id){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.buscaProdutosPorIdVendedor(id);
+    }
+    
     /////////////////////////////////////////////////////////////////
     //avaliacao
     public void salvarAvaliacao(Avaliacao avaliacao){

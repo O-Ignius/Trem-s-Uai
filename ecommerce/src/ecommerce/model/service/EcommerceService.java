@@ -151,6 +151,10 @@ public class EcommerceService {
         return produtoDAO.getProduto(id);
     }
     
+    public void buscaProdutosPorIdVendedor(int id){
+        produtoDAO.buscaProdutosPorIdVendedor(id);
+    }
+    
     /////////////////////////////////////////////////////////////////
     //avaliacao
     public void salvarAvaliacao(Avaliacao avaliacao){

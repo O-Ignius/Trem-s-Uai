@@ -47,6 +47,7 @@ public interface IController {
     public void excluirProduto(int id);
     public void buscarPornome(String nome);
     public Produto getProduto (int id);
+    public void buscaProdutosPorIdVendedor(int id);
     
     /////////////////////////////////////////////////////////////////
     //avaliacao
