@@ -72,4 +72,8 @@ public interface IController {
     public void editarPedido(Pedido Pedido);
     public void excluirPedido(int id);
     public Pedido getPedido (int id);
+    
+    /////////////////////////////////////////////////////////////////
+    //autenticação
+    public int login(String email, String senha, String tableNome);
 }

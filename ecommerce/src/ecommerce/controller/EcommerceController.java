@@ -11,6 +11,7 @@ import ecommerce.model.entity.Pedido;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 
+//Service
 import ecommerce.model.service.EcommerceService;
 
 public class EcommerceController implements IController{
@@ -208,5 +209,12 @@ public class EcommerceController implements IController{
     public Pedido getPedido (int id){
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.getPedido(id);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //autenticaçao
+    public int login(String email, String senha, String tableNome){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.login(email, senha, tableNome);
     }
 }
