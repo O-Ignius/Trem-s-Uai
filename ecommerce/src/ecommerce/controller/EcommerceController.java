@@ -162,4 +162,26 @@ public class EcommerceController implements IController{
         EcommerceService ecommerceService = new EcommerceService();
         ecommerceService.buscarPorIdCarrinho(carrinho);
     }
+    
+    /////////////////////////////////////////////////////////////////
+    //pedido
+    public void salvarPedido(Pedido pedido){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.salvarPedido(pedido);
+    }
+    
+    public void editarPedido(Pedido Pedido){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editarPedido(Pedido);
+    }
+    
+    public void excluirPedido(int id){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.excluirPedido(id);
+    }
+    
+    public Pedido getPedido (int id){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.getPedido(id);
+    }
 }
