@@ -16,6 +16,7 @@ import ecommerce.model.dao.ProdutoDAO;
 import ecommerce.model.dao.CarrinhoDAO;
 import ecommerce.model.dao.ItemDAO;
 import ecommerce.model.dao.PedidoDAO;
+import ecommerce.model.dao.AutenticacaoDAO;
 
 //entitys
 import ecommerce.model.entity.Avaliacao;
@@ -68,6 +69,7 @@ public class EcommerceService {
     private CarrinhoDAO carrinhoDAO;
     private ItemDAO itemDAO;
     private PedidoDAO pedidoDAO;
+    private AutenticacaoDAO autenticacaoDAO;
             
     public EcommerceService(){
         this.clienteDAO = new ClienteDAO();
@@ -215,5 +217,11 @@ public class EcommerceService {
     
     public Pedido getPedido (int id){
         return pedidoDAO.get(id);
+    }
+
+    /////////////////////////////////////////////////////////////////
+    //autenticação
+    public int login(String email, String senha, String tableNome) {
+        return autenticacaoDAO.login(email, senha, tableNome);
     }
 }

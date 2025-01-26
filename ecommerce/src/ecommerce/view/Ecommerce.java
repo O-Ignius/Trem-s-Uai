@@ -1,10 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
- */
 package ecommerce.view;
 
-//cotroller
+//controller
 import ecommerce.controller.EcommerceController;
 
 //entitys
@@ -19,15 +15,8 @@ import ecommerce.model.entity.Vendedor;
 
 import java.util.Scanner;
 
-/**
- *
- * @author alunos
- */
 public class Ecommerce {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         EcommerceController bibliotecaController = new EcommerceController();
         int opcao = 0;

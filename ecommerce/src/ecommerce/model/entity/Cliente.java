@@ -20,6 +20,7 @@ public class Cliente {
     private String genero;
     private Endereco endereco;
     private Carrinho carrinho;
+    private final boolean isVendedor = false;
               
     public Cliente() {
     }
