@@ -14,7 +14,7 @@ import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Endereco;
 import ecommerce.model.entity.Vendedor;
 
-public class autenticacao {
+public class Autenticacao {
     public Endereco cadastroEndereco() {
         Endereco endereco = null;
         
