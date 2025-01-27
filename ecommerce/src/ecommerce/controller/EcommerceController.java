@@ -172,6 +172,11 @@ public class EcommerceController implements IController{
         ecommerceService.salvarCarrinho(cliente);
     }
     
+    public Carrinho buscaCarrinhoAtual(int id_Cliente){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.buscaCarrinhoAtual(id_Cliente);
+    }
+    
     /////////////////////////////////////////////////////////////////
     //item
     public void salvarItem(Item item, Carrinho carrinho){
@@ -189,9 +194,9 @@ public class EcommerceController implements IController{
         ecommerceService.excluirItem(id);
     }
     
-    public void buscarPorIdCarrinho(Carrinho carrinho){
+    public void buscaItemPorIdCarrinho(Carrinho carrinho){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.buscarPorIdCarrinho(carrinho);
+        ecommerceService.buscaItemPorIdCarrinho(carrinho);
     }
     
     /////////////////////////////////////////////////////////////////
@@ -214,6 +219,11 @@ public class EcommerceController implements IController{
     public Pedido getPedido (int id){
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.getPedido(id);
+    }
+    
+    public void buscaPedidosPorIdCliente(int id){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.buscaPedidosPorIdCliente(id);
     }
     
     /////////////////////////////////////////////////////////////////

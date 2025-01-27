@@ -182,6 +182,10 @@ public class EcommerceService {
         carrinhoDAO.salvar(cliente);
     }
     
+    public Carrinho buscaCarrinhoAtual(int id_Cliente){
+        return carrinhoDAO.buscaCarrinhoAtual(id_Cliente);
+    }
+    
     /////////////////////////////////////////////////////////////////
     //item
 
@@ -197,7 +201,7 @@ public class EcommerceService {
         itemDAO.excluir(id);
     }
     
-    public void buscarPorIdCarrinho(Carrinho carrinho){
+    public void buscaItemPorIdCarrinho(Carrinho carrinho){
         itemDAO.buscaItemPorIdCarrinho(carrinho.getId());
     }
     
@@ -217,6 +221,10 @@ public class EcommerceService {
     
     public Pedido getPedido (int id){
         return pedidoDAO.get(id);
+    }
+    
+    public void buscaPedidosPorIdCliente(int id){
+        pedidoDAO.buscaPedidosPorIdCliente(id);
     }
 
     /////////////////////////////////////////////////////////////////

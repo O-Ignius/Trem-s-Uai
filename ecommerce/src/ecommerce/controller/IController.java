@@ -59,13 +59,14 @@ public interface IController {
     /////////////////////////////////////////////////////////////////
     //carrinho
     public void salvarCarrinho(Cliente cliente);
+    public Carrinho buscaCarrinhoAtual(int id_Cliente);
     
     /////////////////////////////////////////////////////////////////
     //item
     public void salvarItem(Item item, Carrinho carrinho);
     public void editarItem(Item Item);
     public void excluirItem(int id);
-    public void buscarPorIdCarrinho(Carrinho carrinho);
+    public void buscaItemPorIdCarrinho(Carrinho carrinho);
     
     /////////////////////////////////////////////////////////////////
     //pedido
@@ -73,6 +74,7 @@ public interface IController {
     public void editarPedido(Pedido Pedido);
     public void excluirPedido(int id);
     public Pedido getPedido (int id);
+    public void buscaPedidosPorIdCliente(int id);
     
     /////////////////////////////////////////////////////////////////
     //autenticação
