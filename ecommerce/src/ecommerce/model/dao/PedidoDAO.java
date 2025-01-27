@@ -20,14 +20,13 @@ public class PedidoDAO {
 
     // Método para salvar um novo pedido
     public void salvar(Pedido pedido) {
-        String sql = "INSERT INTO pedido (finalizado, precoTotal, dataPedido, tipoPagamento, carrinho_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO pedido (precoTotal, dataPedido, tipoPagamento, carrinho_id) VALUES (?, ?, ?, ?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setBoolean(1, pedido.isFinalizado());
-            stmt.setDouble(2, pedido.getPrecoTotal());
-            stmt.setDate(3, new java.sql.Date(pedido.getDataPedido().getTime()));
-            stmt.setInt(4, pedido.getTipoPagamento());
-            stmt.setInt(5, pedido.getCarrinho().getId());
+            stmt.setDouble(1, pedido.getPrecoTotal());
+            stmt.setDate(2, new java.sql.Date(pedido.getDataPedido().getTime()));
+            stmt.setInt(3, pedido.getTipoPagamento());
+            stmt.setInt(4, pedido.getCarrinho().getId());
             stmt.execute();
             stmt.close();
         } catch (SQLException e) {
@@ -37,15 +36,14 @@ public class PedidoDAO {
 
     // Método para editar um pedido existente
     public void editar(Pedido pedido) {
-        String sql = "UPDATE pedido SET finalizado = ?, precoTotal = ?, dataPedido = ?, tipoPagamento = ?, carrinho_id = ? WHERE id = ?";
+        String sql = "UPDATE pedido SET precoTotal = ?, dataPedido = ?, tipoPagamento = ?, carrinho_id = ? WHERE id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setBoolean(1, pedido.isFinalizado());
-            stmt.setDouble(2, pedido.getPrecoTotal());
-            stmt.setDate(3, new java.sql.Date(pedido.getDataPedido().getTime()));
-            stmt.setInt(4, pedido.getTipoPagamento());
-            stmt.setInt(5, pedido.getCarrinho().getId());
-            stmt.setInt(6, pedido.getId());
+            stmt.setDouble(1, pedido.getPrecoTotal());
+            stmt.setDate(2, new java.sql.Date(pedido.getDataPedido().getTime()));
+            stmt.setInt(3, pedido.getTipoPagamento());
+            stmt.setInt(4, pedido.getCarrinho().getId());
+            stmt.setInt(5, pedido.getId());
             stmt.execute();
             stmt.close();
         } catch (SQLException e) {
@@ -79,7 +77,6 @@ public class PedidoDAO {
             if (rs.next()) {
                 pedido = new Pedido();
                 pedido.setId(rs.getInt("id"));
-                pedido.setFinalizado(rs.getBoolean("finalizado"));
                 pedido.setPrecoTotal(rs.getDouble("precoTotal"));
                 pedido.setDataPedido(rs.getDate("dataPedido"));
                 pedido.setTipoPagamento(rs.getInt("tipoPagamento"));
@@ -93,4 +90,27 @@ public class PedidoDAO {
         }
         return pedido;
     }
+    
+    public void buscaPedidosPorIdCliente(int id) {
+    String sql = "select p.* from pedido p inner join carrinho c on (p.carrinho_id = c.id) where c.cliente_id = " + id + " and c.fechado = 1";
+    
+    try {
+        PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet rs = stmt.executeQuery();
+        
+        while (rs.next()) {
+            System.out.println("\nID do Pedido: " + rs.getInt("id") + "\n"
+                    + "Preço Total: " + rs.getDouble("precoTotal") + "\n"
+                    + "Data do Pedido: " + rs.getDate("dataPedido") + "\n"
+                    + "Tipo de Pagamento: " + rs.getInt("tipoPagamento") + "\n"
+                    + "ID do Carrinho: " + rs.getInt("carrinho_id"));
+        }
+        
+        rs.close();
+        stmt.close();
+    } catch (SQLException u) {
+        throw new RuntimeException(u);
+    }
+}
+
 }
