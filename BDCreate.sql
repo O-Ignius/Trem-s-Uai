@@ -60,6 +60,7 @@ CREATE TABLE cliente (
 -- Tabela Carrinho
 CREATE TABLE carrinho (
     id INT AUTO_INCREMENT PRIMARY KEY,
+    fechado boolean,
     cliente_id INT,
     FOREIGN KEY (cliente_id) REFERENCES cliente(id) ON DELETE CASCADE
 );
@@ -90,7 +91,6 @@ CREATE TABLE avaliacao (
 -- Tabela Pedido
 CREATE TABLE pedido (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    finalizado BOOLEAN,
     precoTotal DOUBLE,
     dataPedido DATE,
     tipoPagamento INT,

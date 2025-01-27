@@ -10,7 +10,6 @@ import java.sql.Date;
  */
 public class Pedido {
    private int id;
-   private boolean finalizado;
    private double precoTotal;
    private Date dataPedido;
    private int tipoPagamento;
@@ -25,14 +24,6 @@ public class Pedido {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public boolean isFinalizado() {
-        return finalizado;
-    }
-
-    public void setFinalizado(boolean finalizado) {
-        this.finalizado = finalizado;
     }
 
     public double getPrecoTotal() {
