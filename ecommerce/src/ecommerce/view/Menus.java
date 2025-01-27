@@ -5,6 +5,7 @@ import ecommerce.controller.EcommerceController;
 
 //views
 import ecommerce.view.Autenticacao;
+import ecommerce.view.Formulario;
 
 //entitys
 import ecommerce.model.entity.Avaliacao;
@@ -21,6 +22,7 @@ import java.util.Scanner;
 
 public class Menus{
     Autenticacao autenticacao = new Autenticacao();
+    Formulario formulario = new Formulario();
     
     public void cadastroLogin() {
         int op = -1;
@@ -117,14 +119,104 @@ public class Menus{
     }
     
     public void cliente(int id) {
-        System.out.println("**************************************");
-        System.out.println("******   Trem's Uai - Cliente   ******");
-        System.out.println("**************************************");
+        EcommerceController ecommerceController = new EcommerceController();
+        int opcao = - 99;
+        Scanner scan = new Scanner(System.in);
+        Cliente cliente = new Cliente();
+        
+        while(opcao != 0){
+            System.out.println("**************************************");
+            System.out.println("******   Trem's Uai - Cliente   ******");
+            System.out.println("**************************************");
+            System.out.println("1 - Buscar Produtos");
+            System.out.println("2 - Ver Carrinho");
+            System.out.println("3 - Ver Pedidos");
+            System.out.println("4 - Editar Perfil");
+            System.out.println("5 - Excluir Perfil");
+            System.out.println("\n0 - Sair");
+            
+            System.out.println("Digite a opção desejada: ");
+            opcao = scan.nextInt();
+            scan.nextLine();
+            
+            switch (opcao) {
+                case 0:
+                    break;
+                case 1:
+                    System.out.print("Digite o nome do produto que deseja buscar: ");
+                    ecommerceController.buscarPornome(scan.nextLine());
+                    break;
+                case 2:
+                    cliente.setCarrinho(ecommerceController.buscaCarrinhoAtual(id));
+                    ecommerceController.buscaItemPorIdCarrinho(cliente.getCarrinho());
+                    break;
+                case 3:
+                    ecommerceController.buscaPedidosPorIdCliente(id);
+                    break;
+                case 4:
+                    ecommerceController.editarCliente(cliente);
+                    break;
+                case 5:
+                    ecommerceController.excluirCliente(id);
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        }
     }
     
     public void vendedor(int id) {
-        System.out.println("***************************************");
-        System.out.println("******   Trem's Uai - Vendedor   ******");
-        System.out.println("***************************************");
+        EcommerceController ecommerceController = new EcommerceController();
+        int opcao = - 99;
+        Scanner scan = new Scanner(System.in);
+        Produto produto = new Produto();
+        Vendedor vendedor = new Vendedor();
+        
+        while(opcao != 0){
+            System.out.println("***************************************");
+            System.out.println("******   Trem's Uai - Vendedor   ******");
+            System.out.println("***************************************");
+            System.out.println("1 - Cadastrar Produto");
+            System.out.println("2 - Editar Produto");
+            System.out.println("3 - Excluir Produto");
+            System.out.println("4 - Listar todos os seus produtos");
+            System.out.println("5 - Editar Perfil");
+            System.out.println("6 - Excluir Perfil");
+            System.out.println("\n0 - Sair");
+            
+            System.out.println("Digite a opção desejada: ");
+            opcao = scan.nextInt();
+            scan.nextLine();
+            
+            switch (opcao) {
+                case 0:
+                    break;
+                case 1:
+                    ecommerceController.salvarProduto(formulario.lerProduto(id));
+                    break;
+                case 2:
+                    System.out.print("Digite o ID do produto que deseja editar: ");
+                    produto.setId(scan.nextInt());
+                    ecommerceController.editarProduto(produto);
+                    break;
+                case 3:
+                    System.out.print("Digite o ID do produto que deseja excluir: ");
+                    ecommerceController.excluirProduto(scan.nextInt());
+                    break;
+                case 4:
+                    ecommerceController.buscaProdutosPorIdVendedor(id);
+                    break;
+                case 5:
+                    vendedor = formulario.lerVendedor();
+                    vendedor.setId(id);
+                    ecommerceController.editarVendedor(vendedor);
+                    break;
+                case 6:
+                    ecommerceController.excluirVendedor(id);
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        }
     }
 }
