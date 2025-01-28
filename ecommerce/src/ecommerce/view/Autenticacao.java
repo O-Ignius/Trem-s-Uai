@@ -14,77 +14,33 @@ import java.text.SimpleDateFormat;
 public class Autenticacao{
     
     EcommerceController ecommerceController = new EcommerceController();
-    Menus menu = new Menus();
-    Formulario formulario = new Formulario();
     
-    public Endereco cadastroEndereco() {
-        Endereco endereco = null;
-        
-        System.out.println("**************************");
-        System.out.println("** Cadastro de Endereço **");
-        System.out.println("**************************");
-        
-        try (Scanner input = new Scanner(System.in)) {
-            endereco = new Endereco();
-            
-            System.out.print("Cep: \t");
-            endereco.setCep(input.nextInt());
-            input.nextLine(); // Consumir a quebra de linha deixada pelo nextInt()
-
-            System.out.print("\nRua: \t");
-            endereco.setRua(input.nextLine());
-
-            System.out.print("\nComplemento: \t");
-            endereco.setComplemento(input.nextLine());
-
-            System.out.print("\nLogradouro: \t");
-            endereco.setLogradouro(input.nextLine());
-
-            System.out.print("\nBairro: \t");
-            endereco.setBairro(input.nextLine());
-
-            System.out.print("\nCidade: \t");
-            endereco.setCidade(input.nextLine());
-
-            System.out.print("\nEstado: \t");
-            endereco.setEstado(input.nextLine());
-
-            System.out.print("\nNúmero: \t");
-            endereco.setNumero(input.nextInt());
-        }
+    public Endereco cadastroEndereco(Scanner input) {
+        Endereco endereco = ecommerceController.lerEndereco(input);
         
         return endereco;
     }
     
-    public static java.sql.Date parseToSqlDate(String dateStr) {
-        try {
-            // Usando SimpleDateFormat para converter a String em java.util.Date
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            java.util.Date utilDate = sdf.parse(dateStr);
-
-            // Convertendo para java.sql.Date
-            return new java.sql.Date(utilDate.getTime());
-        } catch (Exception e) {
-            System.out.println("Erro ao converter a data: " + e.getMessage());
-            return null; // Retorna null em caso de erro
-        }
-    }
-    
-    public void cadastroCliente() {
-        Cliente cliente = formulario.lerCliente();
+    public void cadastroCliente(Scanner input) {
+        Cliente cliente = ecommerceController.lerCliente(input);
         
         //set endereco
-        cliente.setEndereco(formulario.lerEndereco());
+        cliente.setEndereco(ecommerceController.lerEndereco(input));
+        
+        //cadastro
+        ecommerceController.cadastrarCliente(cliente);
     }
     
-    public void cadastroVendedor() {
-        Vendedor vendedor = formulario.lerVendedor();
+    public void cadastroVendedor(Scanner input) {
+        Vendedor vendedor = ecommerceController.lerVendedor(input);
 
         //set endereco
-        vendedor.setEndereco(formulario.lerEndereco());
+        vendedor.setEndereco(ecommerceController.lerEndereco(input));
+        
+        ecommerceController.cadastrarVendedor(vendedor);
     }
     
-    public int login(String email, String senha) {
+    public int login(String email, String senha, Scanner input) {
         EcommerceController ecommerceController = new EcommerceController();
         int id;
         String tableNome = new String();
@@ -104,12 +60,12 @@ public class Autenticacao{
             }
             else {
                 //se achar na tabela vendedor, chama menu vendedor
-                ecommerceController.vendedorMenu(id);
+                ecommerceController.vendedorMenu(id, input);
             }
         }
         else {
             //se achar na tabela cliente, chama menu cliente
-            ecommerceController.clienteMenu(id);
+            ecommerceController.clienteMenu(id, input);
         }
         
         return 0;

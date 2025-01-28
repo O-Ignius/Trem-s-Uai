@@ -19,6 +19,8 @@ public class Menus{
     EcommerceController ecommerceController = new EcommerceController();
     
     public void cadastroLogin() {
+        Scanner input = new Scanner(System.in);
+        
         int op = -1;
         
         while (op != 0) {
@@ -31,26 +33,28 @@ public class Menus{
             System.out.println("2 - Cadastro");
             System.out.println("0 - Sair");
 
-            try (Scanner input = new Scanner(System.in)) {
-                op = input.nextInt();
+            op = input.nextInt();
+            input.nextLine(); //retirar \n
                 
-                switch (op) {
-                    case 1:
-                        login();
-                        return; //retorna para menu principal
-                    case 2:
-                        cadastro();
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        System.err.println("Opção inválida!");
-                }
+            switch (op) {
+                case 1:
+                    login(input);
+                    break; //retorna para menu principal
+                case 2:
+                    cadastro(input);
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.err.println("Opção inválida!");
             }
         }
+        
+        //encerra o input ao final
+        input.close();
     }
     
-    public void cadastro() {
+    public void cadastro(Scanner input) {
         int op = -1;
         
         while (op != 0) {
@@ -63,26 +67,25 @@ public class Menus{
             System.out.println("2 - Cadastrar como Vendedor");
             System.out.println("0 - Sair");
 
-            try (Scanner input = new Scanner(System.in)) {
-                op = input.nextInt();
-                
-                switch (op) {
-                    case 1:
-                        ecommerceController.cadastroClienteAutenticacao();
-                        return; //retorna para menu principal
-                    case 2:
-                        ecommerceController.cadastroVendedorAutenticacao();
-                        return; //retorna para menu principal
-                    case 0:
-                        break;
-                    default:
-                        System.err.println("Opção inválida!");
-                }
+            op = input.nextInt();
+            input.nextLine(); //retirar \n
+
+            switch (op) {
+                case 1:
+                    ecommerceController.cadastroClienteAutenticacao(input);
+                    return; //retorna para menu principal
+                case 2:
+                    ecommerceController.cadastroVendedorAutenticacao(input);
+                    return; //retorna para menu principal
+                case 0:
+                    return;
+                default:
+                    System.err.println("Opção inválida!");
             }
         }
     }
     
-    public void login() {
+    public void login(Scanner input) {
         String email = new String();
         String senha = new String();
         int tentarNovamente;
@@ -94,28 +97,22 @@ public class Menus{
             System.out.println("******   Trem's Uai - Login   ******");
             System.out.println("************************************");
 
+            System.out.print("Digite seu email: \t");
+            email = input.nextLine();
+            System.out.print("\nDigite sua senha: \t");
+            senha = input.nextLine();
+            System.out.println("");
 
-            try (Scanner input = new Scanner(System.in)) {
-
-
-                    System.out.print("Digite seu email: \t");
-                    email = input.nextLine();
-                    System.out.print("\nDigite sua senha: \t");
-                    senha = input.nextLine();
-                    System.out.println("");
-
-                    if (ecommerceController.loginAutenticacao(email, senha) == -1) {
-                        System.out.println("Deseja tentar novamente? (1: Sim    0: Não)");
-                        tentarNovamente = input.nextInt();
-                    }
-                } 
+            if (ecommerceController.loginAutenticacao(email, senha, input) == -1) {
+                System.out.println("Deseja tentar novamente? (1: Sim    0: Não)");
+                tentarNovamente = input.nextInt();
+            } 
         } while (tentarNovamente != 0);
     }
     
-    public void cliente(int id) {
+    public void cliente(int id, Scanner scan) {
         EcommerceController ecommerceController = new EcommerceController();
         int opcao = - 99;
-        Scanner scan = new Scanner(System.in);
         Cliente cliente = new Cliente();
         
         while(opcao != 0){
@@ -135,7 +132,7 @@ public class Menus{
             
             switch (opcao) {
                 case 0:
-                    break;
+                    return;
                 case 1:
                     System.out.print("Digite o nome do produto que deseja buscar: ");
                     ecommerceController.buscarPornome(scan.nextLine());
@@ -152,17 +149,16 @@ public class Menus{
                     break;
                 case 5:
                     ecommerceController.excluirCliente(id);
-                    break;
+                    return;
                 default:
                     System.out.println("Opção inválida!");
             }
         }
     }
     
-    public void vendedor(int id) {
+    public void vendedor(int id, Scanner scan) {
         EcommerceController ecommerceController = new EcommerceController();
         int opcao = - 99;
-        Scanner scan = new Scanner(System.in);
         
         Produto produto = new Produto();
         Vendedor vendedor;
@@ -185,9 +181,9 @@ public class Menus{
             
             switch (opcao) {
                 case 0:
-                    break;
+                    return;
                 case 1:
-                    ecommerceController.salvarProduto(ecommerceController.lerProduto(id));
+                    ecommerceController.salvarProduto(ecommerceController.lerProduto(id, scan));
                     break;
                 case 2:
                     System.out.print("Digite o ID do produto que deseja editar: ");
@@ -202,13 +198,13 @@ public class Menus{
                     ecommerceController.buscaProdutosPorIdVendedor(id);
                     break;
                 case 5:
-                    vendedor = ecommerceController.lerVendedor();
+                    vendedor = ecommerceController.lerVendedor(scan);
                     vendedor.setId(id);
                     ecommerceController.editarVendedor(vendedor);
                     break;
                 case 6:
                     ecommerceController.excluirVendedor(id);
-                    break;
+                    return;
                 default:
                     System.out.println("Opção inválida!");
             }

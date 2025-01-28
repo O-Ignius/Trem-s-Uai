@@ -17,8 +17,7 @@ import java.text.SimpleDateFormat;
  */
 public class Formulario {
     
-    public Produto lerProduto(int id){
-        Scanner scan = new Scanner(System.in);
+    public Produto lerProduto(int id, Scanner scan){
         Produto produto = new Produto();
         Vendedor vendedor = new Vendedor();
         
@@ -28,55 +27,55 @@ public class Formulario {
         produto.setDescricao(scan.nextLine());
         System.out.print("Digite o valor do produto: ");
         produto.setValor(scan.nextDouble());
+        scan.nextLine(); // Consumir a quebra de linha deixada pelo nextInt()
         System.out.print("Digite a quantidade em estoque: ");
         produto.setEstoque(scan.nextInt());
+        scan.nextLine(); // Consumir a quebra de linha deixada pelo nextInt()
         
         vendedor.setId(id);
         produto.setVendedor(vendedor);
         return produto;
     }
     
-    public Endereco lerEndereco() {
+    public Endereco lerEndereco(Scanner input) {
         Endereco endereco = null;
         
         System.out.println("**************************");
         System.out.println("** Cadastro de Endereço **");
         System.out.println("**************************");
         
-        try (Scanner input = new Scanner(System.in)) {
-            endereco = new Endereco();
-            
-            System.out.print("Cep: \t");
-            endereco.setCep(input.nextInt());
-            input.nextLine(); // Consumir a quebra de linha deixada pelo nextInt()
+        endereco = new Endereco();
 
-            System.out.print("\nRua: \t");
-            endereco.setRua(input.nextLine());
+        System.out.print("Cep: \t");
+        endereco.setCep(input.nextInt());
+        input.nextLine(); // Consumir a quebra de linha deixada pelo nextInt()
 
-            System.out.print("\nComplemento: \t");
-            endereco.setComplemento(input.nextLine());
+        System.out.print("\nRua: \t");
+        endereco.setRua(input.nextLine());
 
-            System.out.print("\nLogradouro: \t");
-            endereco.setLogradouro(input.nextLine());
+        System.out.print("\nComplemento: \t");
+        endereco.setComplemento(input.nextLine());
 
-            System.out.print("\nBairro: \t");
-            endereco.setBairro(input.nextLine());
+        System.out.print("\nLogradouro: \t");
+        endereco.setLogradouro(input.nextLine());
 
-            System.out.print("\nCidade: \t");
-            endereco.setCidade(input.nextLine());
+        System.out.print("\nBairro: \t");
+        endereco.setBairro(input.nextLine());
 
-            System.out.print("\nEstado: \t");
-            endereco.setEstado(input.nextLine());
+        System.out.print("\nCidade: \t");
+        endereco.setCidade(input.nextLine());
 
-            System.out.print("\nNúmero: \t");
-            endereco.setNumero(input.nextInt());
-        }
+        System.out.print("\nEstado: \t");
+        endereco.setEstado(input.nextLine());
+
+        System.out.print("\nNúmero: \t");
+        endereco.setNumero(input.nextInt());
+        input.nextLine(); // Consumir a quebra de linha deixada pelo nextInt()
         
         return endereco;
     }
     
-    public Vendedor lerVendedor(){
-        Scanner input = new Scanner(System.in);
+    public Vendedor lerVendedor(Scanner input){
         Vendedor vendedor = new Vendedor();
         
         System.out.println("**************************");
@@ -115,40 +114,38 @@ public class Formulario {
         return vendedor;
     }
     
-    public Cliente lerCliente(){
+    public Cliente lerCliente(Scanner input){
         Cliente cliente = new Cliente();
         
         System.out.println("**************************");
         System.out.println("** Cadastro de Cliente **");
         System.out.println("**************************");
         
-        try (Scanner input = new Scanner(System.in)) {
-            System.out.print("Digite o nome: \t");
-            cliente.setNome(input.nextLine());
+        System.out.print("Digite o nome: \t");
+        cliente.setNome(input.nextLine());
 
-            System.out.print("\nDigite o CPF: \t");
-            cliente.setCpf(input.nextLine());
+        System.out.print("\nDigite o CPF: \t");
+        cliente.setCpf(input.nextLine());
 
-            System.out.print("\nDigite o e-mail: \t");
-            cliente.setEmail(input.nextLine());
+        System.out.print("\nDigite o e-mail: \t");
+        cliente.setEmail(input.nextLine());
 
-            System.out.print("\nDigite a senha: \t");
-            cliente.setSenha(input.nextLine());
+        System.out.print("\nDigite a senha: \t");
+        cliente.setSenha(input.nextLine());
 
-            System.out.print("\nDigite o telefone: \t");
-            cliente.setTelefone(input.nextLine());
+        System.out.print("\nDigite o telefone: \t");
+        cliente.setTelefone(input.nextLine());
 
-            // Coleta de data de nascimento (Como Date, é necessário um formato específico)
-            System.out.print("\nDigite a data de nascimento (dd/MM/yyyy): \t");
-            String dataNascimentoStr = input.nextLine();
-            cliente.setDataNascimento(parseToSqlDate(dataNascimentoStr));
+        // Coleta de data de nascimento (Como Date, é necessário um formato específico)
+        System.out.print("\nDigite a data de nascimento (dd/MM/yyyy): \t");
+        String dataNascimentoStr = input.nextLine();
+        cliente.setDataNascimento(parseToSqlDate(dataNascimentoStr));
 
-            System.out.print("\nDigite a nacionalidade: \t");
-            cliente.setNacionalidade(input.nextLine());
+        System.out.print("\nDigite a nacionalidade: \t");
+        cliente.setNacionalidade(input.nextLine());
 
-            System.out.print("\nDigite o gênero: \t");
-            cliente.setGenero(input.nextLine());
-        }
+        System.out.print("\nDigite o gênero: \t");
+        cliente.setGenero(input.nextLine());
         return cliente;
     }
     
