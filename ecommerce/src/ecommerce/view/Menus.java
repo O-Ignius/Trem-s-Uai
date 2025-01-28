@@ -8,12 +8,7 @@ import ecommerce.view.Autenticacao;
 import ecommerce.view.Formulario;
 
 //entitys
-import ecommerce.model.entity.Avaliacao;
-import ecommerce.model.entity.Carrinho;
 import ecommerce.model.entity.Cliente;
-import ecommerce.model.entity.Endereco;
-import ecommerce.model.entity.Item;
-import ecommerce.model.entity.Pedido;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 
@@ -22,8 +17,6 @@ import java.util.Scanner;
 
 public class Menus{
     EcommerceController ecommerceController = new EcommerceController();
-    Autenticacao autenticacao = new Autenticacao();
-    Formulario formulario = new Formulario();
     
     public void cadastroLogin() {
         int op = -1;
@@ -170,8 +163,9 @@ public class Menus{
         EcommerceController ecommerceController = new EcommerceController();
         int opcao = - 99;
         Scanner scan = new Scanner(System.in);
+        
         Produto produto = new Produto();
-        Vendedor vendedor = new Vendedor();
+        Vendedor vendedor;
         
         while(opcao != 0){
             System.out.println("***************************************");
@@ -193,7 +187,7 @@ public class Menus{
                 case 0:
                     break;
                 case 1:
-                    ecommerceController.salvarProduto(formulario.lerProduto(id));
+                    ecommerceController.salvarProduto(ecommerceController.lerProduto(id));
                     break;
                 case 2:
                     System.out.print("Digite o ID do produto que deseja editar: ");
@@ -208,7 +202,7 @@ public class Menus{
                     ecommerceController.buscaProdutosPorIdVendedor(id);
                     break;
                 case 5:
-                    vendedor = formulario.lerVendedor();
+                    vendedor = ecommerceController.lerVendedor();
                     vendedor.setId(id);
                     ecommerceController.editarVendedor(vendedor);
                     break;

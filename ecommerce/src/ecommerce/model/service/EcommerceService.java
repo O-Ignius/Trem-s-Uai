@@ -31,7 +31,7 @@ import ecommerce.model.entity.Item;
 import ecommerce.model.entity.Pedido;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
-import javax.swing.text.View;
+import ecommerce.view.Formulario;
 
 public class EcommerceService {
     /*
@@ -75,6 +75,7 @@ public class EcommerceService {
     private ItemDAO itemDAO;
     private PedidoDAO pedidoDAO;
     private AutenticacaoDAO autenticacaoDAO;
+    private Formulario formulario;
     
     //views
     private Menus menu;
@@ -84,10 +85,19 @@ public class EcommerceService {
         this.clienteDAO = new ClienteDAO();
         this.enderecoDAO = new EnderecoDAO();
         this.vendedorDAO = new VendedorDAO();
+        this.produtoDAO = new ProdutoDAO();
+        this.carrinhoDAO = new CarrinhoDAO();
+        this.itemDAO = new ItemDAO();
+        this.pedidoDAO = new PedidoDAO();
+        this.autenticacaoDAO = new AutenticacaoDAO();
+        this.avaliacaoDAO = new AvaliacaoDAO();
         
+        
+        //Fazer de todos
         //view
         this.autenticacao = new Autenticacao();
         this.menu = new Menus();
+        this.formulario = new Formulario();
     } 
     
     //cliente
@@ -280,5 +290,20 @@ public class EcommerceService {
     
     public int loginAutenticacao(String email, String senha) {
         return autenticacao.login(email, senha);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //Formulario
+    public Endereco lerEndereco(){
+        return formulario.lerEndereco();
+    }
+    public Cliente lerCliente(){
+        return formulario.lerCliente();
+    }
+    public Vendedor lerVendedor(){
+        return formulario.lerVendedor();
+    }
+    public Produto lerProduto(int id){
+        return formulario.lerProduto(id);
     }
 }

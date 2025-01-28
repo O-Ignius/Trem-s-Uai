@@ -275,4 +275,23 @@ public class EcommerceController implements IController{
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.loginAutenticacao(email, senha);
     }
+    
+    /////////////////////////////////////////////////////////////////
+    //Formulario
+    public Endereco lerEndereco(){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.lerEndereco();
+    }
+    public Cliente lerCliente(){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.lerCliente();
+    }
+    public Vendedor lerVendedor(){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.lerVendedor();
+    }
+    public Produto lerProduto(int id){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.lerProduto(id);
+    }
 }

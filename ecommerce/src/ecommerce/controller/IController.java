@@ -90,4 +90,11 @@ public interface IController {
     public void cadastroClienteAutenticacao();      
     public void cadastroVendedorAutenticacao();     
     public int loginAutenticacao(String email, String senha);
+    
+    /////////////////////////////////////////////////////////////////
+    //Formulario
+    public Endereco lerEndereco();
+    public Cliente lerCliente();
+    public Vendedor lerVendedor();
+    public Produto lerProduto(int id);
 }
