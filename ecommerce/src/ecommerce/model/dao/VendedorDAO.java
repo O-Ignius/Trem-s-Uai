@@ -5,6 +5,7 @@ import ecommerce.model.entity.Vendedor;
 
 //controller
 import ecommerce.controller.EcommerceController;
+import ecommerce.model.entity.Endereco;
 
 //imports obrigatorios
 import java.sql.Connection;
@@ -22,7 +23,10 @@ public class VendedorDAO {
     
     //metodo salvar
     public void salvar(Vendedor vendedor) {      
-        String sql = "INSERT INTO vendedor (nome, cpf, cnpj, email, senha, telefone, dataNascimento, nacionalidade, genero) VALUES (?,?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO vendedor (nome, cpf, cnpj, email, senha, telefone, dataNascimento, nacionalidade, genero, endereco_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
+                
+        Endereco endereco = new Endereco();
+        
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, vendedor.getNome());
@@ -34,6 +38,10 @@ public class VendedorDAO {
             stmt.setDate(7, vendedor.getDataNascimento());
             stmt.setString(8, vendedor.getNacionalidade());
             stmt.setString(9, vendedor.getGenero());
+            
+            //salva novo endereço id
+            endereco = vendedor.getEndereco();
+            stmt.setInt(10, endereco.getId());
             
             //Cadastro de endereco na tabela endereco
             ecommerceController.cadastrarEndereco(vendedor.getEndereco());
@@ -48,7 +56,10 @@ public class VendedorDAO {
     }
     //metodo editar
     public void editar(Vendedor vendedor) {      
-        String sql = "UPDATE vendedor SET nome = ?, cpf = ?, cnpj = ?, email = ?, senha = ?, telefone = ?, dataNascimento = ?, nacionalidade = ?, genero = ? WHERE id = ?";
+        String sql = "UPDATE vendedor SET nome = ?, cpf = ?, cnpj = ?, email = ?, senha = ?, telefone = ?, dataNascimento = ?, nacionalidade = ?, genero = ?, endereco_id = ? WHERE id = ?";
+                        
+        Endereco endereco = new Endereco();
+        
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, vendedor.getNome());
@@ -60,7 +71,10 @@ public class VendedorDAO {
             stmt.setDate(7, vendedor.getDataNascimento());
             stmt.setString(8, vendedor.getNacionalidade());
             stmt.setString(9, vendedor.getGenero());
-            stmt.setInt(10, vendedor.getId());
+            
+            //salva novo endereço id
+            endereco = vendedor.getEndereco();
+            stmt.setInt(10, endereco.getId());
             
             //Cadastro de endereco na tabela endereco
             ecommerceController.editarEndereco(vendedor.getEndereco());

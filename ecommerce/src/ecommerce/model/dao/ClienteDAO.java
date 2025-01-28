@@ -2,6 +2,7 @@ package ecommerce.model.dao;
 
 //entitys
 import ecommerce.model.entity.Cliente;
+import ecommerce.model.entity.Endereco;
 
 //controller
 import ecommerce.controller.EcommerceController;
@@ -23,7 +24,10 @@ public class ClienteDAO {
     
     //metodo salvar
     public void salvar(Cliente cliente) {      
-        String sql = "INSERT INTO cliente (nome, cpf, email, senha, telefone, dataNascimento, nacionalidade, genero) VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO cliente (nome, cpf, email, senha, telefone, dataNascimento, nacionalidade, genero, endereco_id) VALUES (?,?,?,?,?,?,?,?,?)";
+        
+        Endereco endereco = new Endereco();
+        
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, cliente.getNome());
@@ -34,6 +38,9 @@ public class ClienteDAO {
             stmt.setDate(6, cliente.getDataNascimento());
             stmt.setString(7, cliente.getNacionalidade());
             stmt.setString(8, cliente.getGenero());
+            
+            endereco = cliente.getEndereco();
+            stmt.setInt(9, endereco.getId());
             
             //Cadastro de endereco na tabela endereco
             ecommerceController.cadastrarEndereco(cliente.getEndereco());
@@ -48,7 +55,10 @@ public class ClienteDAO {
     }
     //metodo editar
     public void editar(Cliente cliente) {      
-        String sql = "UPDATE cliente SET nome = ?, cpf = ?, email = ?, senha = ?, telefone = ?, dataNascimento = ?, nacionalidade = ?, genero = ? WHERE id = ?";
+        String sql = "UPDATE cliente SET nome = ?, cpf = ?, email = ?, senha = ?, telefone = ?, dataNascimento = ?, nacionalidade = ?, genero = ?, endereco_id = ? WHERE id = ?";
+        
+        Endereco endereco = new Endereco();
+        
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, cliente.getNome());
@@ -59,7 +69,10 @@ public class ClienteDAO {
             stmt.setDate(6, cliente.getDataNascimento());
             stmt.setString(7, cliente.getNacionalidade());
             stmt.setString(8, cliente.getGenero());
-            stmt.setInt(9, cliente.getId());
+            
+            //salva novo endereço id
+            endereco = cliente.getEndereco();
+            stmt.setInt(9, endereco.getId());
             
             //Cadastro de endereco na tabela endereco
             ecommerceController.editarEndereco(cliente.getEndereco());
