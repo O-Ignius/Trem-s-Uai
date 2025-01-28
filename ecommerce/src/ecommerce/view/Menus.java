@@ -21,6 +21,7 @@ import ecommerce.model.entity.Vendedor;
 import java.util.Scanner;
 
 public class Menus{
+    EcommerceController ecommerceController = new EcommerceController();
     Autenticacao autenticacao = new Autenticacao();
     Formulario formulario = new Formulario();
     
@@ -74,10 +75,10 @@ public class Menus{
                 
                 switch (op) {
                     case 1:
-                        autenticacao.cadastroCliente();
+                        ecommerceController.cadastroClienteAutenticacao();
                         return; //retorna para menu principal
                     case 2:
-                        autenticacao.cadastroVendedor();
+                        ecommerceController.cadastroVendedorAutenticacao();
                         return; //retorna para menu principal
                     case 0:
                         break;
@@ -110,7 +111,7 @@ public class Menus{
                     senha = input.nextLine();
                     System.out.println("");
 
-                    if (autenticacao.login(email, senha) == -1) {
+                    if (ecommerceController.loginAutenticacao(email, senha) == -1) {
                         System.out.println("Deseja tentar novamente? (1: Sim    0: Não)");
                         tentarNovamente = input.nextInt();
                     }

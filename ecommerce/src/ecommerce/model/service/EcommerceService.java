@@ -7,6 +7,10 @@ import biblioteca.model.entity.Editora;
 import biblioteca.model.entity.Livro;
 */
 
+//Views
+import ecommerce.view.Autenticacao;
+import ecommerce.view.Menus;
+
 //DAO
 import ecommerce.model.dao.AvaliacaoDAO;
 import ecommerce.model.dao.ClienteDAO;
@@ -27,6 +31,7 @@ import ecommerce.model.entity.Item;
 import ecommerce.model.entity.Pedido;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
+import javax.swing.text.View;
 
 public class EcommerceService {
     /*
@@ -70,11 +75,19 @@ public class EcommerceService {
     private ItemDAO itemDAO;
     private PedidoDAO pedidoDAO;
     private AutenticacaoDAO autenticacaoDAO;
+    
+    //views
+    private Menus menu;
+    private Autenticacao autenticacao;
             
     public EcommerceService(){
         this.clienteDAO = new ClienteDAO();
         this.enderecoDAO = new EnderecoDAO();
         this.vendedorDAO = new VendedorDAO();
+        
+        //view
+        this.autenticacao = new Autenticacao();
+        this.menu = new Menus();
     } 
     
     //cliente
@@ -231,5 +244,41 @@ public class EcommerceService {
     //autenticação
     public int login(String email, String senha, String tableNome) {
         return autenticacaoDAO.login(email, senha, tableNome);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //View - Menus
+    public void cadastroLoginMenu() {
+        menu.cadastroLogin();
+    }
+
+    public void cadastroMenu() {
+        menu.cadastro();
+    }
+    
+    public void loginMenu() {
+        menu.login();
+    }
+
+    public void clienteMenu(int id) {
+        menu.cliente(id);
+    }
+    
+    public void vendedorMenu(int id) {
+        menu.vendedor(id);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //View - Autenticacao
+    public void cadastroClienteAutenticacao() {
+        autenticacao.cadastroCliente();
+    }
+    
+    public void cadastroVendedorAutenticacao() {
+        autenticacao.cadastroVendedor();
+    }
+    
+    public int loginAutenticacao(String email, String senha) {
+        return autenticacao.login(email, senha);
     }
 }
