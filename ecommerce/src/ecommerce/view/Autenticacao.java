@@ -17,9 +17,9 @@ import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Endereco;
 import ecommerce.model.entity.Vendedor;
 
-public class Autenticacao {
+public class Autenticacao{
     
-    Menus menu = new Menus();
+    EcommerceController ecommerceController = new EcommerceController();
     
     public Endereco cadastroEndereco() {
         Endereco endereco = null;
@@ -175,12 +175,12 @@ public class Autenticacao {
             }
             else {
                 //se achar na tabela vendedor, chama menu vendedor
-                menu.vendedor(id);
+                ecommerceController.vendedorMenu(id);
             }
         }
         else {
             //se achar na tabela cliente, chama menu cliente
-            menu.cliente(id);
+            ecommerceController.clienteMenu(id);
         }
         
         return 0;

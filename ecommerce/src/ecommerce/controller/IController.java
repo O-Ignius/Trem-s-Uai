@@ -76,4 +76,15 @@ public interface IController {
     /////////////////////////////////////////////////////////////////
     //autenticação
     public int login(String email, String senha, String tableNome);
+
+    /////////////////////////////////////////////////////////////////
+    //Views
+    public void cadastroLoginMenu();
+    public void cadastroMenu();
+    public void loginMenu();
+    public void clienteMenu(int id);
+    public void vendedorMenu(int id);        
+    public void cadastroClienteAutenticacao();      
+    public void cadastroVendedorAutenticacao();     
+    public int loginAutenticacao(String email, String senha);
 }

@@ -217,4 +217,47 @@ public class EcommerceController implements IController{
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.login(email, senha, tableNome);
     }
+
+    /////////////////////////////////////////////////////////////////
+    //Views
+    public void cadastroLoginMenu(){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.cadastroLoginMenu();
+    }
+    
+    public void cadastroMenu(){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.cadastroMenu();
+    }
+    
+    public void loginMenu(){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.loginMenu();
+    }
+    
+    public void clienteMenu(int id){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.clienteMenu(id);
+    }
+    
+    public void vendedorMenu(int id){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.vendedorMenu(id);
+    }
+    
+    ////////////////////////////////
+    public void cadastroClienteAutenticacao(){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.cadastroClienteAutenticacao();
+    }
+    
+    public void cadastroVendedorAutenticacao(){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.cadastroVendedorAutenticacao();
+    }
+    
+    public int loginAutenticacao(String email, String senha){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.loginAutenticacao(email, senha);
+    }
 }
