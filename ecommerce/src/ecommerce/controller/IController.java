@@ -9,6 +9,7 @@ import ecommerce.model.entity.Item;
 import ecommerce.model.entity.Pedido;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
+import java.util.Scanner;
 
 public interface IController {
     /*
@@ -28,7 +29,7 @@ public interface IController {
     
     //////////////////////////////////////////////////////////////////////
     //Endereco
-    public void cadastrarEndereco(Endereco endereco);
+    public int cadastrarEndereco(Endereco endereco);
     public void editarEndereco(Endereco endereco);
     public void excluirEndereco(int id);
     public Endereco getEndereco(int id);
@@ -83,18 +84,18 @@ public interface IController {
     /////////////////////////////////////////////////////////////////
     //Views
     public void cadastroLoginMenu();
-    public void cadastroMenu();
-    public void loginMenu();
-    public void clienteMenu(int id);
-    public void vendedorMenu(int id);        
-    public void cadastroClienteAutenticacao();      
-    public void cadastroVendedorAutenticacao();     
-    public int loginAutenticacao(String email, String senha);
+    public void cadastroMenu(Scanner input);
+    public void loginMenu(Scanner input);
+    public void clienteMenu(int id, Scanner input);
+    public void vendedorMenu(int id, Scanner input);        
+    public void cadastroClienteAutenticacao(Scanner input);      
+    public void cadastroVendedorAutenticacao(Scanner input);     
+    public int loginAutenticacao(String email, String senha, Scanner input);
     
     /////////////////////////////////////////////////////////////////
     //Formulario
-    public Endereco lerEndereco();
-    public Cliente lerCliente();
-    public Vendedor lerVendedor();
-    public Produto lerProduto(int id);
+    public Endereco lerEndereco(Scanner input);
+    public Cliente lerCliente(Scanner input);
+    public Vendedor lerVendedor(Scanner input);
+    public Produto lerProduto(int id, Scanner input);
 }

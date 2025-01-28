@@ -13,6 +13,7 @@ import ecommerce.model.entity.Vendedor;
 
 //Service
 import ecommerce.model.service.EcommerceService;
+import java.util.Scanner;
 
 public class EcommerceController implements IController{
     /*
@@ -69,9 +70,9 @@ public class EcommerceController implements IController{
     
     ///////////////////////////////////////////////////////////////////////
     //endereco
-    public void cadastrarEndereco(Endereco endereco) {
+    public int cadastrarEndereco(Endereco endereco) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarEndereco(endereco);
+        return ecommerceService.salvarEndereco(endereco);
     }
     
     public void editarEndereco(Endereco endereco) {
@@ -240,58 +241,58 @@ public class EcommerceController implements IController{
         ecommerceService.cadastroLoginMenu();
     }
     
-    public void cadastroMenu(){
+    public void cadastroMenu(Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.cadastroMenu();
+        ecommerceService.cadastroMenu(input);
     }
     
-    public void loginMenu(){
+    public void loginMenu(Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.loginMenu();
+        ecommerceService.loginMenu(input);
     }
     
-    public void clienteMenu(int id){
+    public void clienteMenu(int id, Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.clienteMenu(id);
+        ecommerceService.clienteMenu(id, input);
     }
     
-    public void vendedorMenu(int id){
+    public void vendedorMenu(int id, Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.vendedorMenu(id);
+        ecommerceService.vendedorMenu(id, input);
     }
     
     ////////////////////////////////
-    public void cadastroClienteAutenticacao(){
+    public void cadastroClienteAutenticacao(Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.cadastroClienteAutenticacao();
+        ecommerceService.cadastroClienteAutenticacao(input);
     }
     
-    public void cadastroVendedorAutenticacao(){
+    public void cadastroVendedorAutenticacao(Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.cadastroVendedorAutenticacao();
+        ecommerceService.cadastroVendedorAutenticacao(input);
     }
     
-    public int loginAutenticacao(String email, String senha){
+    public int loginAutenticacao(String email, String senha, Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.loginAutenticacao(email, senha);
+        return ecommerceService.loginAutenticacao(email, senha, input);
     }
     
     /////////////////////////////////////////////////////////////////
     //Formulario
-    public Endereco lerEndereco(){
+    public Endereco lerEndereco(Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.lerEndereco();
+        return ecommerceService.lerEndereco(input);
     }
-    public Cliente lerCliente(){
+    public Cliente lerCliente(Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.lerCliente();
+        return ecommerceService.lerCliente(input);
     }
-    public Vendedor lerVendedor(){
+    public Vendedor lerVendedor(Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.lerVendedor();
+        return ecommerceService.lerVendedor(input);
     }
-    public Produto lerProduto(int id){
+    public Produto lerProduto(int id, Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.lerProduto(id);
+        return ecommerceService.lerProduto(id, input);
     }
 }

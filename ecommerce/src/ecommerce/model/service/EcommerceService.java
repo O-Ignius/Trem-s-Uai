@@ -33,6 +33,9 @@ import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import ecommerce.view.Formulario;
 
+//scanner
+import java.util.Scanner;
+
 public class EcommerceService {
     /*
     private EditoraDAO editoraDAO;
@@ -119,8 +122,8 @@ public class EcommerceService {
     
     /////////////////////////////////////////////////////////////////
     //endereço
-    public void salvarEndereco(Endereco endereco){
-        enderecoDAO.salvar(endereco);
+    public int salvarEndereco(Endereco endereco){
+        return enderecoDAO.salvar(endereco);
     }
     
     public void editarEndereco(Endereco endereco){
@@ -262,48 +265,48 @@ public class EcommerceService {
         menu.cadastroLogin();
     }
 
-    public void cadastroMenu() {
-        menu.cadastro();
+    public void cadastroMenu(Scanner input) {
+        menu.cadastro(input);
     }
     
-    public void loginMenu() {
-        menu.login();
+    public void loginMenu(Scanner input) {
+        menu.login(input);
     }
 
-    public void clienteMenu(int id) {
-        menu.cliente(id);
+    public void clienteMenu(int id, Scanner input) {
+        menu.cliente(id, input);
     }
     
-    public void vendedorMenu(int id) {
-        menu.vendedor(id);
+    public void vendedorMenu(int id, Scanner input) {
+        menu.vendedor(id, input);
     }
     
     /////////////////////////////////////////////////////////////////
     //View - Autenticacao
-    public void cadastroClienteAutenticacao() {
-        autenticacao.cadastroCliente();
+    public void cadastroClienteAutenticacao(Scanner input) {
+        autenticacao.cadastroCliente(input);
     }
     
-    public void cadastroVendedorAutenticacao() {
-        autenticacao.cadastroVendedor();
+    public void cadastroVendedorAutenticacao(Scanner input) {
+        autenticacao.cadastroVendedor(input);
     }
     
-    public int loginAutenticacao(String email, String senha) {
-        return autenticacao.login(email, senha);
+    public int loginAutenticacao(String email, String senha, Scanner input) {
+        return autenticacao.login(email, senha, input);
     }
     
     /////////////////////////////////////////////////////////////////
     //Formulario
-    public Endereco lerEndereco(){
-        return formulario.lerEndereco();
+    public Endereco lerEndereco(Scanner input){
+        return formulario.lerEndereco(input);
     }
-    public Cliente lerCliente(){
-        return formulario.lerCliente();
+    public Cliente lerCliente(Scanner input){
+        return formulario.lerCliente(input);
     }
-    public Vendedor lerVendedor(){
-        return formulario.lerVendedor();
+    public Vendedor lerVendedor(Scanner input){
+        return formulario.lerVendedor(input);
     }
-    public Produto lerProduto(int id){
-        return formulario.lerProduto(id);
+    public Produto lerProduto(int id, Scanner input){
+        return formulario.lerProduto(id, input);
     }
 }
