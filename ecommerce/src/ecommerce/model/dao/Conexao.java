@@ -15,7 +15,6 @@ public class Conexao {
     private Connection connection;
 
     public Connection getConnection() {
-        System.out.println("Conectando ao Banco de Dados");
         try {
             Class.forName(DRIVER_MYSQL);
             

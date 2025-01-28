@@ -16,10 +16,11 @@ public class EnderecoDAO {
         connection = new Conexao().getConnection();
     }
     
-    public void salvar(Endereco endereco) {      
+    public int salvar(Endereco endereco) {      
         String sql = "INSERT INTO endereco (cep, rua, complemento, logradouro, bairro, cidade, estado, numero) VALUES (?,?,?,?,?,?,?,?)";
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
+        ResultSet idGerado;
+        
+        try (PreparedStatement stmt = connection.prepareStatement(sql, PreparedStatement.RETURN_GENERATED_KEYS)){
             stmt.setInt(1, endereco.getCep());
             stmt.setString(2, endereco.getRua());
             stmt.setString(3, endereco.getComplemento());
@@ -29,11 +30,20 @@ public class EnderecoDAO {
             stmt.setString(7, endereco.getEstado());
             stmt.setInt(8, endereco.getNumero());
             stmt.execute();
-            stmt.close();
-        } catch (SQLException u) {
-            throw new RuntimeException(u);
+            
+            try (ResultSet idGet = stmt.getGeneratedKeys()) {
+                if (idGet.next()) {
+                    return idGet.getInt(1); // Retorna o id gerado
+                } else {
+                    throw new SQLException("Falha ao obter o ID gerado para o endereço.");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
+    
     //metodo editar
     public void editar(Endereco endereco) {      
         String sql = "UPDATE endereco SET cep = ?, rua = ?, complemento = ?, logradouro = ?, bairro = ?, cidade = ?, estado = ?, numero = ? WHERE id = ?";

@@ -24,8 +24,10 @@ public class VendedorDAO {
     //metodo salvar
     public void salvar(Vendedor vendedor) {      
         String sql = "INSERT INTO vendedor (nome, cpf, cnpj, email, senha, telefone, dataNascimento, nacionalidade, genero, endereco_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
-                
-        Endereco endereco = new Endereco();
+        
+        //Salva endereço
+        //Cadastro de endereco na tabela endereco
+        int endereco = (ecommerceController.cadastrarEndereco(vendedor.getEndereco())); 
         
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -40,11 +42,7 @@ public class VendedorDAO {
             stmt.setString(9, vendedor.getGenero());
             
             //salva novo endereço id
-            endereco = vendedor.getEndereco();
-            stmt.setInt(10, endereco.getId());
-            
-            //Cadastro de endereco na tabela endereco
-            ecommerceController.cadastrarEndereco(vendedor.getEndereco());
+            stmt.setInt(10, endereco);
             
             //Tabela Carrinho
             
@@ -91,6 +89,9 @@ public class VendedorDAO {
     
     //metodo excluir
     public void excluir(int id) {
+        Vendedor vendedor = get(id);
+        ecommerceController.excluirEndereco(vendedor.getEndereco().getId());
+        
         String sql = "DELETE FROM vendedor WHERE id = ?";
         
         try {
@@ -127,7 +128,7 @@ public class VendedorDAO {
                 vendedor.setGenero(rs.getString("genero"));
                 
                 //tabela endereco
-                ecommerceController.getEndereco(rs.getInt("endereco_id"));
+                vendedor.setEndereco(ecommerceController.getEndereco(rs.getInt("endereco_id")));
                 
             }
             

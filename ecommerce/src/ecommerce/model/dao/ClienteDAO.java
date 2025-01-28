@@ -23,10 +23,12 @@ public class ClienteDAO {
     }
     
     //metodo salvar
-    public void salvar(Cliente cliente) {      
+    public void salvar(Cliente cliente) {
         String sql = "INSERT INTO cliente (nome, cpf, email, senha, telefone, dataNascimento, nacionalidade, genero, endereco_id) VALUES (?,?,?,?,?,?,?,?,?)";
         
-        Endereco endereco = new Endereco();
+        //Salva endereço
+        //Cadastro de endereco na tabela endereco
+        int endereco = (ecommerceController.cadastrarEndereco(cliente.getEndereco()));
         
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -39,11 +41,8 @@ public class ClienteDAO {
             stmt.setString(7, cliente.getNacionalidade());
             stmt.setString(8, cliente.getGenero());
             
-            endereco = cliente.getEndereco();
-            stmt.setInt(9, endereco.getId());
+            stmt.setInt(9, endereco);
             
-            //Cadastro de endereco na tabela endereco
-            ecommerceController.cadastrarEndereco(cliente.getEndereco());
             
             //Tabela Carrinho
             
@@ -89,6 +88,10 @@ public class ClienteDAO {
     
     //metodo excluir
     public void excluir(int id) {
+        
+        Cliente cliente = get(id);
+        ecommerceController.excluirEndereco(cliente.getEndereco().getId());
+        
         String sql = "DELETE FROM cliente WHERE id = ?";
         
         try {
@@ -125,7 +128,7 @@ public class ClienteDAO {
                 cliente.setGenero(rs.getString("genero"));
                 
                 //tabela endereco
-                ecommerceController.getEndereco(rs.getInt("endereco_id"));
+                cliente.setEndereco(ecommerceController.getEndereco(rs.getInt("endereco_id")));
                 
             }
             

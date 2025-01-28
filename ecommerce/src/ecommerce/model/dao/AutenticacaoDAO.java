@@ -15,7 +15,7 @@ public class AutenticacaoDAO {
     
     //login
     public int login(String email, String senha, String tableNome) {
-        String sql = "SELECT nome FROM " + tableNome + " WHERE email = ? AND senha = ?";
+        String sql = "SELECT id FROM " + tableNome + " WHERE email = ? AND senha = ?";
         int id;
         
         try {
