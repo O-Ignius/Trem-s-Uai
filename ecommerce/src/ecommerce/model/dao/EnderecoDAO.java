@@ -45,7 +45,7 @@ public class EnderecoDAO {
     }
     
     //metodo editar
-    public void editar(Endereco endereco) {      
+    public void editar(Endereco endereco, int id) {      
         String sql = "UPDATE endereco SET cep = ?, rua = ?, complemento = ?, logradouro = ?, bairro = ?, cidade = ?, estado = ?, numero = ? WHERE id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -57,7 +57,7 @@ public class EnderecoDAO {
             stmt.setString(6, endereco.getCidade());
             stmt.setString(7, endereco.getEstado());
             stmt.setInt(8, endereco.getNumero());
-            stmt.setInt(9, endereco.getId());
+            stmt.setInt(9, id);
             stmt.execute();
             stmt.close();
         } catch (SQLException u) {

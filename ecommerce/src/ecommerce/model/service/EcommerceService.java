@@ -108,8 +108,8 @@ public class EcommerceService {
         clienteDAO.salvar(cliente);
     }
     
-    public void editarCliente(Cliente cliente){
-        clienteDAO.editar(cliente);
+    public void editarCliente(Cliente cliente, int id){
+        clienteDAO.editar(cliente, id);
     }
     
     public void excluirCliente(int id){
@@ -126,8 +126,8 @@ public class EcommerceService {
         return enderecoDAO.salvar(endereco);
     }
     
-    public void editarEndereco(Endereco endereco){
-        enderecoDAO.editar(endereco);
+    public void editarEndereco(Endereco endereco, int id){
+        enderecoDAO.editar(endereco, id);
     }
     
     public void excluirEndereco(int id){
@@ -144,8 +144,8 @@ public class EcommerceService {
         vendedorDAO.salvar(vendedor);
     }
     
-    public void editarVendedor(Vendedor vendedor){
-        vendedorDAO.editar(vendedor);
+    public void editarVendedor(Vendedor vendedor, int id){
+        vendedorDAO.editar(vendedor, id);
     }
     
     public void excluirVendedor(int id){

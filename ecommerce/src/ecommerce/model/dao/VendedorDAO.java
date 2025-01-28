@@ -53,10 +53,11 @@ public class VendedorDAO {
         }
     }
     //metodo editar
-    public void editar(Vendedor vendedor) {      
-        String sql = "UPDATE vendedor SET nome = ?, cpf = ?, cnpj = ?, email = ?, senha = ?, telefone = ?, dataNascimento = ?, nacionalidade = ?, genero = ?, endereco_id = ? WHERE id = ?";
-                        
-        Endereco endereco = new Endereco();
+    public void editar(Vendedor vendedor, int id) {      
+        String sql = "UPDATE vendedor SET nome = ?, cpf = ?, cnpj = ?, email = ?, senha = ?, telefone = ?, dataNascimento = ?, nacionalidade = ?, genero = ? WHERE id = ?";
+                     
+        //coleta id do endereco atual
+        int idEndereco = get(id).getEndereco().getId();
         
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -69,13 +70,11 @@ public class VendedorDAO {
             stmt.setDate(7, vendedor.getDataNascimento());
             stmt.setString(8, vendedor.getNacionalidade());
             stmt.setString(9, vendedor.getGenero());
-            
-            //salva novo endereço id
-            endereco = vendedor.getEndereco();
-            stmt.setInt(10, endereco.getId());
-            
+      
             //Cadastro de endereco na tabela endereco
-            ecommerceController.editarEndereco(vendedor.getEndereco());
+            ecommerceController.editarEndereco(vendedor.getEndereco(), idEndereco);
+            
+            stmt.setInt(10, id);
             
             //Tabela Carrinho
             
@@ -91,17 +90,6 @@ public class VendedorDAO {
     public void excluir(int id) {
         Vendedor vendedor = get(id);
         ecommerceController.excluirEndereco(vendedor.getEndereco().getId());
-        
-        String sql = "DELETE FROM vendedor WHERE id = ?";
-        
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setLong(1, id);
-            stmt.execute();
-            stmt.close();
-        } catch (SQLException u) {
-            throw new RuntimeException(u);
-        }
     }
     
     //metodo get

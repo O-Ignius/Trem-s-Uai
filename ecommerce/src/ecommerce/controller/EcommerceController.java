@@ -53,9 +53,9 @@ public class EcommerceController implements IController{
         ecommerceService.salvarCliente(cliente);
     }
     
-    public void editarCliente(Cliente cliente) {
+    public void editarCliente(Cliente cliente, int id) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarCliente(cliente);
+        ecommerceService.editarCliente(cliente, id);
     }
     
     public void excluirCliente(int id) {
@@ -75,9 +75,9 @@ public class EcommerceController implements IController{
         return ecommerceService.salvarEndereco(endereco);
     }
     
-    public void editarEndereco(Endereco endereco) {
+    public void editarEndereco(Endereco endereco, int id) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarEndereco(endereco);
+        ecommerceService.editarEndereco(endereco, id);
     }
     
     public void excluirEndereco(int id) {
@@ -97,9 +97,9 @@ public class EcommerceController implements IController{
         ecommerceService.salvarVendedor(vendedor);
     }
     
-    public void editarVendedor(Vendedor vendedor) {
+    public void editarVendedor(Vendedor vendedor, int id) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarVendedor(vendedor);
+        ecommerceService.editarVendedor(vendedor, id);
     }
     
     public void excluirVendedor(int id) {

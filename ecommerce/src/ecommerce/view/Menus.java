@@ -145,7 +145,11 @@ public class Menus{
                     ecommerceController.buscaPedidosPorIdCliente(id);
                     break;
                 case 4:
-                    ecommerceController.editarCliente(cliente);
+                    cliente = ecommerceController.lerCliente(scan);
+                    //lendo endereco
+                    cliente.setEndereco(ecommerceController.lerEndereco(scan));
+                    cliente.setId(id);
+                    ecommerceController.editarCliente(cliente, id);
                     break;
                 case 5:
                     ecommerceController.excluirCliente(id);
@@ -161,7 +165,7 @@ public class Menus{
         int opcao = - 99;
         
         Produto produto = new Produto();
-        Vendedor vendedor;
+        Vendedor vendedor = new Vendedor();
         
         while(opcao != 0){
             System.out.println("***************************************");
@@ -199,8 +203,10 @@ public class Menus{
                     break;
                 case 5:
                     vendedor = ecommerceController.lerVendedor(scan);
+                    //lendo endereco
+                    vendedor.setEndereco(ecommerceController.lerEndereco(scan));
                     vendedor.setId(id);
-                    ecommerceController.editarVendedor(vendedor);
+                    ecommerceController.editarVendedor(vendedor, id);
                     break;
                 case 6:
                     ecommerceController.excluirVendedor(id);

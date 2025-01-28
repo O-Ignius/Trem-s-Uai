@@ -53,10 +53,11 @@ public class ClienteDAO {
         }
     }
     //metodo editar
-    public void editar(Cliente cliente) {      
-        String sql = "UPDATE cliente SET nome = ?, cpf = ?, email = ?, senha = ?, telefone = ?, dataNascimento = ?, nacionalidade = ?, genero = ?, endereco_id = ? WHERE id = ?";
+    public void editar(Cliente cliente, int id) {      
+        String sql = "UPDATE cliente SET nome = ?, cpf = ?, email = ?, senha = ?, telefone = ?, dataNascimento = ?, nacionalidade = ?, genero = ? WHERE id = ?";
         
-        Endereco endereco = new Endereco();
+        //coleta id do endereco atual
+        int idEndereco = get(id).getEndereco().getId();
         
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -69,12 +70,10 @@ public class ClienteDAO {
             stmt.setString(7, cliente.getNacionalidade());
             stmt.setString(8, cliente.getGenero());
             
-            //salva novo endereço id
-            endereco = cliente.getEndereco();
-            stmt.setInt(9, endereco.getId());
-            
             //Cadastro de endereco na tabela endereco
-            ecommerceController.editarEndereco(cliente.getEndereco());
+            ecommerceController.editarEndereco(cliente.getEndereco(), idEndereco);
+            
+            stmt.setInt(9, id);
             
             //Tabela Carrinho
             

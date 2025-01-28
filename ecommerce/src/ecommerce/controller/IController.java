@@ -23,21 +23,21 @@ public interface IController {
     //preview funções
     //Cliente
     public void cadastrarCliente(Cliente cliente);
-    public void editarCliente(Cliente cliente);
+    public void editarCliente(Cliente cliente, int id);
     public void excluirCliente(int id);
     public Cliente getCliente(int id);
     
     //////////////////////////////////////////////////////////////////////
     //Endereco
     public int cadastrarEndereco(Endereco endereco);
-    public void editarEndereco(Endereco endereco);
+    public void editarEndereco(Endereco endereco, int id);
     public void excluirEndereco(int id);
     public Endereco getEndereco(int id);
     
     /////////////////////////////////////////////////////////////////////////
     //Vendedor
     public void cadastrarVendedor(Vendedor vendedor);
-    public void editarVendedor(Vendedor vendedor);
+    public void editarVendedor(Vendedor vendedor, int id);
     public void excluirVendedor(int id);
     public Vendedor getVendedor(int id);
     
