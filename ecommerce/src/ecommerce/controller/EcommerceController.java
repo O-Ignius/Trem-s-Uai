@@ -13,6 +13,7 @@ import ecommerce.model.entity.Vendedor;
 //Service
 import ecommerce.model.service.EcommerceService;
 import java.sql.Connection;
+import java.util.List;
 import java.util.Scanner;
 
 public class EcommerceController implements IController{
@@ -310,5 +311,74 @@ public class EcommerceController implements IController{
     public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.lerCarrinho(input, carrinho);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //CONSULTAS BD
+    
+    public List<Cliente> listarClientesComEndereco(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.listarClientesComEndereco(connection);
+    }
+    
+    public List<Avaliacao> listarAvaliacoesComProduto(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.listarAvaliacoesComProduto(connection);
+    }
+    
+    public List<Carrinho> listarCarrinhosComItensECliente (Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.listarCarrinhosComItensECliente(connection);
+    }
+    
+    ///
+    
+    public List<String> obterQuantidadePedidosPorCliente(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.obterQuantidadePedidosPorCliente(connection);
+    }
+    
+    public List<String> obterMediaPrecoPorTipoPagamento(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.obterMediaPrecoPorTipoPagamento(connection);
+    }
+    
+    public List<String> obterProdutosMaisVendidos (Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.obterProdutosMaisVendidos(connection);
+    }
+    
+    ///
+    
+    public int obterTotalPedidosUltimoMes(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.obterTotalPedidosUltimoMes(connection);
+    }
+    
+    public double obterMediaVendasUltimaSemana(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.obterMediaVendasUltimaSemana(connection);
+    }
+    
+    public List<String> obterClientesAtivosUltimoMes(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.obterClientesAtivosUltimoMes(connection);
+    }
+    
+    ///
+
+    public String obterClienteComMaisPedidos(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.obterClienteComMaisPedidos(connection);
+    }
+    
+    public List<String> obterClientesComPedidosAcimaDaMedia(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.obterClientesComPedidosAcimaDaMedia(connection);
+    }
+    
+    public List<String> obterClientesQueGastaramAcimaDaMedia(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.obterClientesQueGastaramAcimaDaMedia(connection);
     }
 }

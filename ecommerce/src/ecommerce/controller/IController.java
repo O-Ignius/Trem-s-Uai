@@ -9,6 +9,7 @@ import ecommerce.model.entity.Item;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import java.sql.Connection;
+import java.util.List;
 import java.util.Scanner;
 
 public interface IController {
@@ -101,4 +102,37 @@ public interface IController {
     public Produto lerProduto(int id, Scanner input);
     public Item lerItem(Scanner input, int idCliente, Connection connection);
     public Carrinho lerCarrinho(Scanner input, Carrinho carrinho);
+    
+    /////////////////////////////////////////////////////////////////
+    //BD
+    
+    public List<Cliente> listarClientesComEndereco(Connection connection);
+    
+    public List<Avaliacao> listarAvaliacoesComProduto(Connection connection);
+    
+    public List<Carrinho> listarCarrinhosComItensECliente (Connection connection);
+    
+    ///
+    
+    public List<String> obterQuantidadePedidosPorCliente(Connection connection);
+    
+    public List<String> obterMediaPrecoPorTipoPagamento(Connection connection);
+    
+    public List<String> obterProdutosMaisVendidos (Connection connection);
+    
+    ///
+    
+    public int obterTotalPedidosUltimoMes(Connection connection);
+    
+    public double obterMediaVendasUltimaSemana(Connection connection);
+    
+    public List<String> obterClientesAtivosUltimoMes(Connection connection);
+    
+    ///
+
+    public String obterClienteComMaisPedidos(Connection connection);
+    
+    public List<String> obterClientesComPedidosAcimaDaMedia(Connection connection);
+    
+    public List<String> obterClientesQueGastaramAcimaDaMedia(Connection connection);
 }

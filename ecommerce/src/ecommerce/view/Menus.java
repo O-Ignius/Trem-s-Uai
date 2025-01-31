@@ -12,6 +12,8 @@ import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Endereco;
+import java.util.List;
 
 //scanner
 import java.util.Scanner;
@@ -34,6 +36,7 @@ public class Menus{
             System.out.println("Digite a opção desejada: ");
             System.out.println("1 - Login");
             System.out.println("2 - Cadastro");
+            System.out.println("3 - Consultas específicas |BD ONLY|");
             System.out.println("0 - Sair");
 
             op = input.nextInt();
@@ -45,6 +48,9 @@ public class Menus{
                     break; //retorna para menu principal
                 case 2:
                     cadastro(input, connection);
+                    break;
+                case 3:
+                    consultasEspecificas(input, connection);
                     break;
                 case 0:
                     break;
@@ -239,5 +245,101 @@ public class Menus{
                     System.out.println("Opção inválida!");
             }
         }
+    }
+    
+    //MENU CONSULTAS BD:
+    public void consultasEspecificas(Scanner scan, Connection connection) {
+        int consultaOpcao;
+        EcommerceController ecommerceController = new EcommerceController();
+
+        do {
+            System.out.println("********* CONSULTAS ESPECÍFICAS *********");
+            System.out.println("1 - Listar Clientes com Endereço");
+            System.out.println("2 - Listar Avaliações com Produto");
+            System.out.println("3 - Listar Pedidos com Itens e Cliente");
+            System.out.println("4 - Quantidade de Pedidos por Cliente");
+            System.out.println("5 - Media de Preço por Tipo de Pagamento");
+            System.out.println("6 - Produtos Mais Vendidos");
+            System.out.println("7 - Total de Pedidos no Último Mês");
+            System.out.println("8 - Média de Vendas da Última Semana");
+            System.out.println("9 - Clientes Ativos no Último Mês");
+            System.out.println("10 - Cliente com Mais Pedidos");
+            System.out.println("11 - Clientes com Pedidos Acima da Média");
+            System.out.println("12 - Clientes que Gastaram Acima da Média");
+            System.out.println("\n0 - Voltar ao menu principal");
+
+            System.out.print("Escolha uma opção: ");
+            consultaOpcao = scan.nextInt();
+            scan.nextLine();
+
+            switch (consultaOpcao) {
+                case 1:
+                System.out.println("\n*** Listar Clientes com Endereço ***");
+                System.out.println("--------------------------------------------------");
+                List<Cliente> clientes = ecommerceController.listarClientesComEndereco(connection);
+                for (Cliente cliente : clientes) {
+                    System.out.println("Cliente ID: " + cliente.getId());
+                    System.out.println("Nome: " + cliente.getNome());
+                    System.out.println("CPF: " + cliente.getCpf());
+                    System.out.println("Email: " + cliente.getEmail());
+                    System.out.println("Telefone: " + cliente.getTelefone());
+                    System.out.println("Data de Nascimento: " + cliente.getDataNascimento());
+                    System.out.println("Nacionalidade: " + cliente.getNacionalidade());
+                    System.out.println("Gênero: " + cliente.getGenero());
+
+                    Endereco endereco = cliente.getEndereco();
+                    System.out.println("\nEndereço:");
+                    System.out.println("Endereço ID: " + endereco.getId());
+                    System.out.println("CEP: " + endereco.getCep());
+                    System.out.println("Rua: " + endereco.getRua());
+                    System.out.println("Complemento: " + endereco.getComplemento());
+                    System.out.println("Logradouro: " + endereco.getLogradouro());
+                    System.out.println("Bairro: " + endereco.getBairro());
+                    System.out.println("Cidade: " + endereco.getCidade());
+                    System.out.println("Estado: " + endereco.getEstado());
+                    System.out.println("Número: " + endereco.getNumero());
+                    System.out.println("--------------------------------------------------");
+                }
+                break;  
+                case 2:
+                    System.out.println(ecommerceController.listarAvaliacoesComProduto(connection));
+                    break;
+                case 3:
+                    System.out.println(ecommerceController.listarCarrinhosComItensECliente(connection));
+                    break;
+                case 4:
+                    System.out.println(ecommerceController.obterQuantidadePedidosPorCliente(connection));
+                    break;
+                case 5:
+                    System.out.println(ecommerceController.obterMediaPrecoPorTipoPagamento(connection));
+                    break;
+                case 6:
+                    System.out.println(ecommerceController.obterProdutosMaisVendidos(connection));
+                    break;
+                case 7:
+                    System.out.println(ecommerceController.obterTotalPedidosUltimoMes(connection));
+                    break;
+                case 8:
+                    System.out.println(ecommerceController.obterMediaVendasUltimaSemana(connection));
+                    break;
+                case 9:
+                    System.out.println(ecommerceController.obterClientesAtivosUltimoMes(connection));
+                    break;
+                case 10:
+                    System.out.println(ecommerceController.obterClienteComMaisPedidos(connection));
+                    break;
+                case 11:
+                    System.out.println(ecommerceController.obterClientesComPedidosAcimaDaMedia(connection));
+                    break;
+                case 12:
+                    System.out.println(ecommerceController.obterClientesQueGastaramAcimaDaMedia(connection));
+                    break;
+                case 0:
+                    System.out.println("Retornando ao menu principal...");
+                    break;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        } while (consultaOpcao != 0);
     }
 }

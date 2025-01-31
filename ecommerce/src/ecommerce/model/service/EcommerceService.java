@@ -20,6 +20,7 @@ import ecommerce.model.dao.ProdutoDAO;
 import ecommerce.model.dao.CarrinhoDAO;
 import ecommerce.model.dao.ItemDAO;
 import ecommerce.model.dao.AutenticacaoDAO;
+import ecommerce.model.dao.ConsultasDAO;
 
 //entitys
 import ecommerce.model.entity.Avaliacao;
@@ -30,7 +31,9 @@ import ecommerce.model.entity.Item;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import ecommerce.view.Formulario;
+
 import java.sql.Connection;
+import java.util.List;
 
 //scanner
 import java.util.Scanner;
@@ -77,6 +80,7 @@ public class EcommerceService {
     private ItemDAO itemDAO;
     private AutenticacaoDAO autenticacaoDAO;
     private Formulario formulario;
+    private ConsultasDAO consultas;
     
     //views
     private Menus menu;
@@ -92,6 +96,8 @@ public class EcommerceService {
         this.autenticacaoDAO = new AutenticacaoDAO();
         this.avaliacaoDAO = new AvaliacaoDAO();
         
+        //BD
+        this.consultas = new ConsultasDAO();
         
         //Fazer de todos
         //view
@@ -316,5 +322,62 @@ public class EcommerceService {
     
     public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){
         return formulario.lerCarrinho(input, carrinho);
+    }
+    
+    /////////////////////////////////////////////////////////////////
+    //CONSULTAS BD
+    public List<Cliente> listarClientesComEndereco(Connection connection) {
+        return consultas.listarClientesComEndereco(connection);
+    }
+    
+    public List<Avaliacao> listarAvaliacoesComProduto(Connection connection) {
+        return consultas.listarAvaliacoesComProduto(connection);
+    }
+    
+    public List<Carrinho> listarCarrinhosComItensECliente (Connection connection) {
+        return consultas.listarCarrinhosComItensECliente(connection);
+    }
+    
+    ///
+    
+    public List<String> obterQuantidadePedidosPorCliente(Connection connection) {
+        return consultas.obterQuantidadePedidosPorCliente(connection);
+    }
+    
+    public List<String> obterMediaPrecoPorTipoPagamento(Connection connection) {
+        return consultas.obterMediaPrecoPorTipoPagamento(connection);
+    }
+    
+    public List<String> obterProdutosMaisVendidos (Connection connection) {
+        return consultas.obterProdutosMaisVendidos(connection);
+    }
+    
+    ///
+    
+    public int obterTotalPedidosUltimoMes(Connection connection) {
+        return consultas.obterTotalPedidosUltimoMes(connection);
+    }
+    
+    public double obterMediaVendasUltimaSemana(Connection connection) {
+        return consultas.obterMediaVendasUltimaSemana(connection);
+    }
+    
+    public List<String> obterClientesAtivosUltimoMes(Connection connection) {
+        return consultas.obterClientesAtivosUltimoMes(connection);
+    }
+    
+    
+    ///
+    
+    public String obterClienteComMaisPedidos(Connection connection) {
+        return consultas.obterClienteComMaisPedidos(connection);
+    }
+    
+    public List<String> obterClientesComPedidosAcimaDaMedia(Connection connection) {
+        return consultas.obterClientesComPedidosAcimaDaMedia(connection);
+    }
+    
+    public List<String> obterClientesQueGastaramAcimaDaMedia(Connection connection) {
+        return consultas.obterClientesQueGastaramAcimaDaMedia(connection);
     }
 }
