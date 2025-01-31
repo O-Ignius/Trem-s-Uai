@@ -1,8 +1,8 @@
 package ecommerce.model.dao;
 
 //entitys
+import java.sql.Statement;
 import ecommerce.model.entity.Cliente;
-import ecommerce.model.entity.Endereco;
 
 //controller
 import ecommerce.controller.EcommerceController;
@@ -25,13 +25,12 @@ public class ClienteDAO {
     //metodo salvar
     public void salvar(Cliente cliente) {
         String sql = "INSERT INTO cliente (nome, cpf, email, senha, telefone, dataNascimento, nacionalidade, genero, endereco_id) VALUES (?,?,?,?,?,?,?,?,?)";
-        
-        //Salva endereço
+
         //Cadastro de endereco na tabela endereco
-        int endereco = (ecommerceController.cadastrarEndereco(cliente.getEndereco()));
-        
+        int endereco = ecommerceController.cadastrarEndereco(cliente.getEndereco());
+
         try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
+            PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             stmt.setString(1, cliente.getNome());
             stmt.setString(2, cliente.getCpf());
             stmt.setString(3, cliente.getEmail());
@@ -40,13 +39,20 @@ public class ClienteDAO {
             stmt.setDate(6, cliente.getDataNascimento());
             stmt.setString(7, cliente.getNacionalidade());
             stmt.setString(8, cliente.getGenero());
-            
             stmt.setInt(9, endereco);
-            
-            
-            //Tabela Carrinho
-            
-            stmt.execute();
+
+            stmt.executeUpdate(); 
+
+
+            ResultSet rs = stmt.getGeneratedKeys();
+            if (rs.next()) {
+                cliente.setId(rs.getInt(1)); 
+
+                // Criando o carrinho com o ID do cliente
+                ecommerceController.salvarCarrinho(cliente);
+            }
+
+            rs.close();
             stmt.close();
         } catch (SQLException u) {
             throw new RuntimeException(u);
@@ -83,7 +89,7 @@ public class ClienteDAO {
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }
-    }
+    }                 
     
     //metodo excluir
     public void excluir(int id) {
