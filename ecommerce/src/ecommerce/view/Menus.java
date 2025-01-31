@@ -212,7 +212,10 @@ public class Menus{
                     break;
                 case 2:
                     System.out.print("Digite o ID do produto que deseja editar: ");
-                    produto.setId(scan.nextInt());
+                    int idP = scan.nextInt();
+                    scan.nextLine();
+                    produto = ecommerceController.lerProduto(id, scan);
+                    produto.setId(idP);
                     ecommerceController.editarProduto(produto, connection);
                     break;
                 case 3:

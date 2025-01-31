@@ -107,7 +107,7 @@ public class ItemDAO {
     // Método para buscar um Item pelo id
 
     public int buscaItemPorIdCarrinho(int id, Connection connection) {
-        String sql = "select i.id, p.nome, i.quantidadeItem, i.subTotal, p.estoque, p.valor from item i  inner join produto p on (p.id = i.produto_id) where i.carrinho_id =" + id + ";";
+        String sql = "select i.id, p.nome, i.quantidadeItem, i.subTotal as subtotal, p.estoque, p.valor from item i  inner join produto p on (p.id = i.produto_id) where i.carrinho_id =" + id + ";";
         Item item = new Item();
         int encontrado = 0;
         
@@ -119,6 +119,7 @@ public class ItemDAO {
                 encontrado++;
                 item.setId(rs.getInt("i.id"));
                 item.setQuantidade(rs.getInt("quantidadeItem"));
+                item.setSubTotal(rs.getDouble("p.valor") * item.getQuantidade());
                 
                 if(rs.getInt("estoque") < item.getQuantidade()){
                     System.err.println("Quantidade do item excede o estoque, valor alterado!");
@@ -127,7 +128,8 @@ public class ItemDAO {
                     ecommerceController.editarItem(item, connection);
                 } 
                 
-                System.out.println("\nProduto: " + rs.getString("nome") + "\n"
+                System.out.println("\nID Carrinho: " + id + "\n"
+                            + "Produto: " + rs.getString("nome") + "\n"
                             + "Quantidade: " + item.getQuantidade() + "\n"
                             + "Sub Total: " + item.getSubTotal());
             }
