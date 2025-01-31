@@ -94,7 +94,7 @@ public class VendedorDAO {
     
     //metodo get
     public Vendedor get(int id) {
-        Vendedor vendedor = null;
+        Vendedor vendedor = new Vendedor();
         String sql = "SELECT * FROM vendedor WHERE id=?";
         
         try {
@@ -104,7 +104,7 @@ public class VendedorDAO {
             ResultSet rs = stmt.executeQuery();
             
             if (rs.next()) {
-                vendedor = new Vendedor();
+                vendedor.setId(id);
                 vendedor.setNome(rs.getString("nome"));
                 vendedor.setCpf(rs.getString("cpf"));
                 vendedor.setCnpj(rs.getString("cnpj"));
