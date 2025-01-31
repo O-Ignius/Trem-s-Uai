@@ -9,13 +9,19 @@ import java.util.Scanner;
 
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
+import ecommerce.model.entity.Item;
+import ecommerce.model.entity.Carrinho;
 import java.text.SimpleDateFormat;
 
+//controller
+import ecommerce.controller.EcommerceController;
 /**
  *
  * @author Andre
  */
 public class Formulario {
+    
+    private EcommerceController ecommerceController = new EcommerceController(); 
     
     public Produto lerProduto(int id, Scanner scan){
         Produto produto = new Produto();
@@ -161,5 +167,35 @@ public class Formulario {
             System.out.println("Erro ao converter a data: " + e.getMessage());
             return null; // Retorna null em caso de erro
         }
+    }
+    
+    public Item lerItem(Scanner input, int idCliente){
+        Item item = new Item();
+        Produto produto;
+        Cliente cliente = new Cliente();
+        Carrinho carrinho;
+        
+        cliente.setId(idCliente);
+        carrinho = ecommerceController.buscaCarrinhoAtual(idCliente);
+        item.setCarrinho(carrinho);
+        System.out.println("\nDigite o id do produto que deseja adicionar: ");
+        produto = ecommerceController.getProduto(input.nextInt());
+        item.setProduto(produto);
+        
+        System.out.println("\nDigite a quantidade que deseja(Estoque: " + produto.getEstoque() + "):");
+        item.setQuantidadeItem(input.nextInt());
+            
+        while(produto.getEstoque() < item.getQuantidadeItem()){
+            System.err.println("Estoque excedido!");
+            System.out.println("\nDigite a quantidade que deseja(Estoque: " + produto.getEstoque() + "):");
+            item.setQuantidadeItem(input.nextInt());
+        }
+        return item;
+    } 
+    
+    public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){
+        System.out.println("Qual o tipo de pagamento? (1 - Dinheiro 2 - Cartão 3 - PIX)");
+        carrinho.setTipoPagamento(input.nextInt());
+        return carrinho;
     }
 }
