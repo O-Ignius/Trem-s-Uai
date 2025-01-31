@@ -36,10 +36,10 @@ public class ItemDAO {
         
         String sql = "INSERT INTO item (quantidadeItem, subTotal, produto_id, carrinho_id) VALUES (?, ?, ?, ?)";
         
-        item.setSubTotal(item.getProduto().getValor() * item.getQuantidadeItem());
+        item.setSubTotal(item.getProduto().getValor() * item.getQuantidade());
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, item.getQuantidadeItem());
+            stmt.setInt(1, item.getQuantidade());
             stmt.setDouble(2, item.getSubTotal());
             stmt.setInt(3, item.getProduto().getId());
             stmt.setInt(4, item.getCarrinho().getId());
@@ -57,15 +57,41 @@ public class ItemDAO {
         String sql = "UPDATE item SET quantidadeItem = ?, subTotal = ? WHERE id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setInt(1, item.getQuantidadeItem());
+            stmt.setInt(1, item.getQuantidade());
             stmt.setDouble(2, item.getSubTotal());
-            stmt.setInt(5, item.getId());
+            stmt.setInt(3, item.getId());
             stmt.execute();
             stmt.close();
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }
     }
+    
+    public Item getItem(int id){
+        Item item = new Item();
+        String sql = "SELECT * FROM item WHERE id = ?";
+        Carrinho carrinho = new Carrinho();
+        
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                item = new Item();
+                item.setId(rs.getInt("id"));
+                item.setQuantidade(rs.getInt("quantidadeItem"));
+                item.setSubTotal(rs.getDouble("subTotal"));
+                item.setProduto(ecommerceController.getProduto(rs.getInt("produto_id"))); 
+                item.setCarrinho(carrinho); 
+                carrinho.setId(rs.getInt("carrinho_id"));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException u) {
+            throw new RuntimeException(u);
+        }
+        return item;
+    }    
 
     // Método para excluir um Item pelo id
     public void excluir(int id) {
@@ -82,7 +108,8 @@ public class ItemDAO {
 
     // Método para buscar um Item pelo id
     public int buscaItemPorIdCarrinho(int id) {
-        String sql = "select p.nome, i.quantidadeItem, i.subTotal as subTotal from item i  inner join produto p on (p.id = i.produto_id) where i.carrinho_id =" + id + ";";
+        String sql = "select i.id, p.nome, i.quantidadeItem, i.subTotal, p.estoque, p.valor from item i  inner join produto p on (p.id = i.produto_id) where i.carrinho_id =" + id + ";";
+        Item item = new Item();
         int encontrado = 0;
         
         try {
@@ -91,11 +118,20 @@ public class ItemDAO {
 
             while (rs.next()) {
                 encontrado++;
+                item.setId(rs.getInt("i.id"));
+                item.setQuantidade(rs.getInt("quantidadeItem"));
+                
+                if(rs.getInt("estoque") < item.getQuantidade()){
+                    System.err.println("Quantidade do item excede o estoque, valor alterado!");
+                    item.setQuantidade(rs.getInt("p.estoque"));
+                    item.setSubTotal(rs.getDouble("p.valor") * item.getQuantidade());
+                    ecommerceController.editarItem(item);
+                } 
+                
                 System.out.println("\nProduto: " + rs.getString("nome") + "\n"
-                        + "Quantidade: " + rs.getString("quantidadeItem") + "\n"
-                        + "Sub Total: " + rs.getDouble("subTotal"));
+                            + "Quantidade: " + item.getQuantidade() + "\n"
+                            + "Sub Total: " + item.getSubTotal());
             }
-
             rs.close();
             stmt.close();
         } catch (SQLException u) {
@@ -121,5 +157,29 @@ public class ItemDAO {
             throw new RuntimeException(u);
         }
         return total;
+    }
+    
+    public void editaEstoqueItemPorIdCarrinho(int id) {
+        String sql = "select i.id as idItem, p.id as idProduto from item i inner join produto p on (p.id = i.produto_id) where i.carrinho_id =" + id + ";";
+        Produto produto;
+        Item item;
+        
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                produto = ecommerceController.getProduto(rs.getInt("idProduto"));
+                item = ecommerceController.getItem(id);
+                
+                produto.setEstoque(produto.getEstoque() - item.getQuantidade());
+                ecommerceController.editarQuantidadeEstoque(produto);
+            }
+            
+            rs.close();
+            stmt.close();
+        } catch (SQLException u) {
+            throw new RuntimeException(u);
+        }
     }
 }

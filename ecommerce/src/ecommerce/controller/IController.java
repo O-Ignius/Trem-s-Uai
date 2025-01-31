@@ -72,6 +72,8 @@ public interface IController {
     public void excluirItem(int id);
     public int buscaItemPorIdCarrinho(Carrinho carrinho);
     public double somaValorItensCarrinho(int id);
+    public void editaEstoqueItemPorIdCarrinho(int id);
+    public Item getItem(int id);
     
     /////////////////////////////////////////////////////////////////
     //autenticação

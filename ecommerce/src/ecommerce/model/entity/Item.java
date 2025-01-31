@@ -26,11 +26,11 @@ public class Item {
         this.id = id;
     }
 
-    public int getQuantidadeItem() {
+    public int getQuantidade() {
         return quantidadeItem;
     }
 
-    public void setQuantidadeItem(int quantidadeItem) {
+    public void setQuantidade(int quantidadeItem) {
         this.quantidadeItem = quantidadeItem;
     }
 

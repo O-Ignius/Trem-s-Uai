@@ -212,6 +212,11 @@ public class EcommerceController implements IController{
         ecommerceService.excluirItem(id);
     }
     
+    public Item getItem(int id){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.getItem(id);
+    }
+    
     public int buscaItemPorIdCarrinho(Carrinho carrinho){
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.buscaItemPorIdCarrinho(carrinho);
@@ -220,6 +225,11 @@ public class EcommerceController implements IController{
     public double somaValorItensCarrinho(int id) {
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.somaValorItensCarrinho(id);
+    }
+    
+    public void editaEstoqueItemPorIdCarrinho(int id) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editaEstoqueItemPorIdCarrinho(id);
     }
     
     /////////////////////////////////////////////////////////////////

@@ -238,6 +238,10 @@ public class EcommerceService {
         itemDAO.excluir(id);
     }
     
+    public Item getItem(int id){
+        return itemDAO.getItem(id);
+    }
+    
     public int buscaItemPorIdCarrinho(Carrinho carrinho){
         return itemDAO.buscaItemPorIdCarrinho(carrinho.getId());
     }
@@ -245,7 +249,10 @@ public class EcommerceService {
     public double somaValorItensCarrinho(int id) {
         return itemDAO.somaValorItensCarrinho(id);
     }
-
+    
+    public void editaEstoqueItemPorIdCarrinho(int id) {
+        itemDAO.editaEstoqueItemPorIdCarrinho(id);
+    }
     /////////////////////////////////////////////////////////////////
     //autenticação
     public int login(String email, String senha, String tableNome) {
