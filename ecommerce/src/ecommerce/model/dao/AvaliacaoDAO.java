@@ -15,18 +15,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AvaliacaoDAO {
-    private Connection connection;
     private Cliente cliente;
     private Produto produto;
     private EcommerceController ecommerceController = new EcommerceController();
     
     
     public AvaliacaoDAO(){
-        connection = new Conexao().getConnection();
     }
     
     //metodo salvar
-    public void salvar(Avaliacao avaliacao) {      
+    public void salvar(Avaliacao avaliacao, Connection connection) {      
         String sql = "INSERT INTO avaliacao (nota, comentario, data, cliente_id, produto_id VALUES (?,?,?,?,?)";
         try {
             cliente = new Cliente();
@@ -52,7 +50,7 @@ public class AvaliacaoDAO {
         }
     }
     //metodo editar
-    public void editar(Avaliacao avaliacao) {      
+    public void editar(Avaliacao avaliacao, Connection connection) {      
         String sql = "UPDATE avaliacao SET nota = ?, comentario = ?, data = ? WHERE cliente_id = ? AND produto_id = ?";
         try {
             cliente = new Cliente();
@@ -79,7 +77,7 @@ public class AvaliacaoDAO {
     }
     
     //metodo excluir
-    public void excluir(int idCliente, int idProduto) {
+    public void excluir(int idCliente, int idProduto, Connection connection) {
         String sql = "DELETE FROM avaliacao WHERE cliente_id = ? AND produto_id = ?";
         
         try {
@@ -94,7 +92,7 @@ public class AvaliacaoDAO {
     }
     
     //metodo get
-    public Avaliacao get(int idCliente, int idProduto) {
+    public Avaliacao get(int idCliente, int idProduto, Connection connection) {
         Avaliacao avaliacao = null;
         String sql = "SELECT * FROM avaliacao cliente_id = ? AND produto_id = ?";
         
@@ -112,10 +110,10 @@ public class AvaliacaoDAO {
                 avaliacao.setData(rs.getDate("data"));
                 
                 //get cliente
-                ecommerceController.getCliente(rs.getInt("cliente"));
+                ecommerceController.getCliente(rs.getInt("cliente"), connection);
                 
                 //get produto
-                ecommerceController.getProduto(rs.getInt("produto"));
+                ecommerceController.getProduto(rs.getInt("produto"), connection);
             }
             
             rs.close();

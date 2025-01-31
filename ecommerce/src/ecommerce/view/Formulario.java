@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat;
 
 //controller
 import ecommerce.controller.EcommerceController;
+import java.sql.Connection;
 /**
  *
  * @author Andre
@@ -169,17 +170,17 @@ public class Formulario {
         }
     }
     
-    public Item lerItem(Scanner input, int idCliente){
+    public Item lerItem(Scanner input, int idCliente, Connection connection){
         Item item = new Item();
         Produto produto;
         Cliente cliente = new Cliente();
         Carrinho carrinho;
         
         cliente.setId(idCliente);
-        carrinho = ecommerceController.buscaCarrinhoAtual(idCliente);
+        carrinho = ecommerceController.buscaCarrinhoAtual(idCliente, connection);
         item.setCarrinho(carrinho);
         System.out.println("\nDigite o id do produto que deseja adicionar: ");
-        produto = ecommerceController.getProduto(input.nextInt());
+        produto = ecommerceController.getProduto(input.nextInt(), connection);
         item.setProduto(produto);
         
         System.out.println("\nDigite a quantidade que deseja(Estoque: " + produto.getEstoque() + "):");

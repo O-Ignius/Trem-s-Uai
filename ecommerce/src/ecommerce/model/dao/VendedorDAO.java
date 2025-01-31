@@ -5,7 +5,6 @@ import ecommerce.model.entity.Vendedor;
 
 //controller
 import ecommerce.controller.EcommerceController;
-import ecommerce.model.entity.Endereco;
 
 //imports obrigatorios
 import java.sql.Connection;
@@ -14,20 +13,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class VendedorDAO {
-    private Connection connection;
     private EcommerceController ecommerceController = new EcommerceController(); 
     
     public VendedorDAO(){
-        connection = new Conexao().getConnection();
     }
     
     //metodo salvar
-    public void salvar(Vendedor vendedor) {      
+    public void salvar(Vendedor vendedor, Connection connection) {      
         String sql = "INSERT INTO vendedor (nome, cpf, cnpj, email, senha, telefone, dataNascimento, nacionalidade, genero, endereco_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
         
         //Salva endereço
         //Cadastro de endereco na tabela endereco
-        int endereco = (ecommerceController.cadastrarEndereco(vendedor.getEndereco())); 
+        int endereco = (ecommerceController.cadastrarEndereco(vendedor.getEndereco(), connection)); 
         
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -53,11 +50,11 @@ public class VendedorDAO {
         }
     }
     //metodo editar
-    public void editar(Vendedor vendedor, int id) {      
+    public void editar(Vendedor vendedor, int id, Connection connection) {      
         String sql = "UPDATE vendedor SET nome = ?, cpf = ?, cnpj = ?, email = ?, senha = ?, telefone = ?, dataNascimento = ?, nacionalidade = ?, genero = ? WHERE id = ?";
                      
         //coleta id do endereco atual
-        int idEndereco = get(id).getEndereco().getId();
+        int idEndereco = get(id, connection).getEndereco().getId();
         
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -72,7 +69,7 @@ public class VendedorDAO {
             stmt.setString(9, vendedor.getGenero());
       
             //Cadastro de endereco na tabela endereco
-            ecommerceController.editarEndereco(vendedor.getEndereco(), idEndereco);
+            ecommerceController.editarEndereco(vendedor.getEndereco(), idEndereco, connection);
             
             stmt.setInt(10, id);
             
@@ -87,13 +84,13 @@ public class VendedorDAO {
     }
     
     //metodo excluir
-    public void excluir(int id) {
-        Vendedor vendedor = get(id);
-        ecommerceController.excluirEndereco(vendedor.getEndereco().getId());
+    public void excluir(int id, Connection connection) {
+        Vendedor vendedor = get(id, connection);
+        ecommerceController.excluirEndereco(vendedor.getEndereco().getId(), connection);
     }
     
     //metodo get
-    public Vendedor get(int id) {
+    public Vendedor get(int id, Connection connection) {
         Vendedor vendedor = new Vendedor();
         String sql = "SELECT * FROM vendedor WHERE id=?";
         
@@ -116,7 +113,7 @@ public class VendedorDAO {
                 vendedor.setGenero(rs.getString("genero"));
                 
                 //tabela endereco
-                vendedor.setEndereco(ecommerceController.getEndereco(rs.getInt("endereco_id")));
+                vendedor.setEndereco(ecommerceController.getEndereco(rs.getInt("endereco_id"), connection));
                 
             }
             

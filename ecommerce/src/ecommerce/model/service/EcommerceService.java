@@ -30,6 +30,7 @@ import ecommerce.model.entity.Item;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import ecommerce.view.Formulario;
+import java.sql.Connection;
 
 //scanner
 import java.util.Scanner;
@@ -100,156 +101,156 @@ public class EcommerceService {
     } 
     
     //cliente
-    public void salvarCliente(Cliente cliente){
-        clienteDAO.salvar(cliente);
+    public void salvarCliente(Cliente cliente, Connection connection){
+        clienteDAO.salvar(cliente, connection);
     }
     
-    public void editarCliente(Cliente cliente, int id){
-        clienteDAO.editar(cliente, id);
+    public void editarCliente(Cliente cliente, int id, Connection connection){
+        clienteDAO.editar(cliente, id, connection);
     }
     
-    public void excluirCliente(int id){
-        clienteDAO.excluir(id);
+    public void excluirCliente(int id, Connection connection){
+        clienteDAO.excluir(id, connection);
     }
     
-    public Cliente getCliente(int id){
-        return clienteDAO.get(id);
+    public Cliente getCliente(int id, Connection connection){
+        return clienteDAO.get(id, connection);
     }
     
     /////////////////////////////////////////////////////////////////
     //endereço
-    public int salvarEndereco(Endereco endereco){
-        return enderecoDAO.salvar(endereco);
+    public int salvarEndereco(Endereco endereco, Connection connection){
+        return enderecoDAO.salvar(endereco, connection);
     }
     
-    public void editarEndereco(Endereco endereco, int id){
-        enderecoDAO.editar(endereco, id);
+    public void editarEndereco(Endereco endereco, int id, Connection connection){
+        enderecoDAO.editar(endereco, id, connection);
     }
     
-    public void excluirEndereco(int id){
-        enderecoDAO.excluir(id);
+    public void excluirEndereco(int id, Connection connection){
+        enderecoDAO.excluir(id, connection);
     }
     
-    public Endereco getEndereco(int id){
-        return enderecoDAO.get(id);
+    public Endereco getEndereco(int id, Connection connection){
+        return enderecoDAO.get(id, connection);
     }
     
     /////////////////////////////////////////////////////////////////
     //vendedor
-    public void salvarVendedor(Vendedor vendedor){
-        vendedorDAO.salvar(vendedor);
+    public void salvarVendedor(Vendedor vendedor, Connection connection){
+        vendedorDAO.salvar(vendedor, connection);
     }
     
-    public void editarVendedor(Vendedor vendedor, int id){
-        vendedorDAO.editar(vendedor, id);
+    public void editarVendedor(Vendedor vendedor, int id, Connection connection){
+        vendedorDAO.editar(vendedor, id, connection);
     }
     
-    public void excluirVendedor(int id){
-        vendedorDAO.excluir(id);
+    public void excluirVendedor(int id, Connection connection){
+        vendedorDAO.excluir(id, connection);
     }
     
-    public Vendedor getVendedor(int id){
-        return vendedorDAO.get(id);
+    public Vendedor getVendedor(int id, Connection connection){
+        return vendedorDAO.get(id, connection);
     }
     
     /////////////////////////////////////////////////////////////////
     //produto
     
-    public void salvarProduto(Produto produto){
-        produtoDAO.salvar(produto);
+    public void salvarProduto(Produto produto, Connection connection){
+        produtoDAO.salvar(produto, connection);
     }
     
-    public void editarProduto(Produto produto){
-        produtoDAO.editar(produto);
+    public void editarProduto(Produto produto, Connection connection){
+        produtoDAO.editar(produto, connection);
     }
     
-    public void excluirProduto(int id){
-        produtoDAO.excluir(id);
+    public void excluirProduto(int id, Connection connection){
+        produtoDAO.excluir(id, connection);
     }
     
-    public int buscarPornome(String nome){
-        return produtoDAO.buscaPorNome(nome);
+    public int buscarPornome(String nome, Connection connection){
+        return produtoDAO.buscaPorNome(nome, connection);
     }
     
-    public Produto getProduto(int id) {
-        return produtoDAO.getProduto(id);
+    public Produto getProduto(int id, Connection connection) {
+        return produtoDAO.getProduto(id, connection);
     }
     
-    public void buscaProdutosPorIdVendedor(int id){
-        produtoDAO.buscaProdutosPorIdVendedor(id);
+    public void buscaProdutosPorIdVendedor(int id, Connection connection){
+        produtoDAO.buscaProdutosPorIdVendedor(id, connection);
     }
     
-    public void editarQuantidadeEstoque(Produto produto) {
-        produtoDAO.editarQuantidadeEstoque(produto);
+    public void editarQuantidadeEstoque(Produto produto, Connection connection) {
+        produtoDAO.editarQuantidadeEstoque(produto, connection);
     }
     
     /////////////////////////////////////////////////////////////////
     //avaliacao
-    public void salvarAvaliacao(Avaliacao avaliacao){
-        avaliacaoDAO.salvar(avaliacao);
+    public void salvarAvaliacao(Avaliacao avaliacao, Connection connection){
+        avaliacaoDAO.salvar(avaliacao, connection);
     }
     
-    public void editarProduto(Avaliacao avaliacao){
-        avaliacaoDAO.editar(avaliacao);
+    public void editarProduto(Avaliacao avaliacao, Connection connection){
+        avaliacaoDAO.editar(avaliacao, connection);
     }
     
-    public void excluirAvaliacao(int idCliente, int idVendedor){
-        avaliacaoDAO.excluir(idCliente, idVendedor);
+    public void excluirAvaliacao(int idCliente, int idVendedor, Connection connection){
+        avaliacaoDAO.excluir(idCliente, idVendedor, connection);
     }
     
-    public Avaliacao getAvaliacao(int idCliente, int idVendedor) {
-        return avaliacaoDAO.get(idCliente, idVendedor);
+    public Avaliacao getAvaliacao(int idCliente, int idVendedor, Connection connection) {
+        return avaliacaoDAO.get(idCliente, idVendedor, connection);
     }
     
     /////////////////////////////////////////////////////////////////
     //carrinho
     
-    public void salvarCarrinho(Cliente cliente){
-        carrinhoDAO.salvar(cliente);
+    public void salvarCarrinho(Cliente cliente, Connection connection){
+        carrinhoDAO.salvar(cliente, connection);
     }
     
-    public Carrinho buscaCarrinhoAtual(int id_Cliente){
-        return carrinhoDAO.buscaCarrinhoAtual(id_Cliente);
+    public Carrinho buscaCarrinhoAtual(int id_Cliente, Connection connection){
+        return carrinhoDAO.buscaCarrinhoAtual(id_Cliente, connection);
     }
     
-    public void alterarPrecoTotalCarrinho(Carrinho carrinho) {
-        carrinhoDAO.alterarPrecoTotalCarrinho(carrinho);
+    public void alterarPrecoTotalCarrinho(Carrinho carrinho, Connection connection) {
+        carrinhoDAO.alterarPrecoTotalCarrinho(carrinho, connection);
     }
     
-    public void finalizarCarrinho(Carrinho carrinho) {
-        carrinhoDAO.finalizarCarrinho(carrinho);
+    public void finalizarCarrinho(Carrinho carrinho, Connection connection) {
+        carrinhoDAO.finalizarCarrinho(carrinho, connection);
     }
     
-    public void buscaPedidosFinalizados(int idCliente){
-        carrinhoDAO.buscaPedidosFinalizados(idCliente);
+    public void buscaPedidosFinalizados(int idCliente, Connection connection){
+        carrinhoDAO.buscaPedidosFinalizados(idCliente, connection);
     }
     /////////////////////////////////////////////////////////////////
     //item
 
-    public void salvarItem(Item item){
-        itemDAO.salvar(item);
+    public void salvarItem(Item item, Connection connection){
+        itemDAO.salvar(item, connection);
     }
     
-    public void editarItem(Item Item){
-        itemDAO.editar(Item);
+    public void editarItem(Item Item, Connection connection){
+        itemDAO.editar(Item, connection);
     }
     
-    public void excluirItem(int id){
-        itemDAO.excluir(id);
+    public void excluirItem(int id, Connection connection){
+        itemDAO.excluir(id, connection);
     }
     
-    public int buscaItemPorIdCarrinho(Carrinho carrinho){
-        return itemDAO.buscaItemPorIdCarrinho(carrinho.getId());
+    public int buscaItemPorIdCarrinho(Carrinho carrinho, Connection connection){
+        return itemDAO.buscaItemPorIdCarrinho(carrinho.getId(), connection);
     }
     
-    public double somaValorItensCarrinho(int id) {
-        return itemDAO.somaValorItensCarrinho(id);
+    public double somaValorItensCarrinho(int id, Connection connection) {
+        return itemDAO.somaValorItensCarrinho(id, connection);
     }
 
     /////////////////////////////////////////////////////////////////
     //autenticação
-    public int login(String email, String senha, String tableNome) {
-        return autenticacaoDAO.login(email, senha, tableNome);
+    public int login(String email, String senha, String tableNome, Connection connection) {
+        return autenticacaoDAO.login(email, senha, tableNome, connection);
     }
     
     /////////////////////////////////////////////////////////////////
@@ -258,34 +259,34 @@ public class EcommerceService {
         menu.cadastroLogin();
     }
 
-    public void cadastroMenu(Scanner input) {
-        menu.cadastro(input);
+    public void cadastroMenu(Scanner input, Connection connection) {
+        menu.cadastro(input, connection);
     }
     
-    public void loginMenu(Scanner input) {
-        menu.login(input);
+    public void loginMenu(Scanner input, Connection connection) {
+        menu.login(input, connection);
     }
 
-    public void clienteMenu(int id, Scanner input) {
-        menu.cliente(id, input);
+    public void clienteMenu(int id, Scanner input, Connection connection) {
+        menu.cliente(id, input, connection);
     }
     
-    public void vendedorMenu(int id, Scanner input) {
-        menu.vendedor(id, input);
+    public void vendedorMenu(int id, Scanner input, Connection connection) {
+        menu.vendedor(id, input, connection);
     }
     
     /////////////////////////////////////////////////////////////////
     //View - Autenticacao
-    public void cadastroClienteAutenticacao(Scanner input) {
-        autenticacao.cadastroCliente(input);
+    public void cadastroClienteAutenticacao(Scanner input, Connection connection) {
+        autenticacao.cadastroCliente(input, connection);
     }
     
-    public void cadastroVendedorAutenticacao(Scanner input) {
-        autenticacao.cadastroVendedor(input);
+    public void cadastroVendedorAutenticacao(Scanner input, Connection connection) {
+        autenticacao.cadastroVendedor(input, connection);
     }
     
-    public int loginAutenticacao(String email, String senha, Scanner input) {
-        return autenticacao.login(email, senha, input);
+    public int loginAutenticacao(String email, String senha, Scanner input, Connection connection) {
+        return autenticacao.login(email, senha, input, connection);
     }
     
     /////////////////////////////////////////////////////////////////
@@ -302,8 +303,8 @@ public class EcommerceService {
     public Produto lerProduto(int id, Scanner input){
         return formulario.lerProduto(id, input);
     }
-    public Item lerItem(Scanner input, int idCliente){
-        return formulario.lerItem(input, idCliente);
+    public Item lerItem(Scanner input, int idCliente, Connection connection){
+        return formulario.lerItem(input, idCliente, connection);
     }
     
     public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){

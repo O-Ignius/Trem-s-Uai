@@ -21,15 +21,13 @@ import ecommerce.controller.EcommerceController;
  * @author Andre
  */
 public class CarrinhoDAO {
-    private Connection connection;
     private EcommerceController ecommerceController = new EcommerceController();
     
     public CarrinhoDAO() {
-        connection = new Conexao().getConnection();
     }
 
     // Método para salvar um novo Carrinho
-    public void salvar(Cliente cliente) {
+    public void salvar(Cliente cliente, Connection connection) {
         String sql = "INSERT INTO carrinho (cliente_id, fechado) VALUES (?, ?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -42,7 +40,7 @@ public class CarrinhoDAO {
         }
     }
     
-    public Carrinho buscaCarrinhoAtual(int id_Cliente){
+    public Carrinho buscaCarrinhoAtual(int id_Cliente, Connection connection){
         Carrinho carrinho = new Carrinho();  
         Cliente cliente = new Cliente();
         cliente.setId(id_Cliente);
@@ -66,12 +64,12 @@ public class CarrinhoDAO {
         return carrinho;
     }
     
-    public void alterarPrecoTotalCarrinho(Carrinho carrinho) {
+    public void alterarPrecoTotalCarrinho(Carrinho carrinho, Connection connection) {
         String sql = "UPDATE carrinho SET precoTotal = ? WHERE carrinho.id ="+ carrinho.getId();
         
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
-            double total = ecommerceController.somaValorItensCarrinho(carrinho.getId());
+            double total = ecommerceController.somaValorItensCarrinho(carrinho.getId(), connection);
             System.out.println("VALOR TOTAL CARRINHO: " + total);
             stmt.setDouble(1, total);
             stmt.execute();
@@ -81,7 +79,7 @@ public class CarrinhoDAO {
         }
     }
     
-    public void finalizarCarrinho(Carrinho carrinho) {
+    public void finalizarCarrinho(Carrinho carrinho, Connection connection) {
         String sql = "UPDATE carrinho SET fechado = ?, dataPedido = ?, tipoPagamento = ?, cliente_id = ? WHERE id = ?";
         Date dataAtual = new Date(System.currentTimeMillis());
 
@@ -96,13 +94,13 @@ public class CarrinhoDAO {
             stmt.execute();
             stmt.close();
             
-            salvar(carrinho.getCliente());
+            salvar(carrinho.getCliente(), connection);
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }
     }
     
-    public void buscaPedidosFinalizados(int idCliente){
+    public void buscaPedidosFinalizados(int idCliente, Connection connection){
         String sql = "select c.id from carrinho c where c.cliente_id =" + idCliente + " and c.fechado = true;";
         Carrinho carrinho = new Carrinho();
         
@@ -112,7 +110,7 @@ public class CarrinhoDAO {
 
             while (rs.next()) {
                 carrinho.setId(rs.getInt("id"));
-                ecommerceController.buscaItemPorIdCarrinho(carrinho);
+                ecommerceController.buscaItemPorIdCarrinho(carrinho, connection);
             }
 
             stmt.execute();

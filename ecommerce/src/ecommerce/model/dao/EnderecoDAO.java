@@ -10,13 +10,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class EnderecoDAO {
-    private Connection connection;  
     
     public EnderecoDAO(){
-        connection = new Conexao().getConnection();
     }
     
-    public int salvar(Endereco endereco) {      
+    public int salvar(Endereco endereco, Connection connection) {      
         String sql = "INSERT INTO endereco (cep, rua, complemento, logradouro, bairro, cidade, estado, numero) VALUES (?,?,?,?,?,?,?,?)";
         ResultSet idGerado;
         
@@ -45,7 +43,7 @@ public class EnderecoDAO {
     }
     
     //metodo editar
-    public void editar(Endereco endereco, int id) {      
+    public void editar(Endereco endereco, int id, Connection connection) {      
         String sql = "UPDATE endereco SET cep = ?, rua = ?, complemento = ?, logradouro = ?, bairro = ?, cidade = ?, estado = ?, numero = ? WHERE id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -66,7 +64,7 @@ public class EnderecoDAO {
     }
     
     //metodo excluir
-    public void excluir(int id) {
+    public void excluir(int id, Connection connection) {
         String sql = "DELETE FROM endereco WHERE id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -79,7 +77,7 @@ public class EnderecoDAO {
     }
     
     //metodo get
-    public Endereco get(int id) {
+    public Endereco get(int id, Connection connection) {
         Endereco endereco = null;
         String sql = "SELECT * FROM endereco WHERE id=?";
         

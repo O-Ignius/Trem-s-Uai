@@ -19,17 +19,15 @@ import ecommerce.controller.EcommerceController;
 import java.sql.*;
 
 public class ItemDAO {
-    private Connection connection;
     private EcommerceController ecommerceController = new EcommerceController(); 
     
     public ItemDAO() {
-        connection = new Conexao().getConnection();
     }
 
     // Método para salvar um novo Item
-    public void salvar(Item item) {
-        Carrinho carrinho = ecommerceController.buscaCarrinhoAtual(item.getCarrinho().getCliente().getId());
-        Produto produto = ecommerceController.getProduto(item.getProduto().getId());
+    public void salvar(Item item, Connection connection) {
+        Carrinho carrinho = ecommerceController.buscaCarrinhoAtual(item.getCarrinho().getCliente().getId(), connection);
+        Produto produto = ecommerceController.getProduto(item.getProduto().getId(), connection);
         
         item.setCarrinho(carrinho);
         item.setProduto(produto);
@@ -46,14 +44,14 @@ public class ItemDAO {
             stmt.execute();
             stmt.close();
             
-            ecommerceController.alterarPrecoTotalCarrinho(item.getCarrinho());
+            ecommerceController.alterarPrecoTotalCarrinho(item.getCarrinho(),connection);
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }
     }
 
     // Método para editar um Item existente
-    public void editar(Item item) {
+    public void editar(Item item, Connection connection) {
         String sql = "UPDATE item SET quantidadeItem = ?, subTotal = ? WHERE id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -68,7 +66,7 @@ public class ItemDAO {
     }
 
     // Método para excluir um Item pelo id
-    public void excluir(int id) {
+    public void excluir(int id, Connection connection) {
         String sql = "DELETE FROM item WHERE id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -81,7 +79,7 @@ public class ItemDAO {
     }
 
     // Método para buscar um Item pelo id
-    public int buscaItemPorIdCarrinho(int id) {
+    public int buscaItemPorIdCarrinho(int id, Connection connection) {
         String sql = "select p.nome, i.quantidadeItem, i.subTotal as subTotal from item i  inner join produto p on (p.id = i.produto_id) where i.carrinho_id =" + id + ";";
         int encontrado = 0;
         
@@ -104,7 +102,7 @@ public class ItemDAO {
         return encontrado;
     }
     
-    public double somaValorItensCarrinho(int id) {
+    public double somaValorItensCarrinho(int id, Connection connection) {
         String sql = "select sum(i.subTotal) as subTotal from item i where i.carrinho_id =" + id + ";";
         double total = 0;
         try {

@@ -16,15 +16,13 @@ import java.sql.*;
 import ecommerce.controller.EcommerceController;
 
 public class ProdutoDAO {
-    private Connection connection;
     private EcommerceController ecommerceController = new EcommerceController();
 
     public ProdutoDAO() {
-        connection = new Conexao().getConnection();
     }
 
     // Método para salvar um novo Produto
-    public void salvar(Produto produto) {
+    public void salvar(Produto produto, Connection connection) {
         String sql = "INSERT INTO produto (nome, descricao, valor, estoque, vendedor_id) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -41,7 +39,7 @@ public class ProdutoDAO {
     }
 
     // Método para editar um Produto existente
-    public void editar(Produto produto) {
+    public void editar(Produto produto, Connection connection) {
         String sql = "UPDATE produto SET nome = ?, descricao = ?, valor = ?, estoque = ?, vendedor_id = ? WHERE id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -59,7 +57,7 @@ public class ProdutoDAO {
     }
 
     // Método para excluir um Produto pelo id
-    public void excluir(int id) {
+    public void excluir(int id, Connection connection) {
         String sql = "DELETE FROM produto WHERE id = ?";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -72,7 +70,7 @@ public class ProdutoDAO {
     }
 
     // Método para buscar um Produto pelo nome
-    public int buscaPorNome(String nome) {
+    public int buscaPorNome(String nome, Connection connection) {
         VendedorDAO vendedorDAO = new VendedorDAO();
         Vendedor vendedor = new Vendedor();
         int encontrado = 0;
@@ -84,7 +82,7 @@ public class ProdutoDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 encontrado++;
-                vendedor = ecommerceController.getVendedor(rs.getInt("vendedor_id"));
+                vendedor = ecommerceController.getVendedor(rs.getInt("vendedor_id"), connection);
 
                 System.out.println("Id: " + rs.getInt("id") + "\n"
                         + "Nome: " + rs.getString("nome") + "\n"
@@ -102,7 +100,7 @@ public class ProdutoDAO {
     }
 
     // Método para buscar Produtos pelo Vendendor
-    public void buscaProdutosPorIdVendedor(int id) {
+    public void buscaProdutosPorIdVendedor(int id, Connection connection) {
         VendedorDAO vendedorDAO = new VendedorDAO();
         Vendedor vendedor = new Vendedor();
 
@@ -111,7 +109,7 @@ public class ProdutoDAO {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                vendedor = vendedorDAO.get(id);
+                vendedor = vendedorDAO.get(id, connection);
 
                 System.out.println("\nNome: " + rs.getString("nome") + "\n"
                         + "Descrição: " + rs.getString("descricao") + "\n"
@@ -126,7 +124,7 @@ public class ProdutoDAO {
         }
     }
 
-    public Produto getProduto(int id) {
+    public Produto getProduto(int id, Connection connection) {
         Produto produto = null;
         String sql = "SELECT * FROM produto WHERE id = ?";
         try {
@@ -141,7 +139,7 @@ public class ProdutoDAO {
                 produto.setValor(rs.getDouble("valor"));
                 produto.setEstoque(rs.getInt("estoque"));
 
-                produto.setVendedor(ecommerceController.getVendedor(rs.getInt("vendedor_id")));
+                produto.setVendedor(ecommerceController.getVendedor(rs.getInt("vendedor_id"), connection));
             }
             rs.close();
             stmt.close();
@@ -151,7 +149,7 @@ public class ProdutoDAO {
         return produto;
     }
     
-    public void editarQuantidadeEstoque(Produto produto) {
+    public void editarQuantidadeEstoque(Produto produto, Connection connection) {
         String sql = "UPDATE produto SET estoque = " + produto.getEstoque() +" WHERE id =" + produto.getId();
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);

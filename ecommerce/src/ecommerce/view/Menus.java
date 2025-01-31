@@ -2,6 +2,10 @@ package ecommerce.view;
 
 //controller
 import ecommerce.controller.EcommerceController;
+import ecommerce.model.dao.Conexao;
+
+//connection
+import java.sql.Connection;
 
 //entitys
 import ecommerce.model.entity.Cliente;
@@ -17,6 +21,8 @@ public class Menus{
     
     public void cadastroLogin() {
         Scanner input = new Scanner(System.in);
+        //para se conectar uma unica vez ao BD
+        Connection connection = new Conexao().getConnection();
         
         int op = -1;
         
@@ -35,10 +41,10 @@ public class Menus{
                 
             switch (op) {
                 case 1:
-                    login(input);
+                    login(input, connection);
                     break; //retorna para menu principal
                 case 2:
-                    cadastro(input);
+                    cadastro(input, connection);
                     break;
                 case 0:
                     break;
@@ -51,7 +57,7 @@ public class Menus{
         input.close();
     }
     
-    public void cadastro(Scanner input) {
+    public void cadastro(Scanner input, Connection connection) {
         int op = -1;
         
         while (op != 0) {
@@ -69,10 +75,10 @@ public class Menus{
 
             switch (op) {
                 case 1:
-                    ecommerceController.cadastroClienteAutenticacao(input);
+                    ecommerceController.cadastroClienteAutenticacao(input, connection);
                     return; //retorna para menu principal
                 case 2:
-                    ecommerceController.cadastroVendedorAutenticacao(input);
+                    ecommerceController.cadastroVendedorAutenticacao(input, connection);
                     return; //retorna para menu principal
                 case 0:
                     return;
@@ -82,7 +88,7 @@ public class Menus{
         }
     }
     
-    public void login(Scanner input) {
+    public void login(Scanner input, Connection connection) {
         String email = new String();
         String senha = new String();
         int tentarNovamente;
@@ -100,14 +106,14 @@ public class Menus{
             senha = input.nextLine();
             System.out.println("");
 
-            if (ecommerceController.loginAutenticacao(email, senha, input) == -1) {
+            if (ecommerceController.loginAutenticacao(email, senha, input, connection) == -1) {
                 System.out.println("Deseja tentar novamente? (1: Sim    0: Não)");
                 tentarNovamente = input.nextInt();
             } 
         } while (tentarNovamente != 0);
     }
     
-    public void cliente(int id, Scanner scan) {
+    public void cliente(int id, Scanner scan, Connection connection) {
         EcommerceController ecommerceController = new EcommerceController();
         int opcao = - 99;
         Cliente cliente = new Cliente();
@@ -134,38 +140,38 @@ public class Menus{
                     return;
                 case 1:
                     System.out.print("Digite o nome do produto que deseja buscar: ");
-                    if(ecommerceController.buscarPornome(scan.nextLine()) > 0){
+                    if(ecommerceController.buscarPornome(scan.nextLine(), connection) > 0){
                         System.out.println("Deseja adcionar ao carrinho? (Sim - 1/Não- 2)");
                         opcao = scan.nextInt();
                         if(opcao == 1){
-                            ecommerceController.salvarItem(ecommerceController.lerItem(scan, id));
+                            ecommerceController.salvarItem(ecommerceController.lerItem(scan, id, connection), connection);
                         }
                         opcao = 1;
                     }
                     break;
                 case 2:
-                    if(ecommerceController.buscaItemPorIdCarrinho(ecommerceController.buscaCarrinhoAtual(id)) > 0){
+                    if(ecommerceController.buscaItemPorIdCarrinho(ecommerceController.buscaCarrinhoAtual(id, connection), connection) > 0){
                         System.out.println("Deseja finalizar o carrinho? (Sim - 1/Não- 2)");
                         opcao = scan.nextInt();
                         if(opcao == 1){
-                            carrinho = ecommerceController.lerCarrinho(scan, ecommerceController.buscaCarrinhoAtual(id));
-                            ecommerceController.finalizarCarrinho(carrinho);
+                            carrinho = ecommerceController.lerCarrinho(scan, ecommerceController.buscaCarrinhoAtual(id, connection));
+                            ecommerceController.finalizarCarrinho(carrinho, connection);
                         }
                         opcao = 2;
                     }
                     break;
                 case 3:
-                    ecommerceController.buscaPedidosFinalizados(id);
+                    ecommerceController.buscaPedidosFinalizados(id, connection);
                     break;
                 case 4:
                     cliente = ecommerceController.lerCliente(scan);
                     //lendo endereco
                     cliente.setEndereco(ecommerceController.lerEndereco(scan));
                     cliente.setId(id);
-                    ecommerceController.editarCliente(cliente, id);
+                    ecommerceController.editarCliente(cliente, id, connection);
                     break;
                 case 5:
-                    ecommerceController.excluirCliente(id);
+                    ecommerceController.excluirCliente(id, connection);
                     return;
                 default:
                     System.out.println("Opção inválida!");
@@ -173,7 +179,7 @@ public class Menus{
         }
     }
     
-    public void vendedor(int id, Scanner scan) {
+    public void vendedor(int id, Scanner scan, Connection connection) {
         EcommerceController ecommerceController = new EcommerceController();
         int opcao = - 99;
         
@@ -200,29 +206,29 @@ public class Menus{
                 case 0:
                     return;
                 case 1:
-                    ecommerceController.salvarProduto(ecommerceController.lerProduto(id, scan));
+                    ecommerceController.salvarProduto(ecommerceController.lerProduto(id, scan), connection);
                     break;
                 case 2:
                     System.out.print("Digite o ID do produto que deseja editar: ");
                     produto.setId(scan.nextInt());
-                    ecommerceController.editarProduto(produto);
+                    ecommerceController.editarProduto(produto, connection);
                     break;
                 case 3:
                     System.out.print("Digite o ID do produto que deseja excluir: ");
-                    ecommerceController.excluirProduto(scan.nextInt());
+                    ecommerceController.excluirProduto(scan.nextInt(), connection);
                     break;
                 case 4:
-                    ecommerceController.buscaProdutosPorIdVendedor(id);
+                    ecommerceController.buscaProdutosPorIdVendedor(id, connection);
                     break;
                 case 5:
                     vendedor = ecommerceController.lerVendedor(scan);
                     //lendo endereco
                     vendedor.setEndereco(ecommerceController.lerEndereco(scan));
                     vendedor.setId(id);
-                    ecommerceController.editarVendedor(vendedor, id);
+                    ecommerceController.editarVendedor(vendedor, id, connection);
                     break;
                 case 6:
-                    ecommerceController.excluirVendedor(id);
+                    ecommerceController.excluirVendedor(id, connection);
                     return;
                 default:
                     System.out.println("Opção inválida!");

@@ -7,14 +7,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class AutenticacaoDAO {
-    private Connection connection;
     
     public AutenticacaoDAO() {
-        connection = new Conexao().getConnection();
     }
     
     //login
-    public int login(String email, String senha, String tableNome) {
+    public int login(String email, String senha, String tableNome, Connection connection) {
         String sql = "SELECT id FROM " + tableNome + " WHERE email = ? AND senha = ?";
         int id;
         

@@ -12,6 +12,7 @@ import ecommerce.model.entity.Vendedor;
 
 //Service
 import ecommerce.model.service.EcommerceService;
+import java.sql.Connection;
 import java.util.Scanner;
 
 public class EcommerceController implements IController{
@@ -47,186 +48,186 @@ public class EcommerceController implements IController{
     */ 
     
     //cliente
-    public void cadastrarCliente(Cliente cliente) {
+    public void cadastrarCliente(Cliente cliente, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarCliente(cliente);
+        ecommerceService.salvarCliente(cliente, connection);
     }
     
-    public void editarCliente(Cliente cliente, int id) {
+    public void editarCliente(Cliente cliente, int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarCliente(cliente, id);
+        ecommerceService.editarCliente(cliente, id, connection);
     }
     
-    public void excluirCliente(int id) {
+    public void excluirCliente(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.excluirCliente(id);
+        ecommerceService.excluirCliente(id, connection);
     }
     
-    public Cliente getCliente(int id) {
+    public Cliente getCliente(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.getCliente(id);
+        return ecommerceService.getCliente(id, connection);
     }
     
     ///////////////////////////////////////////////////////////////////////
     //endereco
-    public int cadastrarEndereco(Endereco endereco) {
+    public int cadastrarEndereco(Endereco endereco, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.salvarEndereco(endereco);
+        return ecommerceService.salvarEndereco(endereco, connection);
     }
     
-    public void editarEndereco(Endereco endereco, int id) {
+    public void editarEndereco(Endereco endereco, int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarEndereco(endereco, id);
+        ecommerceService.editarEndereco(endereco, id, connection);
     }
     
-    public void excluirEndereco(int id) {
+    public void excluirEndereco(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.excluirEndereco(id);
+        ecommerceService.excluirEndereco(id, connection);
     }
     
-    public Endereco getEndereco(int id) {
+    public Endereco getEndereco(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.getEndereco(id);
+        return ecommerceService.getEndereco(id, connection);
     }
     
     ////////////////////////////////////////////////////////////////////////
     //Vendedor
-    public void cadastrarVendedor(Vendedor vendedor) {
+    public void cadastrarVendedor(Vendedor vendedor, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarVendedor(vendedor);
+        ecommerceService.salvarVendedor(vendedor, connection);
     }
     
-    public void editarVendedor(Vendedor vendedor, int id) {
+    public void editarVendedor(Vendedor vendedor, int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarVendedor(vendedor, id);
+        ecommerceService.editarVendedor(vendedor, id, connection);
     }
     
-    public void excluirVendedor(int id) {
+    public void excluirVendedor(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.excluirVendedor(id);
+        ecommerceService.excluirVendedor(id, connection);
     }
     
-    public Vendedor getVendedor(int id) {
+    public Vendedor getVendedor(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.getVendedor(id);
+        return ecommerceService.getVendedor(id, connection);
     }
     
     /////////////////////////////////////////////////////////////////
     //produto
     
-    public void salvarProduto(Produto produto){
+    public void salvarProduto(Produto produto, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarProduto(produto);
+        ecommerceService.salvarProduto(produto, connection);
     }
     
-    public void editarProduto(Produto produto){
+    public void editarProduto(Produto produto, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarProduto(produto);
+        ecommerceService.editarProduto(produto, connection);
     }
     
-    public void excluirProduto(int id){
+    public void excluirProduto(int id, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.excluirProduto(id);
+        ecommerceService.excluirProduto(id, connection);
     }
     
-    public int buscarPornome(String nome){
+    public int buscarPornome(String nome, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.buscarPornome(nome);
+        return ecommerceService.buscarPornome(nome, connection);
     }
     
-    public Produto getProduto (int id) {
+    public Produto getProduto (int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.getProduto(id);
+        return ecommerceService.getProduto(id, connection);
     }
     
-    public void buscaProdutosPorIdVendedor(int id){
+    public void buscaProdutosPorIdVendedor(int id, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.buscaProdutosPorIdVendedor(id);
+        ecommerceService.buscaProdutosPorIdVendedor(id, connection);
     }
     
-    public void editarQuantidadeEstoque(Produto produto) {
+    public void editarQuantidadeEstoque(Produto produto, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarQuantidadeEstoque(produto);
+        ecommerceService.editarQuantidadeEstoque(produto, connection);
     }
     /////////////////////////////////////////////////////////////////
     //avaliacao
-    public void salvarAvaliacao(Avaliacao avaliacao){
+    public void salvarAvaliacao(Avaliacao avaliacao, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarAvaliacao(avaliacao);
+        ecommerceService.salvarAvaliacao(avaliacao, connection);
     }
     
-    public void editarAvaliacao(Produto produto){
+    public void editarAvaliacao(Produto produto, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarProduto(produto);
+        ecommerceService.editarProduto(produto, connection);
     }
     
-    public void excluirAvaliacao(int idCliente, int idProduto){
+    public void excluirAvaliacao(int idCliente, int idProduto, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.excluirAvaliacao(idCliente, idProduto);
+        ecommerceService.excluirAvaliacao(idCliente, idProduto, connection);
     }
     
-    public Avaliacao getProduto (int idCliente, int idProduto) {
+    public Avaliacao getProduto (int idCliente, int idProduto, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.getAvaliacao(idCliente, idProduto);
+        return ecommerceService.getAvaliacao(idCliente, idProduto, connection);
     }
     /////////////////////////////////////////////////////////////////
     //carrinho
-    public void salvarCarrinho(Cliente cliente){
+    public void salvarCarrinho(Cliente cliente, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarCarrinho(cliente);
+        ecommerceService.salvarCarrinho(cliente, connection);
     }
     
-    public Carrinho buscaCarrinhoAtual(int id_Cliente){
+    public Carrinho buscaCarrinhoAtual(int id_Cliente, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.buscaCarrinhoAtual(id_Cliente);
+        return ecommerceService.buscaCarrinhoAtual(id_Cliente, connection);
     }
     
-    public void alterarPrecoTotalCarrinho(Carrinho carrinho) {
+    public void alterarPrecoTotalCarrinho(Carrinho carrinho, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.alterarPrecoTotalCarrinho(carrinho);
+        ecommerceService.alterarPrecoTotalCarrinho(carrinho, connection);
     }
     
-    public void finalizarCarrinho(Carrinho carrinho) {
+    public void finalizarCarrinho(Carrinho carrinho, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.finalizarCarrinho(carrinho);
+        ecommerceService.finalizarCarrinho(carrinho, connection);
     }
     
-    public void buscaPedidosFinalizados(int idCliente){
+    public void buscaPedidosFinalizados(int idCliente, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.buscaPedidosFinalizados(idCliente);
+        ecommerceService.buscaPedidosFinalizados(idCliente, connection);
     }
     /////////////////////////////////////////////////////////////////
     //item
-    public void salvarItem(Item item){
+    public void salvarItem(Item item, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarItem(item);
+        ecommerceService.salvarItem(item, connection);
     }
     
-    public void editarItem(Item Item){
+    public void editarItem(Item Item, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarItem(Item);
+        ecommerceService.editarItem(Item, connection);
     }
     
-    public void excluirItem(int id){
+    public void excluirItem(int id, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.excluirItem(id);
+        ecommerceService.excluirItem(id, connection);
     }
     
-    public int buscaItemPorIdCarrinho(Carrinho carrinho){
+    public int buscaItemPorIdCarrinho(Carrinho carrinho, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.buscaItemPorIdCarrinho(carrinho);
+        return ecommerceService.buscaItemPorIdCarrinho(carrinho, connection);
     }
     
-    public double somaValorItensCarrinho(int id) {
+    public double somaValorItensCarrinho(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.somaValorItensCarrinho(id);
+        return ecommerceService.somaValorItensCarrinho(id, connection);
     }
     
     /////////////////////////////////////////////////////////////////
     //autenticaçao
-    public int login(String email, String senha, String tableNome){
+    public int login(String email, String senha, String tableNome, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.login(email, senha, tableNome);
+        return ecommerceService.login(email, senha, tableNome, connection);
     }
 
     /////////////////////////////////////////////////////////////////
@@ -236,41 +237,41 @@ public class EcommerceController implements IController{
         ecommerceService.cadastroLoginMenu();
     }
     
-    public void cadastroMenu(Scanner input){
+    public void cadastroMenu(Scanner input, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.cadastroMenu(input);
+        ecommerceService.cadastroMenu(input, connection);
     }
     
-    public void loginMenu(Scanner input){
+    public void loginMenu(Scanner input, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.loginMenu(input);
+        ecommerceService.loginMenu(input, connection);
     }
     
-    public void clienteMenu(int id, Scanner input){
+    public void clienteMenu(int id, Scanner input, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.clienteMenu(id, input);
+        ecommerceService.clienteMenu(id, input, connection);
     }
     
-    public void vendedorMenu(int id, Scanner input){
+    public void vendedorMenu(int id, Scanner input, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.vendedorMenu(id, input);
+        ecommerceService.vendedorMenu(id, input, connection);
     }
     
     ////////////////////////////////
     //Login
-    public void cadastroClienteAutenticacao(Scanner input){
+    public void cadastroClienteAutenticacao(Scanner input, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.cadastroClienteAutenticacao(input);
+        ecommerceService.cadastroClienteAutenticacao(input, connection);
     }
     
-    public void cadastroVendedorAutenticacao(Scanner input){
+    public void cadastroVendedorAutenticacao(Scanner input, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.cadastroVendedorAutenticacao(input);
+        ecommerceService.cadastroVendedorAutenticacao(input, connection);
     }
     
-    public int loginAutenticacao(String email, String senha, Scanner input){
+    public int loginAutenticacao(String email, String senha, Scanner input, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.loginAutenticacao(email, senha, input);
+        return ecommerceService.loginAutenticacao(email, senha, input, connection);
     }
     
     /////////////////////////////////////////////////////////////////
@@ -291,9 +292,9 @@ public class EcommerceController implements IController{
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.lerProduto(id, input);
     }
-    public Item lerItem(Scanner input, int idCliente){
+    public Item lerItem(Scanner input, int idCliente, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.lerItem(input, idCliente);
+        return ecommerceService.lerItem(input, idCliente, connection);
     }
     
     public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){

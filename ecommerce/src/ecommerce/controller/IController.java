@@ -8,6 +8,7 @@ import ecommerce.model.entity.Endereco;
 import ecommerce.model.entity.Item;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
+import java.sql.Connection;
 import java.util.Scanner;
 
 public interface IController {
@@ -21,72 +22,72 @@ public interface IController {
     */
     //preview funções
     //Cliente
-    public void cadastrarCliente(Cliente cliente);
-    public void editarCliente(Cliente cliente, int id);
-    public void excluirCliente(int id);
-    public Cliente getCliente(int id);
+    public void cadastrarCliente(Cliente cliente, Connection connection);
+    public void editarCliente(Cliente cliente, int id, Connection connection);
+    public void excluirCliente(int id, Connection connection);
+    public Cliente getCliente(int id, Connection connection);
     
     //////////////////////////////////////////////////////////////////////
     //Endereco
-    public int cadastrarEndereco(Endereco endereco);
-    public void editarEndereco(Endereco endereco, int id);
-    public void excluirEndereco(int id);
-    public Endereco getEndereco(int id);
+    public int cadastrarEndereco(Endereco endereco, Connection connection);
+    public void editarEndereco(Endereco endereco, int id, Connection connection);
+    public void excluirEndereco(int id, Connection connection);
+    public Endereco getEndereco(int id, Connection connection);
     
     /////////////////////////////////////////////////////////////////////////
     //Vendedor
-    public void cadastrarVendedor(Vendedor vendedor);
-    public void editarVendedor(Vendedor vendedor, int id);
-    public void excluirVendedor(int id);
-    public Vendedor getVendedor(int id);
+    public void cadastrarVendedor(Vendedor vendedor, Connection connection);
+    public void editarVendedor(Vendedor vendedor, int id, Connection connection);
+    public void excluirVendedor(int id, Connection connection);
+    public Vendedor getVendedor(int id, Connection connection);
     
     /////////////////////////////////////////////////////////////////
     //produto
-    public void salvarProduto(Produto produto);
-    public void editarProduto(Produto produto);
-    public void excluirProduto(int id);
-    public int buscarPornome(String nome);
-    public Produto getProduto (int id);
-    public void buscaProdutosPorIdVendedor(int id);
-    public void editarQuantidadeEstoque(Produto produto);
+    public void salvarProduto(Produto produto, Connection connection);
+    public void editarProduto(Produto produto, Connection connection);
+    public void excluirProduto(int id, Connection connection);
+    public int buscarPornome(String nome, Connection connection);
+    public Produto getProduto (int id, Connection connection);
+    public void buscaProdutosPorIdVendedor(int id, Connection connection);
+    public void editarQuantidadeEstoque(Produto produto, Connection connection);
     
     /////////////////////////////////////////////////////////////////
     //avaliacao
-    public void salvarAvaliacao(Avaliacao avaliacao);
-    public void editarAvaliacao(Produto produto);
-    public void excluirAvaliacao(int idCliente, int idProduto);
-    public Avaliacao getProduto (int idCliente, int idProduto);
+    public void salvarAvaliacao(Avaliacao avaliacao, Connection connection);
+    public void editarAvaliacao(Produto produto, Connection connection);
+    public void excluirAvaliacao(int idCliente, int idProduto, Connection connection);
+    public Avaliacao getProduto (int idCliente, int idProduto, Connection connection);
     
     /////////////////////////////////////////////////////////////////
     //carrinho
-    public void salvarCarrinho(Cliente cliente);
-    public Carrinho buscaCarrinhoAtual(int id_Cliente);
-    public void alterarPrecoTotalCarrinho(Carrinho carrinho);
-    public void finalizarCarrinho(Carrinho carrinho);
-    public void buscaPedidosFinalizados(int idCliente);
+    public void salvarCarrinho(Cliente cliente, Connection connection);
+    public Carrinho buscaCarrinhoAtual(int id_Cliente, Connection connection);
+    public void alterarPrecoTotalCarrinho(Carrinho carrinho, Connection connection);
+    public void finalizarCarrinho(Carrinho carrinho, Connection connection);
+    public void buscaPedidosFinalizados(int idCliente, Connection connection);
     
     /////////////////////////////////////////////////////////////////
     //item
-    public void salvarItem(Item item);
-    public void editarItem(Item Item);
-    public void excluirItem(int id);
-    public int buscaItemPorIdCarrinho(Carrinho carrinho);
-    public double somaValorItensCarrinho(int id);
+    public void salvarItem(Item item, Connection connection);
+    public void editarItem(Item Item, Connection connection);
+    public void excluirItem(int id, Connection connection);
+    public int buscaItemPorIdCarrinho(Carrinho carrinho, Connection connection);
+    public double somaValorItensCarrinho(int id, Connection connection);
     
     /////////////////////////////////////////////////////////////////
     //autenticação
-    public int login(String email, String senha, String tableNome);
+    public int login(String email, String senha, String tableNome, Connection connection);
 
     /////////////////////////////////////////////////////////////////
     //Views
     public void cadastroLoginMenu();
-    public void cadastroMenu(Scanner input);
-    public void loginMenu(Scanner input);
-    public void clienteMenu(int id, Scanner input);
-    public void vendedorMenu(int id, Scanner input);        
-    public void cadastroClienteAutenticacao(Scanner input);      
-    public void cadastroVendedorAutenticacao(Scanner input);     
-    public int loginAutenticacao(String email, String senha, Scanner input);
+    public void cadastroMenu(Scanner input, Connection connection);
+    public void loginMenu(Scanner input, Connection connection);
+    public void clienteMenu(int id, Scanner input, Connection connection);
+    public void vendedorMenu(int id, Scanner input, Connection connection);        
+    public void cadastroClienteAutenticacao(Scanner input, Connection connection);      
+    public void cadastroVendedorAutenticacao(Scanner input, Connection connection);     
+    public int loginAutenticacao(String email, String senha, Scanner input, Connection connection);
     
     /////////////////////////////////////////////////////////////////
     //Formulario
@@ -94,6 +95,6 @@ public interface IController {
     public Cliente lerCliente(Scanner input);
     public Vendedor lerVendedor(Scanner input);
     public Produto lerProduto(int id, Scanner input);
-    public Item lerItem(Scanner input, int idCliente);
+    public Item lerItem(Scanner input, int idCliente, Connection connection);
     public Carrinho lerCarrinho(Scanner input, Carrinho carrinho);
 }
