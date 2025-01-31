@@ -7,7 +7,6 @@ import ecommerce.model.entity.Carrinho;
 import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Endereco;
 import ecommerce.model.entity.Item;
-import ecommerce.model.entity.Pedido;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 
@@ -130,9 +129,9 @@ public class EcommerceController implements IController{
         ecommerceService.excluirProduto(id);
     }
     
-    public void buscarPornome(String nome){
+    public int buscarPornome(String nome){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.buscarPornome(nome);
+        return ecommerceService.buscarPornome(nome);
     }
     
     public Produto getProduto (int id) {
@@ -145,6 +144,10 @@ public class EcommerceController implements IController{
         ecommerceService.buscaProdutosPorIdVendedor(id);
     }
     
+    public void editarQuantidadeEstoque(Produto produto) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editarQuantidadeEstoque(produto);
+    }
     /////////////////////////////////////////////////////////////////
     //avaliacao
     public void salvarAvaliacao(Avaliacao avaliacao){
@@ -178,11 +181,25 @@ public class EcommerceController implements IController{
         return ecommerceService.buscaCarrinhoAtual(id_Cliente);
     }
     
+    public void alterarPrecoTotalCarrinho(Carrinho carrinho) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.alterarPrecoTotalCarrinho(carrinho);
+    }
+    
+    public void finalizarCarrinho(Carrinho carrinho) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.finalizarCarrinho(carrinho);
+    }
+    
+    public void buscaPedidosFinalizados(int idCliente){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.buscaPedidosFinalizados(idCliente);
+    }
     /////////////////////////////////////////////////////////////////
     //item
-    public void salvarItem(Item item, Carrinho carrinho){
+    public void salvarItem(Item item){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarItem(item, carrinho);
+        ecommerceService.salvarItem(item);
     }
     
     public void editarItem(Item Item){
@@ -195,36 +212,14 @@ public class EcommerceController implements IController{
         ecommerceService.excluirItem(id);
     }
     
-    public void buscaItemPorIdCarrinho(Carrinho carrinho){
+    public int buscaItemPorIdCarrinho(Carrinho carrinho){
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.buscaItemPorIdCarrinho(carrinho);
+        return ecommerceService.buscaItemPorIdCarrinho(carrinho);
     }
     
-    /////////////////////////////////////////////////////////////////
-    //pedido
-    public void salvarPedido(Pedido pedido){
+    public double somaValorItensCarrinho(int id) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarPedido(pedido);
-    }
-    
-    public void editarPedido(Pedido Pedido){
-        EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarPedido(Pedido);
-    }
-    
-    public void excluirPedido(int id){
-        EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.excluirPedido(id);
-    }
-    
-    public Pedido getPedido (int id){
-        EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.getPedido(id);
-    }
-    
-    public void buscaPedidosPorIdCliente(int id){
-        EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.buscaPedidosPorIdCliente(id);
+        return ecommerceService.somaValorItensCarrinho(id);
     }
     
     /////////////////////////////////////////////////////////////////
@@ -262,6 +257,7 @@ public class EcommerceController implements IController{
     }
     
     ////////////////////////////////
+    //Login
     public void cadastroClienteAutenticacao(Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
         ecommerceService.cadastroClienteAutenticacao(input);
@@ -294,5 +290,14 @@ public class EcommerceController implements IController{
     public Produto lerProduto(int id, Scanner input){
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.lerProduto(id, input);
+    }
+    public Item lerItem(Scanner input, int idCliente){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.lerItem(input, idCliente);
+    }
+    
+    public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.lerCarrinho(input, carrinho);
     }
 }

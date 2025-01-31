@@ -19,7 +19,6 @@ import ecommerce.model.dao.VendedorDAO;
 import ecommerce.model.dao.ProdutoDAO;
 import ecommerce.model.dao.CarrinhoDAO;
 import ecommerce.model.dao.ItemDAO;
-import ecommerce.model.dao.PedidoDAO;
 import ecommerce.model.dao.AutenticacaoDAO;
 
 //entitys
@@ -28,7 +27,6 @@ import ecommerce.model.entity.Carrinho;
 import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Endereco;
 import ecommerce.model.entity.Item;
-import ecommerce.model.entity.Pedido;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import ecommerce.view.Formulario;
@@ -76,7 +74,6 @@ public class EcommerceService {
     private AvaliacaoDAO avaliacaoDAO;
     private CarrinhoDAO carrinhoDAO;
     private ItemDAO itemDAO;
-    private PedidoDAO pedidoDAO;
     private AutenticacaoDAO autenticacaoDAO;
     private Formulario formulario;
     
@@ -91,7 +88,6 @@ public class EcommerceService {
         this.produtoDAO = new ProdutoDAO();
         this.carrinhoDAO = new CarrinhoDAO();
         this.itemDAO = new ItemDAO();
-        this.pedidoDAO = new PedidoDAO();
         this.autenticacaoDAO = new AutenticacaoDAO();
         this.avaliacaoDAO = new AvaliacaoDAO();
         
@@ -171,8 +167,8 @@ public class EcommerceService {
         produtoDAO.excluir(id);
     }
     
-    public void buscarPornome(String nome){
-        produtoDAO.buscaPorNome(nome);
+    public int buscarPornome(String nome){
+        return produtoDAO.buscaPorNome(nome);
     }
     
     public Produto getProduto(int id) {
@@ -181,6 +177,10 @@ public class EcommerceService {
     
     public void buscaProdutosPorIdVendedor(int id){
         produtoDAO.buscaProdutosPorIdVendedor(id);
+    }
+    
+    public void editarQuantidadeEstoque(Produto produto) {
+        produtoDAO.editarQuantidadeEstoque(produto);
     }
     
     /////////////////////////////////////////////////////////////////
@@ -212,11 +212,22 @@ public class EcommerceService {
         return carrinhoDAO.buscaCarrinhoAtual(id_Cliente);
     }
     
+    public void alterarPrecoTotalCarrinho(Carrinho carrinho) {
+        carrinhoDAO.alterarPrecoTotalCarrinho(carrinho);
+    }
+    
+    public void finalizarCarrinho(Carrinho carrinho) {
+        carrinhoDAO.finalizarCarrinho(carrinho);
+    }
+    
+    public void buscaPedidosFinalizados(int idCliente){
+        carrinhoDAO.buscaPedidosFinalizados(idCliente);
+    }
     /////////////////////////////////////////////////////////////////
     //item
 
-    public void salvarItem(Item item, Carrinho carrinho){
-        itemDAO.salvar(item, carrinho);
+    public void salvarItem(Item item){
+        itemDAO.salvar(item);
     }
     
     public void editarItem(Item Item){
@@ -227,30 +238,12 @@ public class EcommerceService {
         itemDAO.excluir(id);
     }
     
-    public void buscaItemPorIdCarrinho(Carrinho carrinho){
-        itemDAO.buscaItemPorIdCarrinho(carrinho.getId());
+    public int buscaItemPorIdCarrinho(Carrinho carrinho){
+        return itemDAO.buscaItemPorIdCarrinho(carrinho.getId());
     }
     
-    /////////////////////////////////////////////////////////////////
-    //pedido
-    public void salvarPedido(Pedido pedido){
-        pedidoDAO.salvar(pedido);
-    }
-    
-    public void editarPedido(Pedido Pedido){
-        pedidoDAO.editar(Pedido);
-    }
-    
-    public void excluirPedido(int id){
-        pedidoDAO.excluir(id);
-    }
-    
-    public Pedido getPedido (int id){
-        return pedidoDAO.get(id);
-    }
-    
-    public void buscaPedidosPorIdCliente(int id){
-        pedidoDAO.buscaPedidosPorIdCliente(id);
+    public double somaValorItensCarrinho(int id) {
+        return itemDAO.somaValorItensCarrinho(id);
     }
 
     /////////////////////////////////////////////////////////////////
@@ -308,5 +301,12 @@ public class EcommerceService {
     }
     public Produto lerProduto(int id, Scanner input){
         return formulario.lerProduto(id, input);
+    }
+    public Item lerItem(Scanner input, int idCliente){
+        return formulario.lerItem(input, idCliente);
+    }
+    
+    public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){
+        return formulario.lerCarrinho(input, carrinho);
     }
 }

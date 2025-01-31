@@ -6,7 +6,6 @@ import ecommerce.model.entity.Carrinho;
 import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Endereco;
 import ecommerce.model.entity.Item;
-import ecommerce.model.entity.Pedido;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import java.util.Scanner;
@@ -46,9 +45,10 @@ public interface IController {
     public void salvarProduto(Produto produto);
     public void editarProduto(Produto produto);
     public void excluirProduto(int id);
-    public void buscarPornome(String nome);
+    public int buscarPornome(String nome);
     public Produto getProduto (int id);
     public void buscaProdutosPorIdVendedor(int id);
+    public void editarQuantidadeEstoque(Produto produto);
     
     /////////////////////////////////////////////////////////////////
     //avaliacao
@@ -61,21 +61,17 @@ public interface IController {
     //carrinho
     public void salvarCarrinho(Cliente cliente);
     public Carrinho buscaCarrinhoAtual(int id_Cliente);
+    public void alterarPrecoTotalCarrinho(Carrinho carrinho);
+    public void finalizarCarrinho(Carrinho carrinho);
+    public void buscaPedidosFinalizados(int idCliente);
     
     /////////////////////////////////////////////////////////////////
     //item
-    public void salvarItem(Item item, Carrinho carrinho);
+    public void salvarItem(Item item);
     public void editarItem(Item Item);
     public void excluirItem(int id);
-    public void buscaItemPorIdCarrinho(Carrinho carrinho);
-    
-    /////////////////////////////////////////////////////////////////
-    //pedido
-    public void salvarPedido(Pedido pedido);
-    public void editarPedido(Pedido Pedido);
-    public void excluirPedido(int id);
-    public Pedido getPedido (int id);
-    public void buscaPedidosPorIdCliente(int id);
+    public int buscaItemPorIdCarrinho(Carrinho carrinho);
+    public double somaValorItensCarrinho(int id);
     
     /////////////////////////////////////////////////////////////////
     //autenticação
@@ -98,4 +94,6 @@ public interface IController {
     public Cliente lerCliente(Scanner input);
     public Vendedor lerVendedor(Scanner input);
     public Produto lerProduto(int id, Scanner input);
+    public Item lerItem(Scanner input, int idCliente);
+    public Carrinho lerCarrinho(Scanner input, Carrinho carrinho);
 }
