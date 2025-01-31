@@ -93,8 +93,10 @@ public class CarrinhoDAO {
 
             stmt.execute();
             stmt.close();
-            
-            salvar(carrinho.getCliente(), connection);
+
+            ecommerceController.alterarPrecoTotalCarrinho(carrinho, connection);
+            ecommerceController.editaEstoqueItemPorIdCarrinho(carrinho.getId(), connection);
+            ecommerceController.salvarCarrinho(carrinho.getCliente(), connection);
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }

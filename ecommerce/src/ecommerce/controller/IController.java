@@ -68,11 +68,15 @@ public interface IController {
     
     /////////////////////////////////////////////////////////////////
     //item
+
     public void salvarItem(Item item, Connection connection);
     public void editarItem(Item Item, Connection connection);
     public void excluirItem(int id, Connection connection);
     public int buscaItemPorIdCarrinho(Carrinho carrinho, Connection connection);
     public double somaValorItensCarrinho(int id, Connection connection);
+    public void editaEstoqueItemPorIdCarrinho(int id, Connection connection);
+    public Item getItem(int id, Connection connection);
+
     
     /////////////////////////////////////////////////////////////////
     //autenticação

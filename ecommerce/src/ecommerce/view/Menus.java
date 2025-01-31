@@ -150,7 +150,9 @@ public class Menus{
                     }
                     break;
                 case 2:
+
                     if(ecommerceController.buscaItemPorIdCarrinho(ecommerceController.buscaCarrinhoAtual(id, connection), connection) > 0){
+
                         System.out.println("Deseja finalizar o carrinho? (Sim - 1/Não- 2)");
                         opcao = scan.nextInt();
                         if(opcao == 1){

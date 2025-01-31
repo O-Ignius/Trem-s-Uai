@@ -239,6 +239,10 @@ public class EcommerceService {
         itemDAO.excluir(id, connection);
     }
     
+    public Item getItem(int id, Connection connection){
+        return itemDAO.getItem(id, connection);
+    }
+    
     public int buscaItemPorIdCarrinho(Carrinho carrinho, Connection connection){
         return itemDAO.buscaItemPorIdCarrinho(carrinho.getId(), connection);
     }
@@ -246,7 +250,10 @@ public class EcommerceService {
     public double somaValorItensCarrinho(int id, Connection connection) {
         return itemDAO.somaValorItensCarrinho(id, connection);
     }
-
+    
+    public void editaEstoqueItemPorIdCarrinho(int id, Connection connection) {
+        itemDAO.editaEstoqueItemPorIdCarrinho(id, connection);
+    }
     /////////////////////////////////////////////////////////////////
     //autenticação
     public int login(String email, String senha, String tableNome, Connection connection) {

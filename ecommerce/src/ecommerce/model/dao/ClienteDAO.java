@@ -90,21 +90,10 @@ public class ClienteDAO {
     }                 
     
     //metodo excluir
+
     public void excluir(int id, Connection connection) {
-        
         Cliente cliente = get(id, connection);
         ecommerceController.excluirEndereco(cliente.getEndereco().getId(), connection);
-        
-        String sql = "DELETE FROM cliente WHERE id = ?";
-        
-        try {
-            PreparedStatement stmt = connection.prepareStatement(sql);
-            stmt.setLong(1, id);
-            stmt.execute();
-            stmt.close();
-        } catch (SQLException u) {
-            throw new RuntimeException(u);
-        }
     }
     
     //metodo get

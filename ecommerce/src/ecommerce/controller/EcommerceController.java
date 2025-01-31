@@ -212,6 +212,11 @@ public class EcommerceController implements IController{
         EcommerceService ecommerceService = new EcommerceService();
         ecommerceService.excluirItem(id, connection);
     }
+
+    public Item getItem(int id, Connection connection){
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.getItem(id, connection);
+    }
     
     public int buscaItemPorIdCarrinho(Carrinho carrinho, Connection connection){
         EcommerceService ecommerceService = new EcommerceService();
@@ -221,6 +226,11 @@ public class EcommerceController implements IController{
     public double somaValorItensCarrinho(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.somaValorItensCarrinho(id, connection);
+    }
+    
+    public void editaEstoqueItemPorIdCarrinho(int id, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editaEstoqueItemPorIdCarrinho(id, connection);
     }
     
     /////////////////////////////////////////////////////////////////

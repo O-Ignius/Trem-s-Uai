@@ -184,12 +184,12 @@ public class Formulario {
         item.setProduto(produto);
         
         System.out.println("\nDigite a quantidade que deseja(Estoque: " + produto.getEstoque() + "):");
-        item.setQuantidadeItem(input.nextInt());
+        item.setQuantidade(input.nextInt());
             
-        while(produto.getEstoque() < item.getQuantidadeItem()){
+        while(produto.getEstoque() < item.getQuantidade()){
             System.err.println("Estoque excedido!");
             System.out.println("\nDigite a quantidade que deseja(Estoque: " + produto.getEstoque() + "):");
-            item.setQuantidadeItem(input.nextInt());
+            item.setQuantidade(input.nextInt());
         }
         return item;
     } 
