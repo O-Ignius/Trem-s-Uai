@@ -54,7 +54,7 @@ public class Item {
         return carrinho;
     }
 
-    public void setCarrinho(Produto Carrinho) {
+    public void setCarrinho(Carrinho carrinho) {
         this.carrinho = carrinho;
     }
 }
