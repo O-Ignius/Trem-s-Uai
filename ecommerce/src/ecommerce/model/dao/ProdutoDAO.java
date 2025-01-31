@@ -17,7 +17,7 @@ import ecommerce.controller.EcommerceController;
 
 public class ProdutoDAO {
     private Connection connection;
-    private EcommerceController ecommerceController = new EcommerceController(); 
+    private EcommerceController ecommerceController = new EcommerceController();
 
     public ProdutoDAO() {
         connection = new Conexao().getConnection();
@@ -72,55 +72,60 @@ public class ProdutoDAO {
     }
 
     // Método para buscar um Produto pelo nome
-    public void buscaPorNome(String nome) {
-        VendedorDAO vendedorDAO = null;
-        Vendedor vendedor = null;
-        
-        String sql = "select * from produto p where p.nome like '% " + nome + "%';";
+    public int buscaPorNome(String nome) {
+        VendedorDAO vendedorDAO = new VendedorDAO();
+        Vendedor vendedor = new Vendedor();
+        int encontrado = 0;
+
+        String sql = "select * from produto p where p.nome like '%" + nome + "%';";
+        System.out.println("\n");
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-            vendedor = vendedorDAO.get(rs.getInt("vendedor_id"));
-            
-            System.out.println("\nNome: " + rs.getString("nome") + "\n"
-                    + "Descrição: " + rs.getString("descricao") + "\n"
-                    + "Valor: " + rs.getDouble("valor") + "\n"
-                    + "Estoque: " + rs.getInt("estoque") + "\n"
-                    + "Vendedor: " + vendedor.getNome());
-        }
+                encontrado++;
+                vendedor = ecommerceController.getVendedor(rs.getInt("vendedor_id"));
+
+                System.out.println("Id: " + rs.getInt("id") + "\n"
+                        + "Nome: " + rs.getString("nome") + "\n"
+                        + "Descrição: " + rs.getString("descricao") + "\n"
+                        + "Valor: " + rs.getDouble("valor") + "\n"
+                        + "Estoque: " + rs.getInt("estoque") + "\n"
+                        + "Vendedor: " + vendedor.getNome() + "\n");
+            }
             rs.close();
             stmt.close();
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }
+        return encontrado;
     }
-    
+
     // Método para buscar Produtos pelo Vendendor
-    public void buscaProdutosPorIdVendedor(int id){
-        VendedorDAO vendedorDAO = null;
-        Vendedor vendedor = null;
-        
+    public void buscaProdutosPorIdVendedor(int id) {
+        VendedorDAO vendedorDAO = new VendedorDAO();
+        Vendedor vendedor = new Vendedor();
+
         String sql = "select * from produto p where p.vendedor_id = " + id + ";";
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-            vendedor = vendedorDAO.get(rs.getInt("vendedor_id"));
-            
-            System.out.println("\nNome: " + rs.getString("nome") + "\n"
-                    + "Descrição: " + rs.getString("descricao") + "\n"
-                    + "Valor: " + rs.getDouble("valor") + "\n"
-                    + "Estoque: " + rs.getInt("estoque") + "\n"
-                    + "Vendedor: " + vendedor.getNome());
-        }
+                vendedor = vendedorDAO.get(id);
+
+                System.out.println("\nNome: " + rs.getString("nome") + "\n"
+                        + "Descrição: " + rs.getString("descricao") + "\n"
+                        + "Valor: " + rs.getDouble("valor") + "\n"
+                        + "Estoque: " + rs.getInt("estoque") + "\n"
+                        + "Vendedor: " + vendedor.getNome());
+            }
             rs.close();
             stmt.close();
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }
     }
-    
+
     public Produto getProduto(int id) {
         Produto produto = null;
         String sql = "SELECT * FROM produto WHERE id = ?";
@@ -135,7 +140,7 @@ public class ProdutoDAO {
                 produto.setDescricao(rs.getString("descricao"));
                 produto.setValor(rs.getDouble("valor"));
                 produto.setEstoque(rs.getInt("estoque"));
-                
+
                 produto.setVendedor(ecommerceController.getVendedor(rs.getInt("vendedor_id")));
             }
             rs.close();
@@ -144,5 +149,16 @@ public class ProdutoDAO {
             throw new RuntimeException(u);
         }
         return produto;
+    }
+    
+    public void editarQuantidadeEstoque(Produto produto) {
+        String sql = "UPDATE produto SET estoque = " + produto.getEstoque() +" WHERE id =" + produto.getId();
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException u) {
+            throw new RuntimeException(u);
+        }
     }
 }
