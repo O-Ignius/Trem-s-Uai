@@ -8,9 +8,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
+import java.sql.Date;
 
 import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Carrinho;
+
+//controller
+import ecommerce.controller.EcommerceController;
 
 /**
  *
@@ -18,7 +22,8 @@ import ecommerce.model.entity.Carrinho;
  */
 public class CarrinhoDAO {
     private Connection connection;
-
+    private EcommerceController ecommerceController = new EcommerceController();
+    
     public CarrinhoDAO() {
         connection = new Conexao().getConnection();
     }
@@ -29,7 +34,7 @@ public class CarrinhoDAO {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setInt(1, cliente.getId());
-            stmt.setInt(2, 0);
+            stmt.setBoolean(2, false);
             stmt.execute();
             stmt.close();
         } catch (SQLException u) {
@@ -38,24 +43,82 @@ public class CarrinhoDAO {
     }
     
     public Carrinho buscaCarrinhoAtual(int id_Cliente){
-        String sql = "select c.id from carrinho c where c.cliente_id =" + id_Cliente + "and c.fechado = 0;";
+        Carrinho carrinho = new Carrinho();  
+        Cliente cliente = new Cliente();
+        cliente.setId(id_Cliente);
+        
+        String sql = "select c.id, c.precoTotal, c.dataPedido, c.tipoPagamento from carrinho c where c.cliente_id =" + id_Cliente +" and c.fechado = false;";
+                                  
         try{
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
             if(rs.next()){
-                Cliente cliente = new Cliente();
-                cliente.setId(id_Cliente);
-                
-                Carrinho carrinho = new Carrinho();
                 carrinho.setId(rs.getInt("id"));
                 carrinho.setFechado(false);
+                carrinho.setPrecoTotal(rs.getDouble("precoTotal"));
+                carrinho.setDataPedido(rs.getDate("dataPedido"));
+                carrinho.setTipoPagamento(rs.getInt("tipoPagamento"));
                 carrinho.setCliente(cliente);
-                
-                return carrinho;
             }
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }
-        return null;
+        return carrinho;
     }
+    
+    public void alterarPrecoTotalCarrinho(Carrinho carrinho) {
+        String sql = "UPDATE carrinho SET precoTotal = ? WHERE carrinho.id ="+ carrinho.getId();
+        
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            double total = ecommerceController.somaValorItensCarrinho(carrinho.getId());
+            System.out.println("VALOR TOTAL CARRINHO: " + total);
+            stmt.setDouble(1, total);
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException u) {
+            throw new RuntimeException(u);
+        }
+    }
+    
+    public void finalizarCarrinho(Carrinho carrinho) {
+        String sql = "UPDATE carrinho SET fechado = ?, dataPedido = ?, tipoPagamento = ?, cliente_id = ? WHERE id = ?";
+        Date dataAtual = new Date(System.currentTimeMillis());
+
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setBoolean(1, true);
+            stmt.setDate(2, dataAtual);
+            stmt.setInt(3, carrinho.getTipoPagamento());
+            stmt.setInt(4, carrinho.getCliente().getId());
+            stmt.setInt(5, carrinho.getId());
+
+            stmt.execute();
+            stmt.close();
+            
+            salvar(carrinho.getCliente());
+        } catch (SQLException u) {
+            throw new RuntimeException(u);
+        }
+    }
+    
+    public void buscaPedidosFinalizados(int idCliente){
+        String sql = "select c.id from carrinho c where c.cliente_id =" + idCliente + " and c.fechado = true;";
+        Carrinho carrinho = new Carrinho();
+        
+        try {
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                carrinho.setId(rs.getInt("id"));
+                ecommerceController.buscaItemPorIdCarrinho(carrinho);
+            }
+
+            stmt.execute();
+            stmt.close();
+        } catch (SQLException u) {
+            throw new RuntimeException(u);
+        }
+    }                                        
 }
