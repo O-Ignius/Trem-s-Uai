@@ -12,6 +12,7 @@ import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Item;
 
 //scanner
 import java.util.Scanner;
@@ -109,8 +110,59 @@ public class Menus{
             if (ecommerceController.loginAutenticacao(email, senha, input, connection) == -1) {
                 System.out.println("Deseja tentar novamente? (1: Sim    0: Não)");
                 tentarNovamente = input.nextInt();
+                input.nextLine();
             } 
         } while (tentarNovamente != 0);
+    }
+    
+    public void carrinho(Scanner scan, Connection connection, int id_Cliente){
+        EcommerceController ecommerceController = new EcommerceController();
+        int opcao = - 99;
+        Carrinho carrinho;
+        Item item;
+        Cliente cliente = new Cliente();
+        cliente.setId(id_Cliente);
+        
+        while(opcao != 0){
+            System.out.println("**************************************");
+            System.out.println("******   Trem's Uai - Carrinho   *****");
+            System.out.println("**************************************");
+            System.out.println("1 - Remover Item");
+            System.out.println("2 - Editar Item");
+            System.out.println("3 - Finalizar Carrinho");
+            System.out.println("\n0 - Sair");
+            
+            System.out.println("Digite a opção desejada: ");
+            opcao = scan.nextInt();
+            scan.nextLine();
+            
+            switch (opcao) {
+                case 0:
+                    return;
+                case 1:
+                    System.out.print("Digite o id do item que deseja excluir: ");
+                    ecommerceController.excluirItem(scan.nextInt(), connection);
+                    return;
+                case 2:
+                    System.out.print("Digite o id do item que deseja editar a quantidade: ");
+                    item = ecommerceController.getItem(scan.nextInt(), connection);
+                    item.getCarrinho().setCliente(cliente);
+                    
+                    //O item original é excluido e um novo é criado
+                    ecommerceController.excluirItem(item.getId(), connection);
+                    
+                    System.out.println("Digite a nova quantidade do produto: ");
+                    item.setQuantidade(scan.nextInt());
+                    ecommerceController.salvarItem(item, connection);
+                    return;
+                case 3:
+                    carrinho = ecommerceController.lerCarrinho(scan, ecommerceController.buscaCarrinhoAtual(id_Cliente, connection));
+                    ecommerceController.finalizarCarrinho(carrinho, connection);
+                    return;
+                default:
+                    System.out.println("Opção inválida!");
+            }
+        }
     }
     
     public void cliente(int id, Scanner scan, Connection connection) {
@@ -142,24 +194,14 @@ public class Menus{
                     System.out.print("Digite o nome do produto que deseja buscar: ");
                     if(ecommerceController.buscarPornome(scan.nextLine(), connection) > 0){
                         System.out.println("Deseja adcionar ao carrinho? (Sim - 1/Não- 2)");
-                        opcao = scan.nextInt();
-                        if(opcao == 1){
+                        if(scan.nextInt() == 1){
                             ecommerceController.salvarItem(ecommerceController.lerItem(scan, id, connection), connection);
                         }
-                        opcao = 1;
                     }
                     break;
                 case 2:
-
                     if(ecommerceController.buscaItemPorIdCarrinho(ecommerceController.buscaCarrinhoAtual(id, connection), connection) > 0){
-
-                        System.out.println("Deseja finalizar o carrinho? (Sim - 1/Não- 2)");
-                        opcao = scan.nextInt();
-                        if(opcao == 1){
-                            carrinho = ecommerceController.lerCarrinho(scan, ecommerceController.buscaCarrinhoAtual(id, connection));
-                            ecommerceController.finalizarCarrinho(carrinho, connection);
-                        }
-                        opcao = 2;
+                        carrinho(scan, connection, id);
                     }
                     break;
                 case 3:

@@ -79,9 +79,9 @@ public class ItemDAO {
                 item.setId(rs.getInt("id"));
                 item.setQuantidade(rs.getInt("quantidadeItem"));
                 item.setSubTotal(rs.getDouble("subTotal"));
-                item.setProduto(ecommerceController.getProduto(rs.getInt("produto_id"), connection)); 
-                item.setCarrinho(carrinho); 
+                item.setProduto(ecommerceController.getProduto(rs.getInt("produto_id"), connection));
                 carrinho.setId(rs.getInt("carrinho_id"));
+                item.setCarrinho(carrinho);
             }
             rs.close();
             stmt.close();
@@ -114,7 +114,8 @@ public class ItemDAO {
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-
+            
+            System.out.println("\nID Carrinho: " + id);
             while (rs.next()) {
                 encontrado++;
                 item.setId(rs.getInt("i.id"));
@@ -128,7 +129,7 @@ public class ItemDAO {
                     ecommerceController.editarItem(item, connection);
                 } 
                 
-                System.out.println("\nID Carrinho: " + id + "\n"
+                System.out.println("\nID Item: " + item.getId() + "\n"
                             + "Produto: " + rs.getString("nome") + "\n"
                             + "Quantidade: " + item.getQuantidade() + "\n"
                             + "Sub Total: " + item.getSubTotal());
@@ -171,8 +172,7 @@ public class ItemDAO {
 
             while (rs.next()) {
                 produto = ecommerceController.getProduto(rs.getInt("idProduto"), connection);
-                item = ecommerceController.getItem(id, connection);
-                
+                item = ecommerceController.getItem(rs.getInt("idItem"), connection);
                 produto.setEstoque(produto.getEstoque() - item.getQuantidade());
                 ecommerceController.editarQuantidadeEstoque(produto, connection);
             }
@@ -182,5 +182,5 @@ public class ItemDAO {
         } catch (SQLException u) {
             throw new RuntimeException(u);
         }
-    }
+    }                                                                                  
 }
