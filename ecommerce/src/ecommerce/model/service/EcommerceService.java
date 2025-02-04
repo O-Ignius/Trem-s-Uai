@@ -377,7 +377,7 @@ public class EcommerceService {
         return consultas.obterClientesComPedidosAcimaDaMedia(connection);
     }
     
-    public List<String> obterClientesQueGastaramAcimaDaMedia(Connection connection) {
-        return consultas.obterClientesQueGastaramAcimaDaMedia(connection);
+    public List<String> obterVendedoresComProdutosBemAvaliados(Connection connection) {
+        return consultas.obterVendedoresComProdutosBemAvaliados(connection);
     }
 }

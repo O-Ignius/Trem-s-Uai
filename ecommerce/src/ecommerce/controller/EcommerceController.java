@@ -377,8 +377,8 @@ public class EcommerceController implements IController{
         return ecommerceService.obterClientesComPedidosAcimaDaMedia(connection);
     }
     
-    public List<String> obterClientesQueGastaramAcimaDaMedia(Connection connection) {
+    public List<String> obterVendedoresComProdutosBemAvaliados(Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.obterClientesQueGastaramAcimaDaMedia(connection);
+        return ecommerceService.obterVendedoresComProdutosBemAvaliados(connection);
     }
 }

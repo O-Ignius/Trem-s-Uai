@@ -3,6 +3,7 @@ package ecommerce.view;
 //controller
 import ecommerce.controller.EcommerceController;
 import ecommerce.model.dao.Conexao;
+import ecommerce.model.entity.Avaliacao;
 
 //connection
 import java.sql.Connection;
@@ -36,7 +37,7 @@ public class Menus{
             System.out.println("Digite a opção desejada: ");
             System.out.println("1 - Login");
             System.out.println("2 - Cadastro");
-            System.out.println("3 - Consultas específicas |BD ONLY|");
+            System.out.println("3 - Consultas especificas |BD ONLY|");
             System.out.println("0 - Sair");
 
             op = input.nextInt();
@@ -253,22 +254,22 @@ public class Menus{
         EcommerceController ecommerceController = new EcommerceController();
 
         do {
-            System.out.println("********* CONSULTAS ESPECÍFICAS *********");
-            System.out.println("1 - Listar Clientes com Endereço");
-            System.out.println("2 - Listar Avaliações com Produto");
-            System.out.println("3 - Listar Pedidos com Itens e Cliente");
+            System.out.println("********* CONSULTAS ESPECIFICAS *********");
+            System.out.println("1 - Listar Clientes com Endereco");
+            System.out.println("2 - Listar Avaliacoes com Produto");
+            System.out.println("3 - Listar Carrinhos com Itens e Cliente");
             System.out.println("4 - Quantidade de Pedidos por Cliente");
-            System.out.println("5 - Media de Preço por Tipo de Pagamento");
+            System.out.println("5 - Media de Preco por Tipo de Pagamento");
             System.out.println("6 - Produtos Mais Vendidos");
-            System.out.println("7 - Total de Pedidos no Último Mês");
-            System.out.println("8 - Média de Vendas da Última Semana");
-            System.out.println("9 - Clientes Ativos no Último Mês");
+            System.out.println("7 - Total de Pedidos no Ultimo Mes");
+            System.out.println("8 - Media de Vendas da Ultima Semana");
+            System.out.println("9 - Clientes Ativos no Ultimo Mes");
             System.out.println("10 - Cliente com Mais Pedidos");
-            System.out.println("11 - Clientes com Pedidos Acima da Média");
-            System.out.println("12 - Clientes que Gastaram Acima da Média");
+            System.out.println("11 - Clientes com Pedidos Acima da Media");
+            System.out.println("12 - Vendedores com Produtos Bem Avaliados");
             System.out.println("\n0 - Voltar ao menu principal");
 
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha uma opcao: ");
             consultaOpcao = scan.nextInt();
             scan.nextLine();
 
@@ -302,37 +303,195 @@ public class Menus{
                 }
                 break;  
                 case 2:
-                    System.out.println(ecommerceController.listarAvaliacoesComProduto(connection));
+                    System.out.println("\n*** Listar Produtos com suas Avaliações ***");
+                    System.out.println("--------------------------------------------------");
+
+                    List<Avaliacao> avaliacoes = ecommerceController.listarAvaliacoesComProduto(connection);
+                    for (Avaliacao avaliacao : avaliacoes) {
+                        Produto produto = avaliacao.getProduto();
+                        if (produto != null) {
+                            System.out.println("Produto ID: " + produto.getId());
+                            System.out.println("Nome: " + produto.getNome());
+                            System.out.println("Descrição: " + produto.getDescricao());
+                            System.out.println("Valor: R$ " + String.format("%.2f", produto.getValor()));
+                            System.out.println("Estoque: " + produto.getEstoque());
+                            System.out.println("\nAvaliação:");
+                        }
+
+                        // Exibe as informações da avaliação
+                        System.out.println("Nota: " + avaliacao.getNota());
+                        System.out.println("Comentário: " + avaliacao.getComentario());
+                        System.out.println("Data: " + avaliacao.getData());
+
+                        // Exibe o ID do cliente que fez a avaliação
+                        Cliente cliente = avaliacao.getCliente();  // Obtém o cliente associado à avaliação
+                        if (cliente != null) {
+                            System.out.println("Cliente ID: " + cliente.getId());
+                        }
+
+                        System.out.println("--------------------------------------------------");
+                    }
                     break;
                 case 3:
-                    System.out.println(ecommerceController.listarCarrinhosComItensECliente(connection));
+                    System.out.println("\n*** Listar Carrinhos com seus Itens e Cliente ***");
+                    System.out.println("--------------------------------------------------");
+
+                    List<Carrinho> carrinhos = ecommerceController.listarCarrinhosComItensECliente(connection);
+                    for (Carrinho carrinho : carrinhos) {
+                        Cliente cliente = carrinho.getCliente();
+                        if (cliente != null) {
+                            System.out.println("Cliente ID: " + cliente.getId());
+                            System.out.println("Nome: " + cliente.getNome());
+                            System.out.println("Email: " + cliente.getEmail());
+                            System.out.println("Telefone: " + cliente.getTelefone());
+                        }
+
+                        System.out.println("\nCarrinho:");
+                        System.out.println("Carrinho ID: " + carrinho.getId());
+                        System.out.println("Preço Total: R$ " + String.format("%.2f", carrinho.getPrecoTotal()));
+                        System.out.println("Data do Pedido: " + carrinho.getDataPedido());
+                        System.out.println("Tipo de Pagamento: " + carrinho.getTipoPagamento());
+                        String statusCarrinho = carrinho.isFechado() ? "Fechado" : "Aberto";
+                        System.out.println("Status do Carrinho: " + statusCarrinho);
+                        System.out.println("--------------------------------------------------");
+                    }
                     break;
                 case 4:
-                    System.out.println(ecommerceController.obterQuantidadePedidosPorCliente(connection));
+                    System.out.println("\n*** Quantidade de Pedidos por Cliente ***");
+                    System.out.println("----------------------------------------");
+
+                    List<String> resultados = ecommerceController.obterQuantidadePedidosPorCliente(connection);
+                    if (resultados.isEmpty()) {
+                        System.out.println("Nenhum pedido encontrado.");
+                    } else {
+                        for (String resultado : resultados) {
+                            System.out.println(resultado);
+                        }
+                    }
+
+                    System.out.println("----------------------------------------");
                     break;
                 case 5:
-                    System.out.println(ecommerceController.obterMediaPrecoPorTipoPagamento(connection));
+                    System.out.println("\n*** Média de Preço por Tipo de Pagamento ***");
+                    System.out.println("------------------------------------------");
+
+                    // Usando um nome diferente para a variável
+                    List<String> mediaPrecoResultados = ecommerceController.obterMediaPrecoPorTipoPagamento(connection);
+                    if (mediaPrecoResultados.isEmpty()) {
+                        System.out.println("Nenhuma média de preço encontrada.");
+                    } else {
+                        for (String resultado : mediaPrecoResultados) {
+                            System.out.println(resultado);
+                        }
+                    }
+
+                    System.out.println("------------------------------------------");
                     break;
                 case 6:
-                    System.out.println(ecommerceController.obterProdutosMaisVendidos(connection));
+                    System.out.println("\n*** Produtos Mais Vendidos ***");
+                    System.out.println("-----------------------------");
+
+                    // Usando um nome diferente para a variável
+                    List<String> produtosMaisVendidosResultados = ecommerceController.obterProdutosMaisVendidos(connection);
+                    if (produtosMaisVendidosResultados.isEmpty()) {
+                        System.out.println("Nenhum produto encontrado.");
+                    } else {
+                        for (String resultado : produtosMaisVendidosResultados) {
+                            System.out.println(resultado);
+                        }
+                    }
+
+                    System.out.println("-----------------------------");
                     break;
                 case 7:
-                    System.out.println(ecommerceController.obterTotalPedidosUltimoMes(connection));
+                    System.out.println("\n*** Total de Pedidos no Último Mês ***");
+                    System.out.println("--------------------------------------");
+
+                    // Obtém o total de pedidos feitos no último mês
+                    int totalPedidosUltimoMes = ecommerceController.obterTotalPedidosUltimoMes(connection);
+
+                    System.out.println("Total de Pedidos Realizados no Último Mês: " + totalPedidosUltimoMes);
+
+                    System.out.println("--------------------------------------");
                     break;
-                case 8:
-                    System.out.println(ecommerceController.obterMediaVendasUltimaSemana(connection));
+               case 8:
+                    System.out.println("\n*** Média de Vendas por Dia na Última Semana ***");
+                    System.out.println("---------------------------------------------");
+
+                    // Obtém a média de vendas diárias dos últimos 7 dias
+                    double mediaVendasUltimaSemana = ecommerceController.obterMediaVendasUltimaSemana(connection);
+
+                    System.out.println("Média de Vendas por Dia na ultima semana: " + String.format("%.2f", mediaVendasUltimaSemana));
+
+                    System.out.println("---------------------------------------------");
                     break;
                 case 9:
-                    System.out.println(ecommerceController.obterClientesAtivosUltimoMes(connection));
+                    System.out.println("\n*** Clientes Ativos no Último Mês ***");
+                    System.out.println("------------------------------------");
+
+                    // Obtém a lista de clientes que fizeram pelo menos um pedido no último mês
+                    List<String> clientesAtivosUltimoMes = ecommerceController.obterClientesAtivosUltimoMes(connection);
+
+                    if (clientesAtivosUltimoMes.isEmpty()) {
+                        System.out.println("Nenhum cliente ativo no último mês.");
+                    } else {
+                        System.out.println("Clientes que realizaram pedidos no último mês:");
+                        for (String cliente : clientesAtivosUltimoMes) {
+                            System.out.println(cliente);
+                        }
+                    }
+
+                    System.out.println("------------------------------------");
                     break;
-                case 10:
-                    System.out.println(ecommerceController.obterClienteComMaisPedidos(connection));
+               case 10:
+                    System.out.println("\n*** Cliente com Mais Pedidos ***");
+                    System.out.println("-------------------------------");
+
+                    // Obtém o nome do cliente que realizou o maior número de pedidos
+                    String clienteComMaisPedidos = ecommerceController.obterClienteComMaisPedidos(connection);
+
+                    if (clienteComMaisPedidos != null) {
+                        System.out.println("Cliente com o maior número de pedidos: " + clienteComMaisPedidos);
+                    } else {
+                        System.out.println("Nenhum cliente com pedidos registrados.");
+                    }
+
+                    System.out.println("-------------------------------");
                     break;
                 case 11:
-                    System.out.println(ecommerceController.obterClientesComPedidosAcimaDaMedia(connection));
+                    System.out.println("\n*** Clientes com Pedidos Acima da Média ***");
+                    System.out.println("----------------------------------------");
+
+                    // Obtém a lista de clientes com pedidos acima da média
+                    List<String> clientesAcimaDaMedia = ecommerceController.obterClientesComPedidosAcimaDaMedia(connection);
+
+                    if (!clientesAcimaDaMedia.isEmpty()) {
+                        System.out.println("Clientes com pedidos acima da média:");
+                        for (String cliente : clientesAcimaDaMedia) {
+                            System.out.println("- " + cliente);
+                        }
+                    } else {
+                        System.out.println("Nenhum cliente fez pedidos acima da média.");
+                    }
+
+                    System.out.println("----------------------------------------");
                     break;
                 case 12:
-                    System.out.println(ecommerceController.obterClientesQueGastaramAcimaDaMedia(connection));
+                    System.out.println("\n*** Vendedores com Produtos Bem Avaliados ***");
+                    System.out.println("------------------------------------------");
+                    // Chama a função que obtém os vendedores com produtos bem avaliados
+                    List<String> vendedores = ecommerceController.obterVendedoresComProdutosBemAvaliados(connection);
+
+                    // Exibe os resultados para o usuário
+                    if (vendedores.isEmpty()) {
+                        System.out.println("Nenhum vendedor com produtos bem avaliados encontrados.");
+                    } else {
+                        for (String vendedor : vendedores) {
+                            System.out.println(vendedor);
+                        }
+                    }
+
+                    System.out.println("------------------------------------------");
                     break;
                 case 0:
                     System.out.println("Retornando ao menu principal...");

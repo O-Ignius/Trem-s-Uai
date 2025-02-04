@@ -70,7 +70,7 @@ public class ConsultasDAO {
 
     // Consulta 2: Listar produtos com suas avaliações
     public List<Avaliacao> listarAvaliacoesComProduto(Connection connection) {
-        String sql = "SELECT a.nota, a.comentario, a.data, " +
+        String sql = "SELECT a.nota, a.comentario, a.data, a.cliente_id, " +
                      "p.id AS produto_id, p.nome AS produto_nome, p.descricao, p.valor, p.estoque " +
                      "FROM avaliacao a " +
                      "JOIN produto p ON a.produto_id = p.id";
@@ -85,6 +85,13 @@ public class ConsultasDAO {
                 avaliacao.setNota(rs.getInt("nota"));
                 avaliacao.setComentario(rs.getString("comentario"));
                 avaliacao.setData(rs.getDate("data"));
+
+                // Criando o cliente a partir do cliente_id
+                int clienteId = rs.getInt("cliente_id");
+                Cliente cliente = new Cliente();
+                cliente.setId(clienteId);  // Setando o ID do cliente (você pode preencher os outros atributos do Cliente conforme necessário)
+
+                avaliacao.setCliente(cliente); // Setando o cliente na avaliação
 
                 Produto produto = new Produto();
                 produto.setId(rs.getInt("produto_id"));
@@ -105,32 +112,34 @@ public class ConsultasDAO {
         return avaliacoes;
     }
 
+
     // Consulta 3: Listar carrinhos com seus respectivos itens e cliente
     public List<Carrinho> listarCarrinhosComItensECliente(Connection connection) {
-        String sql = "SELECT ca.id AS carrinho_id, ca.precoTotal, ca.dataPedido, ca.tipoPagamento, " +
+        String sql = "SELECT ca.id AS carrinho_id, ca.precoTotal, ca.dataPedido, ca.tipoPagamento, ca.fechado, " +
                      "c.id AS cliente_id, c.nome AS cliente_nome, c.email, c.telefone " +
                      "FROM carrinho ca " +
                      "JOIN cliente c ON ca.cliente_id = c.id";
-    
+
         List<Carrinho> carrinhos = new ArrayList<>();
-    
+
         try {
             PreparedStatement stmt = connection.prepareStatement(sql);
             ResultSet rs = stmt.executeQuery();
-    
+
             while (rs.next()) {
                 Carrinho carrinho = new Carrinho();
                 carrinho.setId(rs.getInt("carrinho_id"));
                 carrinho.setPrecoTotal(rs.getDouble("precoTotal"));
                 carrinho.setDataPedido(rs.getDate("dataPedido"));
                 carrinho.setTipoPagamento(rs.getInt("tipoPagamento"));
-    
+                carrinho.setFechado(rs.getBoolean("fechado"));
+
                 Cliente cliente = new Cliente();
                 cliente.setId(rs.getInt("cliente_id"));
                 cliente.setNome(rs.getString("cliente_nome"));
                 cliente.setEmail(rs.getString("email"));
                 cliente.setTelefone(rs.getString("telefone"));
-    
+
                 carrinho.setCliente(cliente);
                 carrinhos.add(carrinho);
             }
@@ -139,9 +148,10 @@ public class ConsultasDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    
+
         return carrinhos;
     }
+
     
     
     
@@ -171,7 +181,8 @@ public class ConsultasDAO {
         }
         return resultados;
     }
-
+    
+    
     /**
      * Obtém a média de preço total dos pedidos, agrupados pelo tipo de pagamento.
      * Retorna o tipo de pagamento e a média dos preços dos pedidos feitos com esse método.
@@ -260,16 +271,17 @@ public class ConsultasDAO {
      * Retorna a média do total de pedidos feitos por dia na última semana.
      */
     public double obterMediaVendasUltimaSemana(Connection connection) {
-        String sql = "SELECT AVG(quantidade_pedidos) AS media_vendas_diarias FROM " +
-                     "(SELECT COUNT(*) AS quantidade_pedidos " +
-                     " FROM carrinho ca " +
-                     " WHERE ca.dataPedido >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
-                     " AND ca.fechado = true " +  // Verifica se o carrinho foi fechado
-                     " GROUP BY DATE(ca.dataPedido)) AS vendas_diarias";
-    
+        String sql = "SELECT SUM(quantidade_pedidos) / 7.0 AS media_vendas_diarias FROM (" +
+                     "    SELECT COUNT(*) AS quantidade_pedidos " +
+                     "    FROM carrinho ca " +
+                     "    WHERE ca.dataPedido >= DATE_SUB(CURDATE(), INTERVAL 7 DAY) " +
+                     "    AND ca.fechado = true " +  // Verifica se o carrinho foi fechado
+                     "    GROUP BY DATE(ca.dataPedido)" +
+                     ") AS vendas_diarias";
+
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-    
+
             if (rs.next()) {
                 return rs.getDouble("media_vendas_diarias");
             }
@@ -308,33 +320,35 @@ public class ConsultasDAO {
     }
     
     
-    
-    
-    
-    
+
     /**
-     * Obtém o cliente que realizou o maior número de pedidos.
-     * Retorna o nome do cliente que fez mais compras.
-     */
+    * Obtém o cliente que realizou o maior número de pedidos.
+    * Retorna o nome do cliente com o maior número de pedidos e o total de pedidos feitos.
+    */
     public String obterClienteComMaisPedidos(Connection connection) {
-        String sql = "SELECT nome FROM cliente " +
+        String sql = "SELECT nome, (SELECT COUNT(*) FROM carrinho " +
+                     "WHERE cliente_id = c.id AND fechado = true) AS total_pedidos " +
+                     "FROM cliente c " +
                      "WHERE id = (SELECT cliente_id FROM carrinho " +
                      "WHERE fechado = true " +
                      "GROUP BY cliente_id " +
                      "ORDER BY COUNT(*) DESC " +
                      "LIMIT 1)";
-    
+
         try (PreparedStatement stmt = connection.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-    
+
             if (rs.next()) {
-                return rs.getString("nome");
+                String nomeCliente = rs.getString("nome");
+                int totalPedidos = rs.getInt("total_pedidos");
+                return nomeCliente + " com um total de " + totalPedidos + " pedidos";
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return null;
     }
+
 
     
 
@@ -362,31 +376,41 @@ public class ConsultasDAO {
         return clientes;
     }
 
-
+    
+    
     /**
-     * Obtém os clientes que gastaram acima da média de todos os clientes.
-     * Retorna uma lista com os nomes dos clientes cujo total gasto supera a média geral de gastos.
+     * Obtém os vendedores que possuem produtos com avaliação média superior a 4.
+     * Retorna uma lista de strings contendo o nome do vendedor e a quantidade de produtos
+     * com avaliação superior a 4.
      */
-    public List<String> obterClientesQueGastaramAcimaDaMedia(Connection connection) {
-        String sql = "SELECT nome FROM cliente " +
-                     "WHERE id IN (SELECT cliente_id FROM carrinho " +
-                     "WHERE fechado = true " +
-                     "GROUP BY cliente_id " +
-                     "HAVING SUM(precoTotal) > (SELECT AVG(total_gasto) FROM " +
-                     "(SELECT SUM(precoTotal) AS total_gasto FROM carrinho WHERE fechado = true GROUP BY cliente_id) AS media_gastos))";
-    
-        List<String> clientes = new ArrayList<>();
-    
-        try (PreparedStatement stmt = connection.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
-    
-            while (rs.next()) {
-                clientes.add(rs.getString("nome"));
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
+    public List<String> obterVendedoresComProdutosBemAvaliados(Connection connection) {
+    String sql = "SELECT v.nome, COUNT(p.id) AS quantidade_produtos " +
+                 "FROM vendedor v " +
+                 "JOIN produto p ON v.id = p.vendedor_id " +
+                 "WHERE p.id IN ( " +
+                 "    SELECT produto_id " +
+                 "    FROM avaliacao " +
+                 "    GROUP BY produto_id " +
+                 "    HAVING AVG(nota) > 4 " + // Aqui calculamos a média diretamente na cláusula HAVING
+                 ") " +
+                 "GROUP BY v.id";
+
+    List<String> resultado = new ArrayList<>();
+
+    try (PreparedStatement stmt = connection.prepareStatement(sql);
+         ResultSet rs = stmt.executeQuery()) {
+
+        while (rs.next()) {
+            String nomeVendedor = rs.getString("nome");
+            int quantidadeProdutos = rs.getInt("quantidade_produtos");
+            resultado.add(nomeVendedor + " - " + quantidadeProdutos + " produto(s)");
         }
-        return clientes;
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
     }
+
+    return resultado;
+}
+
     
 }

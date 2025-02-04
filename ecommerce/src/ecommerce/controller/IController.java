@@ -134,5 +134,5 @@ public interface IController {
     
     public List<String> obterClientesComPedidosAcimaDaMedia(Connection connection);
     
-    public List<String> obterClientesQueGastaramAcimaDaMedia(Connection connection);
+    public List<String> obterVendedoresComProdutosBemAvaliados(Connection connection);
 }
