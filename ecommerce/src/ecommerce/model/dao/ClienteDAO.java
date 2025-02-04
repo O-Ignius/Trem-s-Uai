@@ -6,12 +6,14 @@ import ecommerce.model.entity.Cliente;
 
 //controller
 import ecommerce.controller.EcommerceController;
+import ecommerce.model.entity.Carrinho;
 
 //imports obrigatorios
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 
 public class ClienteDAO {
@@ -24,7 +26,7 @@ public class ClienteDAO {
     public void salvar(Cliente cliente, Connection connection) {
         String sql = "INSERT INTO cliente (nome, cpf, email, senha, telefone, dataNascimento, nacionalidade, genero, endereco_id) VALUES (?,?,?,?,?,?,?,?,?)";
 
-        //Cadastro de endereco na tabela endereco
+        // Cadastro de endereço na tabela endereco
         int endereco = ecommerceController.cadastrarEndereco(cliente.getEndereco(), connection);
 
         try {
@@ -41,13 +43,16 @@ public class ClienteDAO {
 
             stmt.executeUpdate(); 
 
-
             ResultSet rs = stmt.getGeneratedKeys();
             if (rs.next()) {
-                cliente.setId(rs.getInt(1)); 
+                cliente.setId(rs.getInt(1)); // Setando o ID do cliente
 
-                // Criando o carrinho com o ID do cliente
-                ecommerceController.salvarCarrinho(cliente, connection);
+                // Criando o carrinho para o cliente
+                Carrinho carrinho = new Carrinho();
+                carrinho.setCliente(cliente); // Associando o cliente ao carrinho
+                carrinho.setDataCriacao(new Date()); // Definindo a data de criação do carrinho
+
+                ecommerceController.salvarCarrinho(carrinho, connection); // Salvando o carrinho no banco
             }
 
             rs.close();

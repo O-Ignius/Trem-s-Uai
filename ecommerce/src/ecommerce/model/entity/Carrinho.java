@@ -1,22 +1,22 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ecommerce.model.entity;
-import java.sql.Date;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 /**
  *
  * @author Andre
  */
 public class Carrinho {
     private int id;
-    boolean fechado;
-    private double precoTotal;
-    private Date dataPedido;
-    private int tipoPagamento;
-   
     private Cliente cliente;
-    
+    private Date dataCriacao;
+    private List<ItensCarrinho> itens = new ArrayList<>();
+    public Carrinho() {
+        this.dataCriacao = new Date(); // Define a data de criação ao instanciar
+    }
+
     public int getId() {
         return id;
     }
@@ -24,13 +24,7 @@ public class Carrinho {
     public void setId(int id) {
         this.id = id;
     }
-    public boolean isFechado() {
-        return fechado;
-    }
-    public void setFechado(boolean fechado) {
-        this.fechado = fechado;
-    }
-    
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -38,28 +32,22 @@ public class Carrinho {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
     
-    public double getPrecoTotal() {
-        return precoTotal;
+    public void setItens(List<ItensCarrinho> itens) {
+        this.itens = itens;
     }
-
-    public void setPrecoTotal(double precoTotal) {
-        this.precoTotal = precoTotal;
+    
+    public List<ItensCarrinho> getItens() {
+        return itens;
     }
-
-    public Date getDataPedido() {
-        return dataPedido;
-    }
-
-    public void setDataPedido(Date dataPedido) {
-        this.dataPedido = dataPedido;
-    }
-
-    public int getTipoPagamento() {
-        return tipoPagamento;
-    }
-
-    public void setTipoPagamento(int tipoPagamento) {
-        this.tipoPagamento = tipoPagamento;
-    }
+    
+    
 }

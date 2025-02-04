@@ -1,12 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package ecommerce.model.entity;
+
 import java.sql.Date;
+import java.util.List;
+
 /**
- *
- * @author Andre
+ * Classe que representa um Cliente no sistema de e-commerce.
  */
 public class Cliente {
     private int id;
@@ -19,9 +17,9 @@ public class Cliente {
     private String nacionalidade;
     private String genero;
     private Endereco endereco;
-    private Carrinho carrinho;
+    private List<Venda> vendas; // Cliente pode ter múltiplas vendas
     private final boolean isVendedor = false;
-              
+    
     public Cliente() {
     }
 
@@ -105,11 +103,11 @@ public class Cliente {
         this.endereco = endereco;
     }
 
-    public Carrinho getCarrinho() {
-        return carrinho;
+    public List<Venda> getVendas() {
+        return vendas;
     }
 
-    public void setCarrinho(Carrinho carrinho) {
-        this.carrinho = carrinho;
+     public void setVendas(List<Venda> vendas) {
+        this.vendas = vendas;
     }
 }

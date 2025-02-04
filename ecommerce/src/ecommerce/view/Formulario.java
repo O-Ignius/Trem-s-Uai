@@ -9,12 +9,14 @@ import java.util.Scanner;
 
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
-import ecommerce.model.entity.Item;
-import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Venda;
+import ecommerce.model.entity.ItensVenda;
 import java.text.SimpleDateFormat;
 
 //controller
 import ecommerce.controller.EcommerceController;
+import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.ItensCarrinho;
 import java.sql.Connection;
 /**
  *
@@ -24,23 +26,34 @@ public class Formulario {
     
     private EcommerceController ecommerceController = new EcommerceController(); 
     
-    public Produto lerProduto(int id, Scanner scan){
+    public Produto lerProduto(int id, Scanner scan) {
         Produto produto = new Produto();
         Vendedor vendedor = new Vendedor();
-        
+
         System.out.print("Digite o nome do produto: ");
         produto.setNome(scan.nextLine());
+
         System.out.print("Digite a descrição do produto: ");
         produto.setDescricao(scan.nextLine());
-        System.out.print("Digite o valor do produto: ");
-        produto.setValor(scan.nextDouble());
-        scan.nextLine(); // Consumir a quebra de linha deixada pelo nextInt()
+
+        System.out.print("Digite o valor atual do produto: ");
+        produto.setValorAtual(scan.nextDouble());
+
+        scan.nextLine(); // Consumir a quebra de linha deixada pelo nextDouble()
+
+        System.out.print("Digite o custo atual do produto: ");
+        produto.setCustoAtual(scan.nextDouble());
+
+        scan.nextLine(); // Consumir a quebra de linha deixada pelo nextDouble()
+
         System.out.print("Digite a quantidade em estoque: ");
         produto.setEstoque(scan.nextInt());
+
         scan.nextLine(); // Consumir a quebra de linha deixada pelo nextInt()
-        
+
         vendedor.setId(id);
         produto.setVendedor(vendedor);
+
         return produto;
     }
     
@@ -170,33 +183,34 @@ public class Formulario {
         }
     }
     
-    public Item lerItem(Scanner input, int idCliente, Connection connection){
-        Item item = new Item();
+    public ItensCarrinho lerItem(Scanner input, int idCliente, Connection connection) {
+        ItensCarrinho itemCarrinho = new ItensCarrinho();
         Produto produto;
-        Cliente cliente = new Cliente();
         Carrinho carrinho;
-        
-        cliente.setId(idCliente);
-        carrinho = ecommerceController.buscaCarrinhoAtual(idCliente, connection);
-        item.setCarrinho(carrinho);
+
+        // Obtém o carrinho do cliente
+        carrinho = ecommerceController.getCarrinhoPorCliente(idCliente, connection);
+        itemCarrinho.setCarrinho(carrinho);
+
+        // Solicita o ID do produto
         System.out.println("\nDigite o id do produto que deseja adicionar: ");
         produto = ecommerceController.getProduto(input.nextInt(), connection);
-        item.setProduto(produto);
-        
-        System.out.println("\nDigite a quantidade que deseja(Estoque: " + produto.getEstoque() + "):");
-        item.setQuantidade(input.nextInt());
-            
-        while(produto.getEstoque() < item.getQuantidade()){
-            System.err.println("Estoque excedido!");
-            System.out.println("\nDigite a quantidade que deseja(Estoque: " + produto.getEstoque() + "):");
-            item.setQuantidade(input.nextInt());
+        itemCarrinho.setProduto(produto);
+
+        // Solicita a quantidade desejada e verifica se há estoque suficiente
+        System.out.println("\nDigite a quantidade que deseja (Estoque disponível: " + produto.getEstoque() + "):");
+        int quantidade = input.nextInt();
+
+        while (quantidade > produto.getEstoque()) {
+            System.err.println("Estoque insuficiente! Digite uma quantidade válida.");
+            System.out.println("\nDigite a quantidade que deseja (Estoque disponível: " + produto.getEstoque() + "):");
+            quantidade = input.nextInt();
         }
-        return item;
-    } 
-    
-    public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){
-        System.out.println("Qual o tipo de pagamento? (1 - Dinheiro 2 - Cartão 3 - PIX)");
-        carrinho.setTipoPagamento(input.nextInt());
-        return carrinho;
+
+        itemCarrinho.setQuantidade(quantidade);
+        itemCarrinho.setPrecoUnitario(produto.getValorAtual()); // Define o preço unitário do item
+
+        return itemCarrinho;
     }
+
 }

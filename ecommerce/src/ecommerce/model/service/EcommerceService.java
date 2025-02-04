@@ -17,17 +17,21 @@ import ecommerce.model.dao.ClienteDAO;
 import ecommerce.model.dao.EnderecoDAO;
 import ecommerce.model.dao.VendedorDAO;
 import ecommerce.model.dao.ProdutoDAO;
-import ecommerce.model.dao.CarrinhoDAO;
-import ecommerce.model.dao.ItemDAO;
+import ecommerce.model.dao.VendaDAO;
+import ecommerce.model.dao.ItensVendaDAO;
 import ecommerce.model.dao.AutenticacaoDAO;
+import ecommerce.model.dao.CarrinhoDAO;
 import ecommerce.model.dao.ConsultasDAO;
+import ecommerce.model.dao.ItensCarrinhoDAO;
 
 //entitys
 import ecommerce.model.entity.Avaliacao;
 import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Venda;
 import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Endereco;
-import ecommerce.model.entity.Item;
+import ecommerce.model.entity.ItensCarrinho;
+import ecommerce.model.entity.ItensVenda;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import ecommerce.view.Formulario;
@@ -76,11 +80,13 @@ public class EcommerceService {
     private VendedorDAO vendedorDAO;
     private ProdutoDAO produtoDAO;
     private AvaliacaoDAO avaliacaoDAO;
-    private CarrinhoDAO carrinhoDAO;
-    private ItemDAO itemDAO;
+    private VendaDAO vendaDAO;
+    private ItensVendaDAO itensVendaDAO;
     private AutenticacaoDAO autenticacaoDAO;
     private Formulario formulario;
     private ConsultasDAO consultas;
+    private ItensCarrinhoDAO itensCarrinhoDAO;
+    private CarrinhoDAO carrinhoDAO;
     
     //views
     private Menus menu;
@@ -91,10 +97,12 @@ public class EcommerceService {
         this.enderecoDAO = new EnderecoDAO();
         this.vendedorDAO = new VendedorDAO();
         this.produtoDAO = new ProdutoDAO();
-        this.carrinhoDAO = new CarrinhoDAO();
-        this.itemDAO = new ItemDAO();
+        this.vendaDAO = new VendaDAO();
+        this.itensVendaDAO = new ItensVendaDAO();
         this.autenticacaoDAO = new AutenticacaoDAO();
         this.avaliacaoDAO = new AvaliacaoDAO();
+        this.itensCarrinhoDAO = new ItensCarrinhoDAO();
+        this.carrinhoDAO = new CarrinhoDAO();
         
         //BD
         this.consultas = new ConsultasDAO();
@@ -209,57 +217,72 @@ public class EcommerceService {
     }
     
     /////////////////////////////////////////////////////////////////
-    //carrinho
-    
-    public void salvarCarrinho(Cliente cliente, Connection connection){
-        carrinhoDAO.salvar(cliente, connection);
+    //VEnda
+    public void salvarVenda(Venda venda, Connection connection) {
+        vendaDAO.salvar(venda, connection);
     }
-    
-    public Carrinho buscaCarrinhoAtual(int id_Cliente, Connection connection){
-        return carrinhoDAO.buscaCarrinhoAtual(id_Cliente, connection);
+    public void editarVenda(Venda venda, Connection connection) {
+        vendaDAO.editar(venda, connection);
     }
-    
-    public void alterarPrecoTotalCarrinho(Carrinho carrinho, Connection connection) {
-        carrinhoDAO.alterarPrecoTotalCarrinho(carrinho, connection);
+    public Venda buscarVendaPorId(int id, Connection connection) {
+        return vendaDAO.getVenda(id, connection);
     }
-    
-    public void finalizarCarrinho(Carrinho carrinho, Connection connection) {
-        carrinhoDAO.finalizarCarrinho(carrinho, connection);
+    public void excluirVenda(int id, Connection connection) {
+        vendaDAO.excluir(id, connection);
     }
-    
-    public void buscaPedidosFinalizados(int idCliente, Connection connection){
-        carrinhoDAO.buscaPedidosFinalizados(idCliente, connection);
+    public double obterTotalVendas(Connection connection) {
+        return vendaDAO.getTotalVendas(connection);
+    }
+    public List<Venda> listarTodasVendas(Connection connection) {
+        return vendaDAO.listarTodasVendas(connection);
     }
     /////////////////////////////////////////////////////////////////
-    //item
-
-    public void salvarItem(Item item, Connection connection){
-        itemDAO.salvar(item, connection);
+    //ItensVenda
+    public void salvarItemVenda(ItensVenda itemVenda, Connection connection) {
+        itensVendaDAO.salvar(itemVenda, connection);
+    }
+    public void editarItemVenda(ItensVenda itemVenda, Connection connection) {
+        itensVendaDAO.editar(itemVenda, connection);
+    }
+    public void excluirItemVenda(int vendaId, int produtoId, Connection connection) {
+        itensVendaDAO.excluir(vendaId, produtoId, connection);
+    }
+    public List<ItensVenda> listarItensVenda(int vendaId, Connection connection) {
+        return itensVendaDAO.listarItensVenda(vendaId, connection);
+    }
+    /////////////////////////////////////////////////////////////////
+    ///ItensCarrinhos
+    public void adicionarItem(ItensCarrinho item, Connection connection) {
+        itensCarrinhoDAO.adicionarItem(item, connection);
+    }
+    public void removerItem(int id, Connection connection) {
+        itensCarrinhoDAO.removerItem(id, connection);
+    }
+    public void atualizarQuantidade(ItensCarrinho item, Connection connection) {
+        itensCarrinhoDAO.atualizarQuantidade(item, connection);
+    }
+    public List<ItensCarrinho> getItensPorCarrinho(int carrinhoId, Connection connection) {
+        return itensCarrinhoDAO.getItensPorCarrinho(carrinhoId, connection);
+    }
+    /////////////////////////////////////////////////////////////////
+    ///Carrinho
+    public void salvarCarrinho(Carrinho carrinho, Connection connection) {
+        carrinhoDAO.salvar(carrinho, connection);
+    }
+    public void excluirCarrinho(int id, Connection connection) {
+        carrinhoDAO.excluir(id, connection);
+    }
+    public Carrinho getCarrinhoPorCliente(int clienteId, Connection connection) {
+        return carrinhoDAO.getCarrinhoPorCliente(clienteId, connection);
     }
     
-    public void editarItem(Item Item, Connection connection){
-        itemDAO.editar(Item, connection);
+    public void limparCarrinho(int carrinhoId, Connection connection) {
+        carrinhoDAO.limparCarrinho(carrinhoId, connection);
     }
     
-    public void excluirItem(int id, Connection connection){
-        itemDAO.excluir(id, connection);
-    }
     
-    public Item getItem(int id, Connection connection){
-        return itemDAO.getItem(id, connection);
-    }
     
-    public int buscaItemPorIdCarrinho(Carrinho carrinho, Connection connection){
-        return itemDAO.buscaItemPorIdCarrinho(carrinho.getId(), connection);
-    }
     
-    public double somaValorItensCarrinho(int id, Connection connection) {
-        return itemDAO.somaValorItensCarrinho(id, connection);
-    }
-    
-    public void editaEstoqueItemPorIdCarrinho(int id, Connection connection) {
-        itemDAO.editaEstoqueItemPorIdCarrinho(id, connection);
-    }
     /////////////////////////////////////////////////////////////////
     //autenticação
     public int login(String email, String senha, String tableNome, Connection connection) {
@@ -316,13 +339,12 @@ public class EcommerceService {
     public Produto lerProduto(int id, Scanner input){
         return formulario.lerProduto(id, input);
     }
-    public Item lerItem(Scanner input, int idCliente, Connection connection){
+    public ItensCarrinho lerItem(Scanner input, int idCliente, Connection connection) {
         return formulario.lerItem(input, idCliente, connection);
     }
+
+
     
-    public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){
-        return formulario.lerCarrinho(input, carrinho);
-    }
     
     /////////////////////////////////////////////////////////////////
     //CONSULTAS BD

@@ -10,7 +10,7 @@ public class Conexao {
     private static final String URL_MYSQL = "jdbc:mysql://localhost:3306/ecommerce";
     private static final String DRIVER_MYSQL = "com.mysql.cj.jdbc.Driver";
     private static final String USER = "root";
-    private static final String PASS = "root";
+    private static final String PASS = "admin123";
 
     private Connection connection;
 

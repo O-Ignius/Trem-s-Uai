@@ -4,9 +4,11 @@ package ecommerce.controller;
 //imports entity
 import ecommerce.model.entity.Avaliacao;
 import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Venda;
 import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Endereco;
-import ecommerce.model.entity.Item;
+import ecommerce.model.entity.ItensCarrinho;
+import ecommerce.model.entity.ItensVenda;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 
@@ -172,66 +174,98 @@ public class EcommerceController implements IController{
         return ecommerceService.getAvaliacao(idCliente, idProduto, connection);
     }
     /////////////////////////////////////////////////////////////////
-    //carrinho
-    public void salvarCarrinho(Cliente cliente, Connection connection){
+    //VEnda
+    public void salvarVenda(Venda venda, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarCarrinho(cliente, connection);
-    }
-    
-    public Carrinho buscaCarrinhoAtual(int id_Cliente, Connection connection){
-        EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.buscaCarrinhoAtual(id_Cliente, connection);
-    }
-    
-    public void alterarPrecoTotalCarrinho(Carrinho carrinho, Connection connection) {
-        EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.alterarPrecoTotalCarrinho(carrinho, connection);
-    }
-    
-    public void finalizarCarrinho(Carrinho carrinho, Connection connection) {
-        EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.finalizarCarrinho(carrinho, connection);
-    }
-    
-    public void buscaPedidosFinalizados(int idCliente, Connection connection){
-        EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.buscaPedidosFinalizados(idCliente, connection);
-    }
-    /////////////////////////////////////////////////////////////////
-    //item
-    public void salvarItem(Item item, Connection connection){
-        EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.salvarItem(item, connection);
-    }
-    
-    public void editarItem(Item Item, Connection connection){
-        EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editarItem(Item, connection);
-    }
-    
-    public void excluirItem(int id, Connection connection){
-        EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.excluirItem(id, connection);
+        ecommerceService.salvarVenda(venda, connection);
     }
 
-    public Item getItem(int id, Connection connection){
+    public void editarVenda(Venda venda, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.getItem(id, connection);
+        ecommerceService.editarVenda(venda, connection);
     }
-    
-    public int buscaItemPorIdCarrinho(Carrinho carrinho, Connection connection){
+
+    public Venda buscarVendaPorId(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.buscaItemPorIdCarrinho(carrinho, connection);
+        return ecommerceService.buscarVendaPorId(id, connection);
     }
-    
-    public double somaValorItensCarrinho(int id, Connection connection) {
+
+    public void excluirVenda(int id, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.somaValorItensCarrinho(id, connection);
+        ecommerceService.excluirVenda(id, connection);
     }
-    
-    public void editaEstoqueItemPorIdCarrinho(int id, Connection connection) {
+
+    public double obterTotalVendas(Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
-        ecommerceService.editaEstoqueItemPorIdCarrinho(id, connection);
+        return ecommerceService.obterTotalVendas(connection);
+    }
+
+    public List<Venda> listarTodasVendas(Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.listarTodasVendas(connection);
+    }
+
+    /////////////////////////////////////////////////////////////////
+    //ItensVenda
+    public void salvarItemVenda(ItensVenda itemVenda, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.salvarItemVenda(itemVenda, connection);
+    }
+
+    public void editarItemVenda(ItensVenda itemVenda, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.editarItemVenda(itemVenda, connection);
+    }
+
+    public void excluirItemVenda(int vendaId, int produtoId, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.excluirItemVenda(vendaId, produtoId, connection);
+    }
+
+    public List<ItensVenda> listarItensVenda(int vendaId, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.listarItensVenda(vendaId, connection);
+    }
+    /////////////////////////////////////////////////////////////////
+    ///Carrinho
+    public void salvarCarrinho(Carrinho carrinho, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.salvarCarrinho(carrinho, connection);
+    }
+
+    public void excluirCarrinho(int id, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.excluirCarrinho(id, connection);
+    }
+    public void limparCarrinho(int idCarrinho, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.limparCarrinho(idCarrinho, connection);
+    }
+
+    public Carrinho getCarrinhoPorCliente(int clienteId, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.getCarrinhoPorCliente(clienteId, connection);
+    }
+    /////////////////////////////////////////////////////////////////
+    //ItensCarrinho
+    public void adicionarItem(ItensCarrinho item, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.adicionarItem(item, connection);
+    }
+
+    public void removerItem(int id, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.removerItem(id, connection);
+    }
+
+    public void atualizarQuantidade(ItensCarrinho item, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.atualizarQuantidade(item, connection);
+    }
+
+    public List<ItensCarrinho> getItensPorCarrinho(int carrinhoId, Connection connection) {
+        EcommerceService ecommerceService = new EcommerceService();
+        return ecommerceService.getItensPorCarrinho(carrinhoId, connection);
     }
     
     /////////////////////////////////////////////////////////////////
@@ -303,16 +337,12 @@ public class EcommerceController implements IController{
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.lerProduto(id, input);
     }
-    public Item lerItem(Scanner input, int idCliente, Connection connection){
+    public ItensCarrinho lerItem(Scanner input, int idCliente, Connection connection) {
         EcommerceService ecommerceService = new EcommerceService();
         return ecommerceService.lerItem(input, idCliente, connection);
     }
     
-    public Carrinho lerCarrinho(Scanner input, Carrinho carrinho){
-        EcommerceService ecommerceService = new EcommerceService();
-        return ecommerceService.lerCarrinho(input, carrinho);
-    }
-    
+
     /////////////////////////////////////////////////////////////////
     //CONSULTAS BD
     

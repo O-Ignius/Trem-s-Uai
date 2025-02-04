@@ -2,10 +2,10 @@ package ecommerce.model.dao;
 
 //entity relacionados
 import ecommerce.model.entity.Avaliacao;
-import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Venda;
 import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Endereco;
-import ecommerce.model.entity.Item;
+import ecommerce.model.entity.ItensVenda;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 

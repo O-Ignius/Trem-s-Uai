@@ -3,9 +3,11 @@ package ecommerce.controller;
 //entitys
 import ecommerce.model.entity.Avaliacao;
 import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Venda;
 import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Endereco;
-import ecommerce.model.entity.Item;
+import ecommerce.model.entity.ItensCarrinho;
+import ecommerce.model.entity.ItensVenda;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
 import java.sql.Connection;
@@ -60,24 +62,34 @@ public interface IController {
     public Avaliacao getProduto (int idCliente, int idProduto, Connection connection);
     
     /////////////////////////////////////////////////////////////////
-    //carrinho
-    public void salvarCarrinho(Cliente cliente, Connection connection);
-    public Carrinho buscaCarrinhoAtual(int id_Cliente, Connection connection);
-    public void alterarPrecoTotalCarrinho(Carrinho carrinho, Connection connection);
-    public void finalizarCarrinho(Carrinho carrinho, Connection connection);
-    public void buscaPedidosFinalizados(int idCliente, Connection connection);
+    //Vendas
+    public void salvarVenda(Venda venda, Connection connection) ;
+    public void editarVenda(Venda venda, Connection connection) ;
+    public Venda buscarVendaPorId(int id, Connection connection) ;
+    public void excluirVenda(int id, Connection connection) ;
+    public double obterTotalVendas(Connection connection) ;
+    public List<Venda> listarTodasVendas(Connection connection) ;
     
     /////////////////////////////////////////////////////////////////
-    //item
-
-    public void salvarItem(Item item, Connection connection);
-    public void editarItem(Item Item, Connection connection);
-    public void excluirItem(int id, Connection connection);
-    public int buscaItemPorIdCarrinho(Carrinho carrinho, Connection connection);
-    public double somaValorItensCarrinho(int id, Connection connection);
-    public void editaEstoqueItemPorIdCarrinho(int id, Connection connection);
-    public Item getItem(int id, Connection connection);
-
+    // Itens vendas
+    public void salvarItemVenda(ItensVenda itemVenda, Connection connection);
+    public void editarItemVenda(ItensVenda itemVenda, Connection connection);
+    public void excluirItemVenda(int vendaId, int produtoId, Connection connection);
+    public List<ItensVenda> listarItensVenda(int vendaId, Connection connection);
+    /////////////////////////////////////////////////////////////////
+    // Carrinho
+    public void salvarCarrinho(Carrinho carrinho, Connection connection);
+    public void excluirCarrinho(int id, Connection connection);
+    public Carrinho getCarrinhoPorCliente(int clienteId, Connection connection);
+    public void limparCarrinho(int idCarrinho, Connection connection);
+    
+    /////////////////////////////////////////////////////////////////
+    // ItensCarrinho
+    public void adicionarItem(ItensCarrinho item, Connection connection);
+    public void removerItem(int id, Connection connection);
+    public void atualizarQuantidade(ItensCarrinho item, Connection connection);
+    public List<ItensCarrinho> getItensPorCarrinho(int carrinhoId, Connection connection);
+    
     
     /////////////////////////////////////////////////////////////////
     //autenticação
@@ -100,9 +112,8 @@ public interface IController {
     public Cliente lerCliente(Scanner input);
     public Vendedor lerVendedor(Scanner input);
     public Produto lerProduto(int id, Scanner input);
-    public Item lerItem(Scanner input, int idCliente, Connection connection);
-    public Carrinho lerCarrinho(Scanner input, Carrinho carrinho);
-    
+    public ItensCarrinho lerItem(Scanner input, int idCliente, Connection connection);
+
     /////////////////////////////////////////////////////////////////
     //BD
     

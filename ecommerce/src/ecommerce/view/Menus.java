@@ -3,7 +3,10 @@ package ecommerce.view;
 //controller
 import ecommerce.controller.EcommerceController;
 import ecommerce.model.dao.Conexao;
+import ecommerce.model.dao.ItensVendaDAO;
+import ecommerce.model.dao.VendaDAO;
 import ecommerce.model.entity.Avaliacao;
+import ecommerce.model.entity.Carrinho;
 
 //connection
 import java.sql.Connection;
@@ -12,12 +15,18 @@ import java.sql.Connection;
 import ecommerce.model.entity.Cliente;
 import ecommerce.model.entity.Produto;
 import ecommerce.model.entity.Vendedor;
-import ecommerce.model.entity.Carrinho;
+import ecommerce.model.entity.Venda;
 import ecommerce.model.entity.Endereco;
+import ecommerce.model.entity.ItensCarrinho;
+import ecommerce.model.entity.ItensVenda;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 //scanner
 import java.util.Scanner;
+
+
 
 public class Menus{
     EcommerceController ecommerceController = new EcommerceController();
@@ -119,7 +128,7 @@ public class Menus{
             } 
         } while (tentarNovamente != 0);
     }
-    
+ 
     public void cliente(int id, Scanner scan, Connection connection) {
         EcommerceController ecommerceController = new EcommerceController();
         int opcao = - 99;
@@ -151,26 +160,112 @@ public class Menus{
                         System.out.println("Deseja adcionar ao carrinho? (Sim - 1/Não- 2)");
                         opcao = scan.nextInt();
                         if(opcao == 1){
-                            ecommerceController.salvarItem(ecommerceController.lerItem(scan, id, connection), connection);
+                            ecommerceController.adicionarItem(ecommerceController.lerItem(scan, id, connection), connection);
                         }
-                        opcao = 1;
                     }
                     break;
                 case 2:
+                    if (ecommerceController.getItensPorCarrinho(ecommerceController.getCarrinhoPorCliente(id, connection).getId(), connection).isEmpty()) {
+                        System.out.println("O carrinho está vazio.");
+                    } else {
+                        
+                        // Exibe os itens do carrinho
+                        List<ItensCarrinho> itens = ecommerceController.getItensPorCarrinho(ecommerceController.getCarrinhoPorCliente(id, connection).getId(), connection);
 
-                    if(ecommerceController.buscaItemPorIdCarrinho(ecommerceController.buscaCarrinhoAtual(id, connection), connection) > 0){
-
+                        for (ItensCarrinho item : itens) {
+                            // Lógica para exibir os itens
+                            System.out.println("Produto: " + item.getProduto().getNome());
+                            System.out.println("Quantidade: " + item.getQuantidade());
+                            System.out.println("Preço Unitário: " + item.getPrecoUnitario());
+                        }
                         System.out.println("Deseja finalizar o carrinho? (Sim - 1/Não- 2)");
                         opcao = scan.nextInt();
-                        if(opcao == 1){
-                            carrinho = ecommerceController.lerCarrinho(scan, ecommerceController.buscaCarrinhoAtual(id, connection));
-                            ecommerceController.finalizarCarrinho(carrinho, connection);
+                        if (opcao == 1) {
+                            double totalCarrinho = 0.0;
+
+                            for (ItensCarrinho item : itens) {
+                                totalCarrinho += item.getQuantidade() * item.getPrecoUnitario();
+                            }
+                            System.out.println("O valor total da compra foi de: R$ " + totalCarrinho);
+     
+                            int tipoPagamentoNumero = 0;
+                            String tipoPagamento = "";
+
+                            // Enquanto o tipo de pagamento for inválido, continua pedindo a escolha
+                            while (tipoPagamentoNumero != 1 && tipoPagamentoNumero != 2) {
+                                System.out.println("Informe o tipo de pagamento (1-Cartão de Crédito / 2-Pix): ");
+                                tipoPagamentoNumero = scan.nextInt(); // Captura o número digitado
+
+                                // Verifica se o número é válido
+                                if (tipoPagamentoNumero == 1) {
+                                    tipoPagamento = "Cartão de Crédito";
+                                } else if (tipoPagamentoNumero == 2) {
+                                    tipoPagamento = "Pix";
+                                } else {
+                                    System.out.println("Opção inválida! Por favor, escolha uma opção válida.");
+                                }
+                            }
+                            
+                            
+                            // Cria a venda
+                            
+                            Venda venda = new Venda();
+                            venda.setDataHora(new Timestamp(new Date().getTime())); // Data atual
+                            venda.setTotalPago(totalCarrinho);
+                            venda.setTipoPagamento(tipoPagamento);
+                            venda.setPagamentoEfetuado(true); // Assume que o pagamento foi efetuado para simplificação
+                            venda.setCliente(ecommerceController.getCliente(id, connection));
+
+                            // Salva a venda no banco
+                            VendaDAO vendaDAO = new VendaDAO();
+                            vendaDAO.salvar(venda, connection);
+
+                            // Salva os itens da venda
+                            for (ItensCarrinho item : itens) {
+                                ItensVenda itensVenda = new ItensVenda();
+                                itensVenda.setVenda(venda);
+                                itensVenda.setProduto(item.getProduto());
+                                itensVenda.setQuantidade(item.getQuantidade());
+                                itensVenda.setPrecoPraticado(item.getPrecoUnitario());
+
+                                ItensVendaDAO itensVendaDAO = new ItensVendaDAO();
+                                itensVendaDAO.salvar(itensVenda, connection);
+                                
+                                // Atualizando o estoque do produto
+                                Produto produto = item.getProduto();
+                                int estoqueAtual = produto.getEstoque();
+                                int novaQuantidade = estoqueAtual - item.getQuantidade(); // Subtrai a quantidade comprada
+                                produto.setEstoque(novaQuantidade); // Atualiza o estoque do produto
+                                ecommerceController.editarQuantidadeEstoque(produto, connection); // Chama o método para atualizar o estoque no banco
+                            }
+                            // Limpa o carrinho do cliente
+                            ecommerceController.limparCarrinho(ecommerceController.getCarrinhoPorCliente(id, connection).getId(), connection);
+                            System.out.println("Carrinho finalizado e limpo com sucesso!");
+
+
                         }
-                        opcao = 2;
                     }
                     break;
                 case 3:
-                    ecommerceController.buscaPedidosFinalizados(id, connection);
+                    List<Venda> vendas = ecommerceController.listarTodasVendas(connection);
+                    boolean encontrouPedido = false;
+
+                    System.out.println("===== Pedidos Finalizados =====");
+                    for (Venda venda : vendas) {
+                        if (venda.getCliente().getId() == id) { // Filtra apenas as vendas do cliente logado
+                            encontrouPedido = true;
+                            System.out.println("ID da Venda: " + venda.getId());
+                            System.out.println("Data/Hora: " + venda.getDataHora());
+                            System.out.println("Total Pago: R$ " + venda.getTotalPago());
+                            System.out.println("Tipo de Pagamento: " + venda.getTipoPagamento());
+                            System.out.println("Pagamento Efetuado: " + (venda.isPagamentoEfetuado() ? "Sim" : "Não"));
+                            System.out.println("----------------------------");
+                        }
+                    }
+
+                    if (!encontrouPedido) {
+                        System.out.println("Nenhuma venda encontrada para este cliente.");
+                    }
                     break;
                 case 4:
                     cliente = ecommerceController.lerCliente(scan);
@@ -313,8 +408,16 @@ public class Menus{
                             System.out.println("Produto ID: " + produto.getId());
                             System.out.println("Nome: " + produto.getNome());
                             System.out.println("Descrição: " + produto.getDescricao());
-                            System.out.println("Valor: R$ " + String.format("%.2f", produto.getValor()));
+                            System.out.println("Valor Atual: R$ " + String.format("%.2f", produto.getValorAtual()));
+                            System.out.println("Custo Atual: R$ " + String.format("%.2f", produto.getCustoAtual()));
                             System.out.println("Estoque: " + produto.getEstoque());
+
+                            // Exibe informações do vendedor, se houver
+                            Vendedor vendedor = produto.getVendedor();
+                            if (vendedor != null) {
+                                System.out.println("Vendedor ID: " + vendedor.getId());
+                                System.out.println("Vendedor Nome: " + vendedor.getNome());
+                            }
                             System.out.println("\nAvaliação:");
                         }
 
@@ -324,7 +427,7 @@ public class Menus{
                         System.out.println("Data: " + avaliacao.getData());
 
                         // Exibe o ID do cliente que fez a avaliação
-                        Cliente cliente = avaliacao.getCliente();  // Obtém o cliente associado à avaliação
+                        Cliente cliente = avaliacao.getCliente();
                         if (cliente != null) {
                             System.out.println("Cliente ID: " + cliente.getId());
                         }
@@ -348,11 +451,22 @@ public class Menus{
 
                         System.out.println("\nCarrinho:");
                         System.out.println("Carrinho ID: " + carrinho.getId());
-                        System.out.println("Preço Total: R$ " + String.format("%.2f", carrinho.getPrecoTotal()));
-                        System.out.println("Data do Pedido: " + carrinho.getDataPedido());
-                        System.out.println("Tipo de Pagamento: " + carrinho.getTipoPagamento());
-                        String statusCarrinho = carrinho.isFechado() ? "Fechado" : "Aberto";
-                        System.out.println("Status do Carrinho: " + statusCarrinho);
+                        System.out.println("Data de Criação: " + carrinho.getDataCriacao());
+
+                        // Exibe os itens do carrinho
+                        double precoTotal = 0.0;
+                        for (ItensCarrinho item : carrinho.getItens()) {  // Supondo que getItens() retorne a lista de itens do carrinho
+                            Produto produto = item.getProduto();
+                            System.out.println("\nProduto ID: " + produto.getId());
+                            System.out.println("Nome: " + produto.getNome());
+                            System.out.println("Descrição: " + produto.getDescricao());
+                            System.out.println("Valor Unitário: R$ " + String.format("%.2f", produto.getValorAtual()));
+                            System.out.println("Quantidade: " + item.getQuantidade());
+                            System.out.println("Subtotal: R$ " + String.format("%.2f", item.calcularTotal()));
+                            precoTotal += item.calcularTotal();
+                        }
+
+                        System.out.println("Preço Total: R$ " + String.format("%.2f", precoTotal));
                         System.out.println("--------------------------------------------------");
                     }
                     break;
