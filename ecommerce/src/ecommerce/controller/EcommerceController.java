@@ -267,6 +267,10 @@ public class EcommerceController implements IController{
         ecommerceService.vendedorMenu(id, input, connection);
     }
     
+    public void carrinhoMenu(Scanner scan, Connection connection, int id_Cliente){
+        EcommerceService ecommerceService = new EcommerceService();
+        ecommerceService.carrinhoMenu(scan, connection, id_Cliente);
+    }
     ////////////////////////////////
     //Login
     public void cadastroClienteAutenticacao(Scanner input, Connection connection){

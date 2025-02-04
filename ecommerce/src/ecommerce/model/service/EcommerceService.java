@@ -282,6 +282,10 @@ public class EcommerceService {
         menu.vendedor(id, input, connection);
     }
     
+    public void carrinhoMenu(Scanner scan, Connection connection, int id_Cliente){
+        menu.carrinho(scan, connection, id_Cliente);
+    }
+    
     /////////////////////////////////////////////////////////////////
     //View - Autenticacao
     public void cadastroClienteAutenticacao(Scanner input, Connection connection) {

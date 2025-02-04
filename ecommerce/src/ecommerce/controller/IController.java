@@ -92,6 +92,7 @@ public interface IController {
     public void cadastroClienteAutenticacao(Scanner input, Connection connection);      
     public void cadastroVendedorAutenticacao(Scanner input, Connection connection);     
     public int loginAutenticacao(String email, String senha, Scanner input, Connection connection);
+    public void carrinhoMenu(Scanner scan, Connection connection, int id_Cliente);
     
     /////////////////////////////////////////////////////////////////
     //Formulario
