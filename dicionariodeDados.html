@@ -1,105 +1,486 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dicionário de Dados - Banco Ecommerce</title>
+    <title>Dicionário de Dados - E-commerce</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f4f4f4; }
-        h2 { border-bottom: 2px solid #333; padding-bottom: 5px; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #34495e;
+            color: white;
+        }
+        caption {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+        .table-container {
+            margin-top: 30px;
+        }
+        h2 {
+            color: #2c3e50;
+        }
     </style>
 </head>
 <body>
-    <h1>Dicionário de Dados - Banco Ecommerce</h1>
-    
-    <h2>Tabela: endereco</h2>
-    <table>
-        <tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr>
-        <tr><td>id</td><td>INT (PK)</td><td>Identificador único do endereço</td></tr>
-        <tr><td>cep</td><td>INT</td><td>Código de Endereçamento Postal (CEP)</td></tr>
-        <tr><td>rua</td><td>VARCHAR(255)</td><td>Nome da rua</td></tr>
-        <tr><td>complemento</td><td>VARCHAR(255)</td><td>Informações complementares do endereço</td></tr>
-        <tr><td>logradouro</td><td>VARCHAR(100)</td><td>Tipo de logradouro (Avenida, Rua, etc.)</td></tr>
-        <tr><td>bairro</td><td>VARCHAR(100)</td><td>Nome do bairro</td></tr>
-        <tr><td>cidade</td><td>VARCHAR(100)</td><td>Nome da cidade</td></tr>
-        <tr><td>estado</td><td>VARCHAR(100)</td><td>Nome do estado</td></tr>
-        <tr><td>numero</td><td>INT</td><td>Número do endereço</td></tr>
-    </table>
-    
-    <h2>Tabela: cliente</h2>
-    <table>
-        <tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr>
-        <tr><td>id</td><td>INT (PK)</td><td>Identificador único do cliente</td></tr>
-        <tr><td>nome</td><td>VARCHAR(100)</td><td>Nome completo do cliente</td></tr>
-        <tr><td>cpf</td><td>VARCHAR(14) UNIQUE</td><td>Cadastro de Pessoa Física (CPF) do cliente</td></tr>
-        <tr><td>email</td><td>VARCHAR(100) UNIQUE</td><td>Endereço de e-mail do cliente</td></tr>
-        <tr><td>senha</td><td>VARCHAR(100)</td><td>Senha de acesso do cliente</td></tr>
-        <tr><td>telefone</td><td>VARCHAR(15)</td><td>Número de telefone do cliente</td></tr>
-        <tr><td>dataNascimento</td><td>DATE</td><td>Data de nascimento do cliente</td></tr>
-        <tr><td>nacionalidade</td><td>VARCHAR(50)</td><td>País de origem do cliente</td></tr>
-        <tr><td>genero</td><td>VARCHAR(10)</td><td>Gênero do cliente</td></tr>
-        <tr><td>endereco_id</td><td>INT (FK)</td><td>Referência ao endereço do cliente</td></tr>
-    </table>
-    
-    <h2>Tabela: vendedor</h2>
-    <table>
-        <tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr>
-        <tr><td>id</td><td>INT (PK)</td><td>Identificador único do vendedor</td></tr>
-        <tr><td>nome</td><td>VARCHAR(100)</td><td>Nome completo do vendedor</td></tr>
-        <tr><td>cpf</td><td>VARCHAR(14) UNIQUE</td><td>Cadastro de Pessoa Física (CPF) do vendedor</td></tr>
-        <tr><td>cnpj</td><td>VARCHAR(18) UNIQUE</td><td>Cadastro Nacional de Pessoa Jurídica (CNPJ), caso aplicável</td></tr>
-        <tr><td>email</td><td>VARCHAR(100) UNIQUE</td><td>Endereço de e-mail do vendedor</td></tr>
-        <tr><td>senha</td><td>VARCHAR(100)</td><td>Senha de acesso do vendedor</td></tr>
-        <tr><td>telefone</td><td>VARCHAR(15)</td><td>Número de telefone do vendedor</td></tr>
-        <tr><td>dataNascimento</td><td>DATE</td><td>Data de nascimento do vendedor</td></tr>
-        <tr><td>nacionalidade</td><td>VARCHAR(50)</td><td>País de origem do vendedor</td></tr>
-        <tr><td>genero</td><td>VARCHAR(10)</td><td>Gênero do vendedor</td></tr>
-        <tr><td>endereco_id</td><td>INT (FK)</td><td>Referência ao endereço do vendedor</td></tr>
-    </table>
-    
-    <h2>Tabela: produto</h2>
-    <table>
-        <tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr>
-        <tr><td>id</td><td>INT (PK)</td><td>Identificador único do produto</td></tr>
-        <tr><td>nome</td><td>VARCHAR(100)</td><td>Nome do produto</td></tr>
-        <tr><td>descricao</td><td>TEXT</td><td>Descrição detalhada do produto</td></tr>
-        <tr><td>valor</td><td>DOUBLE</td><td>Preço do produto</td></tr>
-        <tr><td>estoque</td><td>INT</td><td>Quantidade disponível em estoque</td></tr>
-        <tr><td>vendedor_id</td><td>INT (FK)</td><td>Referência ao vendedor do produto</td></tr>
-    </table>
-    
-    <h2>Tabela: carrinho</h2>
-    <table>
-        <tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr>
-        <tr><td>id</td><td>INT (PK)</td><td>Identificador único do carrinho</td></tr>
-        <tr><td>fechado</td><td>BOOLEAN</td><td>Indica se o carrinho foi finalizado</td></tr>
-        <tr><td>precoTotal</td><td>DOUBLE</td><td>Preço total dos itens no carrinho</td></tr>
-        <tr><td>dataPedido</td><td>DATE</td><td>Data do pedido</td></tr>
-        <tr><td>tipoPagamento</td><td>INT</td><td>Tipo de pagamento selecionado</td></tr>
-        <tr><td>cliente_id</td><td>INT (FK)</td><td>Referência ao cliente dono do carrinho</td></tr>
-    </table>
-    
-    <h2>Tabela: item</h2>
-    <table>
-        <tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr>
-        <tr><td>id</td><td>INT (PK)</td><td>Identificador único do item</td></tr>
-        <tr><td>quantidadeItem</td><td>INT</td><td>Quantidade de itens adicionados</td></tr>
-        <tr><td>subTotal</td><td>DOUBLE</td><td>Subtotal do item</td></tr>
-        <tr><td>produto_id</td><td>INT (FK)</td><td>Referência ao produto</td></tr>
-        <tr><td>carrinho_id</td><td>INT (FK)</td><td>Referência ao carrinho</td></tr>
-    </table>
-    
-    <h2>Tabela: avaliacao</h2>
-    <table>
-        <tr><th>Campo</th><th>Tipo</th><th>Descrição</th></tr>
-        <tr><td>id</td><td>INT (PK)</td><td>Identificador único da avaliação</td></tr>
-        <tr><td>nota</td><td>INT</td><td>Nota atribuída ao produto</td></tr>
-        <tr><td>comentario</td><td>TEXT</td><td>Comentário sobre o produto</td></tr>
-        <tr><td>data</td><td>DATE</td><td>Data da avaliação</td></tr>
-        <tr><td>cliente_id</td><td>INT (FK)</td><td>Referência ao cliente que avaliou</td></tr>
-        <tr><td>produto_id</td><td>INT (FK)</td><td>Referência ao produto avaliado</td></tr>
-    </table>
+    <header>
+        <h1>Dicionário de Dados - E-commerce</h1>
+    </header>
+
+    <div class="table-container">
+        <h2>Tabelas</h2>
+
+        <!-- Tabela endereco -->
+        <table>
+            <caption>Tabela: `endereco`</caption>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>INT</td>
+                    <td>Identificador único do endereço</td>
+                </tr>
+                <tr>
+                    <td>cep</td>
+                    <td>INT</td>
+                    <td>Código de Endereçamento Postal (CEP)</td>
+                </tr>
+                <tr>
+                    <td>rua</td>
+                    <td>VARCHAR(255)</td>
+                    <td>Nome da rua</td>
+                </tr>
+                <tr>
+                    <td>complemento</td>
+                    <td>VARCHAR(255)</td>
+                    <td>Informações complementares do endereço</td>
+                </tr>
+                <tr>
+                    <td>logradouro</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Tipo de logradouro (Avenida, Rua, etc.)</td>
+                </tr>
+                <tr>
+                    <td>bairro</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Nome do bairro</td>
+                </tr>
+                <tr>
+                    <td>cidade</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Nome da cidade</td>
+                </tr>
+                <tr>
+                    <td>estado</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Nome do estado</td>
+                </tr>
+                <tr>
+                    <td>numero</td>
+                    <td>INT</td>
+                    <td>Número do endereço</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Tabela cliente -->
+        <table>
+            <caption>Tabela: `cliente`</caption>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>INT</td>
+                    <td>Identificador único do cliente</td>
+                </tr>
+                <tr>
+                    <td>nome</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Nome completo do cliente</td>
+                </tr>
+                <tr>
+                    <td>cpf</td>
+                    <td>VARCHAR(14)</td>
+                    <td>Cadastro de Pessoa Física (CPF) do cliente</td>
+                </tr>
+                <tr>
+                    <td>email</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Endereço de e-mail do cliente</td>
+                </tr>
+                <tr>
+                    <td>senha</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Senha de acesso do cliente</td>
+                </tr>
+                <tr>
+                    <td>telefone</td>
+                    <td>VARCHAR(15)</td>
+                    <td>Número de telefone do cliente</td>
+                </tr>
+                <tr>
+                    <td>dataNascimento</td>
+                    <td>DATE</td>
+                    <td>Data de nascimento do cliente</td>
+                </tr>
+                <tr>
+                    <td>nacionalidade</td>
+                    <td>VARCHAR(50)</td>
+                    <td>País de origem do cliente</td>
+                </tr>
+                <tr>
+                    <td>genero</td>
+                    <td>VARCHAR(10)</td>
+                    <td>Gênero do cliente</td>
+                </tr>
+                <tr>
+                    <td>endereco_id</td>
+                    <td>INT</td>
+                    <td>Referência ao endereço do cliente</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Tabela vendedor -->
+        <table>
+            <caption>Tabela: `vendedor`</caption>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>INT</td>
+                    <td>Identificador único do vendedor</td>
+                </tr>
+                <tr>
+                    <td>nome</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Nome completo do vendedor</td>
+                </tr>
+                <tr>
+                    <td>cpf</td>
+                    <td>VARCHAR(14)</td>
+                    <td>Cadastro de Pessoa Física (CPF) do vendedor</td>
+                </tr>
+                <tr>
+                    <td>cnpj</td>
+                    <td>VARCHAR(18)</td>
+                    <td>Cadastro Nacional de Pessoa Jurídica (CNPJ), caso aplicável</td>
+                </tr>
+                <tr>
+                    <td>email</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Endereço de e-mail do vendedor</td>
+                </tr>
+                <tr>
+                    <td>senha</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Senha de acesso do vendedor</td>
+                </tr>
+                <tr>
+                    <td>telefone</td>
+                    <td>VARCHAR(15)</td>
+                    <td>Número de telefone do vendedor</td>
+                </tr>
+                <tr>
+                    <td>dataNascimento</td>
+                    <td>DATE</td>
+                    <td>Data de nascimento do vendedor</td>
+                </tr>
+                <tr>
+                    <td>nacionalidade</td>
+                    <td>VARCHAR(50)</td>
+                    <td>País de origem do vendedor</td>
+                </tr>
+                <tr>
+                    <td>genero</td>
+                    <td>VARCHAR(10)</td>
+                    <td>Gênero do vendedor</td>
+                </tr>
+                <tr>
+                    <td>endereco_id</td>
+                    <td>INT</td>
+                    <td>Referência ao endereço do vendedor</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Tabela produto -->
+        <table>
+            <caption>Tabela: `produto`</caption>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>INT</td>
+                    <td>Identificador único do produto</td>
+                </tr>
+                <tr>
+                    <td>nome</td>
+                    <td>VARCHAR(100)</td>
+                    <td>Nome do produto</td>
+                </tr>
+                <tr>
+                    <td>descricao</td>
+                    <td>TEXT</td>
+                    <td>Descrição detalhada do produto</td>
+                </tr>
+                <tr>
+                    <td>valor_atual</td>
+                    <td>DOUBLE</td>
+                    <td>Preço unitário do produto</td>
+                </tr>
+                <tr>
+                    <td>estoque</td>
+                    <td>INT</td>
+                    <td>Quantidade disponível em estoque</td>
+                </tr>
+                <tr>
+                    <td>custo_atual</td>
+                    <td>DOUBLE</td>
+                    <td>Custo atual do produto</td>
+                </tr>
+                <tr>
+                    <td>vendedor_id</td>
+                    <td>INT</td>
+                    <td>Referência ao vendedor do produto</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Tabela avaliacao -->
+        <table>
+            <caption>Tabela: `avaliacao`</caption>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>INT</td>
+                    <td>Identificador único da avaliação</td>
+                </tr>
+                <tr>
+                    <td>nota</td>
+                    <td>INT</td>
+                    <td>Nota atribuída ao produto (1 a 5)</td>
+                </tr>
+                <tr>
+                    <td>comentario</td>
+                    <td>TEXT</td>
+                    <td>Comentário do cliente sobre o produto</td>
+                </tr>
+                <tr>
+                    <td>data</td>
+                    <td>DATE</td>
+                    <td>Data em que a avaliação foi realizada</td>
+                </tr>
+                <tr>
+                    <td>cliente_id</td>
+                    <td>INT</td>
+                    <td>Referência ao cliente que fez a avaliação</td>
+                </tr>
+                <tr>
+                    <td>produto_id</td>
+                    <td>INT</td>
+                    <td>Referência ao produto avaliado</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Tabela carrinho -->
+        <table>
+            <caption>Tabela: `carrinho`</caption>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>INT</td>
+                    <td>Identificador único do carrinho</td>
+                </tr>
+                <tr>
+                    <td>cliente_id</td>
+                    <td>INT</td>
+                    <td>Referência ao cliente que criou o carrinho</td>
+                </tr>
+                <tr>
+                    <td>data_criacao</td>
+                    <td>DATETIME</td>
+                    <td>Data e hora de criação do carrinho</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Tabela itenscarrinho -->
+        <table>
+            <caption>Tabela: `itenscarrinho`</caption>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>carrinho_id</td>
+                    <td>INT</td>
+                    <td>Referência ao carrinho</td>
+                </tr>
+                <tr>
+                    <td>produto_id</td>
+                    <td>INT</td>
+                    <td>Referência ao produto</td>
+                </tr>
+                <tr>
+                    <td>quantidade</td>
+                    <td>INT</td>
+                    <td>Quantidade do produto no carrinho</td>
+                </tr>
+                <tr>
+                    <td>preco_unitario</td>
+                    <td>DOUBLE</td>
+                    <td>Preço do produto no momento da adição</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Tabela Venda -->
+        <table>
+            <caption>Tabela: `venda`</caption>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>id</td>
+                    <td>INT</td>
+                    <td>Identificador único da venda</td>
+                </tr>
+                <tr>
+                    <td>data_hora</td>
+                    <td>DATETIME</td>
+                    <td>Data e hora em que o pedido foi realizado</td>
+                </tr>
+                <tr>
+                    <td>total_pago</td>
+                    <td>DOUBLE</td>
+                    <td>Valor total dos itens no carrinho</td>
+                </tr>
+                <tr>
+                    <td>tipoPagamento</td>
+                    <td>VARCHAR(45)</td>
+                    <td>Código do tipo de pagamento escolhido (ex: cartão, boleto, etc.)</td>
+                </tr>
+                <tr>
+                    <td>pagamento_efetuado</td>
+                    <td>TINYINT</td>
+                    <td>Indica se o pagamento foi efetivado (1 para pago, 0 para não pago)</td>
+                </tr>
+                <tr>
+                    <td>cliente_id</td>
+                    <td>INT</td>
+                    <td>Identificador do cliente que fez a compra (chave estrangeira para `cliente`)</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Tabela ItensVenda -->
+        <table>
+            <caption>Tabela: `itensvenda`</caption>
+            <thead>
+                <tr>
+                    <th>Campo</th>
+                    <th>Tipo</th>
+                    <th>Descrição</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>produto_id</td>
+                    <td>INT</td>
+                    <td>Referência ao produto vendido (chave estrangeira para `produto`)</td>
+                </tr>
+                <tr>
+                    <td>venda_id</td>
+                    <td>INT</td>
+                    <td>Referência à venda (chave estrangeira para `venda`)</td>
+                </tr>
+                <tr>
+                    <td>quantidade</td>
+                    <td>INT</td>
+                    <td>Quantidade do produto na venda</td>
+                </tr>
+                <tr>
+                    <td>preco_praticado</td>
+                    <td>DOUBLE</td>
+                    <td>Preço do produto no momento da venda</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+
+    </div>
+
 </body>
+</html>
+
