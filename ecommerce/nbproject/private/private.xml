@@ -11,22 +11,6 @@
         </file>
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/dao/ExemploDAO.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/dao/VendaDAO.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/dao/ProdutoDAO.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/dao/Conexao.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/service/EcommerceService.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/dao/ConsultasDAO.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/view/Formulario.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/entity/Produto.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/dao/ItensCarrinhoDAO.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/dao/CarrinhoDAO.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/dao/EnderecoDAO.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/controller/EcommerceController.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/view/Menus.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/model/dao/ItensVendaDAO.java</file>
-            <file>file:/C:/Users/lucas/Desktop/Faculdade/Banco%20de%20Dados%201/Trabalho/Trem-s-Uai/ecommerce/src/ecommerce/view/Autenticacao.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>
