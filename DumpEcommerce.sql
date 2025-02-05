@@ -153,7 +153,6 @@ CREATE TABLE `itenscarrinho` (
   `produto_id` int NOT NULL COMMENT 'Referência ao produto',
   `quantidade` int NOT NULL COMMENT 'Quantidade do produto no carrinho',
   `preco_unitario` double NOT NULL COMMENT 'Preço do produto no momento da adição',
-  PRIMARY KEY (`carrinho_id`,`produto_id`),
   KEY `fk_itensCarrinho_produto_idx` (`produto_id`),
   CONSTRAINT `fk_itensCarrinho_carrinho` FOREIGN KEY (`carrinho_id`) REFERENCES `carrinho` (`id`) ON DELETE CASCADE,
   CONSTRAINT `fk_itensCarrinho_produto` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`) ON DELETE CASCADE
@@ -182,7 +181,6 @@ CREATE TABLE `itensvenda` (
   `venda_id` int NOT NULL COMMENT 'Referência à venda',
   `quantidade` int DEFAULT NULL COMMENT 'Quantidade de produto na venda',
   `preco_praticado` double DEFAULT NULL COMMENT 'Preço do produto no momento da venda',
-  PRIMARY KEY (`produto_id`,`venda_id`),
   KEY `fk_produto_has_venda_venda1_idx` (`venda_id`),
   KEY `fk_produto_has_venda_produto1_idx` (`produto_id`),
   CONSTRAINT `fk_produto_has_venda_produto1` FOREIGN KEY (`produto_id`) REFERENCES `produto` (`id`) ON DELETE CASCADE,

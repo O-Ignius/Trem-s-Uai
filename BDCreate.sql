@@ -175,7 +175,6 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`itenscarrinho` (
   `produto_id` INT NOT NULL COMMENT 'Referência ao produto',
   `quantidade` INT NOT NULL COMMENT 'Quantidade do produto no carrinho',
   `preco_unitario` DOUBLE NOT NULL COMMENT 'Preço do produto no momento da adição',
-  PRIMARY KEY (`carrinho_id`, `produto_id`),
   INDEX `fk_itensCarrinho_produto_idx` (`produto_id` ASC) VISIBLE,
   CONSTRAINT `fk_itensCarrinho_carrinho`
     FOREIGN KEY (`carrinho_id`)
@@ -220,7 +219,6 @@ CREATE TABLE IF NOT EXISTS `ecommerce`.`itensvenda` (
   `venda_id` INT NOT NULL COMMENT 'Referência à venda',
   `quantidade` INT NULL DEFAULT NULL COMMENT 'Quantidade de produto na venda',
   `preco_praticado` DOUBLE NULL DEFAULT NULL COMMENT 'Preço do produto no momento da venda',
-  PRIMARY KEY (`produto_id`, `venda_id`),
   INDEX `fk_produto_has_venda_venda1_idx` (`venda_id` ASC) VISIBLE,
   INDEX `fk_produto_has_venda_produto1_idx` (`produto_id` ASC) VISIBLE,
   CONSTRAINT `fk_produto_has_venda_produto1`
